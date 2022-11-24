@@ -1,0 +1,34 @@
+#main-layout {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 5px;
+
+    &__header {
+        height: 64px;
+        border: 1px solid black;
+
+        margin-bottom: 5px;
+    }
+
+    &__body {
+        flex: 1;
+        border: 1px solid black;
+
+        margin-bottom: 5px;
+    }
+
+    &__footer {
+        height: 48px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border: 1px solid black;
+    }
+}

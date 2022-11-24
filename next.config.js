@@ -1,7 +1,12 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-}
+const withPlugins = require('next-compose-plugins');
+const transpileModules = require('next-transpile-modules')([]);
+const nextImage = require('next-images');
 
-module.exports = nextConfig
+module.exports = withPlugins([transpileModules(), nextImage], {
+    reactStrictMode: false,
+    swcMinify: true,
+    distDir: `.build/${process.env.ENVIRONMENT || 'tmp'}`,
+    env: {
+        NEXT_PUBLIC_BUILD_DATE: Date.now(),
+    },
+});

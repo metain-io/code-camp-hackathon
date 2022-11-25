@@ -1,1 +1,3 @@
-export default {};
+const endpoints = {};
+
+export default endpoints;

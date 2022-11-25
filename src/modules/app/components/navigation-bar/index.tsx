@@ -1,10 +1,13 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import styles from './styles.module.scss';
 
 const NavigationBar = () => {
     return (
         <div id={styles['navigation-bar']}>
-            <img className={styles['logo']} src="" />
+            <Link href={'/'} className={styles['logo']}>
+                <Image src="" alt="" />
+            </Link>
 
             <ul className={styles['navigation-menu']}>
                 <li className={styles['navigation-menu__item']}>

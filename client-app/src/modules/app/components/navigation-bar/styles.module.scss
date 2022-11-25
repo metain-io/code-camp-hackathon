@@ -37,11 +37,17 @@
 }
 
 .button-connect-placeholder {
-    width: 150px;
+    width: 160px;
     height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     margin-left: auto;
 
     border: 1px solid black;
     border-radius: 20px;
+
+    overflow: hidden;
 }

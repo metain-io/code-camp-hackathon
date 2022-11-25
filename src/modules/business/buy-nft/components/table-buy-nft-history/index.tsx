@@ -17,8 +17,8 @@ const TableBuyNftHistory = () => {
                 </thead>
                 <tbody>
                     {buyNftHistory?.length > 0 ? (
-                        buyNftHistory.map(({ date, amountSol, amountNft, transactionId }) => (
-                            <tr>
+                        buyNftHistory.map(({ date, amountSol, amountNft, transactionId }, index) => (
+                            <tr key={index}>
                                 <td>{date}</td>
                                 <td data-name="amount-sol">{amountSol}</td>
                                 <td data-name="amount-nft">{amountNft}</td>

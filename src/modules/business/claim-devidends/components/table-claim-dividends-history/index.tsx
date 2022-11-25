@@ -17,8 +17,8 @@ const TableClaimDividendsHistory = () => {
                 </thead>
                 <tbody>
                     {claimDividendsHistory?.length > 0 ? (
-                        claimDividendsHistory.map(({ date, amountNft, amountDividends, transactionId }) => (
-                            <tr>
+                        claimDividendsHistory.map(({ date, amountNft, amountDividends, transactionId }, index) => (
+                            <tr key={index}>
                                 <td>{date}</td>
                                 <td data-name="amount-sol">{amountNft}</td>
                                 <td data-name="amount-nft">{amountDividends}</td>

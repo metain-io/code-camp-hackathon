@@ -8,10 +8,10 @@ const NavigationBar = () => {
 
             <ul className={styles['navigation-menu']}>
                 <li className={styles['navigation-menu__item']}>
-                    <Link href={'#'}>Buy NFT</Link>
+                    <Link href={'/buy-nft'}>Buy NFT</Link>
                 </li>
                 <li className={styles['navigation-menu__item']}>
-                    <Link href={'#'}>Claim Dividends</Link>
+                    <Link href={'/claim-dividends'}>Claim Dividends</Link>
                 </li>
             </ul>
 

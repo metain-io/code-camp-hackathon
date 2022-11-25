@@ -6,7 +6,7 @@
     flex-direction: row;
     align-items: center;
 
-    padding: 0px calc((100vw - 1400px) / 2);
+    padding: 0px max(20px, calc((100vw - 1200px) / 2));
 
     border: 1px solid black;
 }

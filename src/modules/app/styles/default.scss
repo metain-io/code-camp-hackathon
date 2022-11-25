@@ -10,3 +10,13 @@ body {
 #__next {
     height: 100%;
 }
+
+.page-container {
+    display: flex;
+    padding: 20px;
+}
+
+.page-title {
+    font-size: 36px;
+    font-weight: bold;
+}

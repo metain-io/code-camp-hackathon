@@ -1,0 +1,31 @@
+.form {
+    width: 350px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.form-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding-bottom: 10px;
+}
+
+.form-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 16px;
+
+    label {
+        margin-bottom: 4px;
+    }
+}

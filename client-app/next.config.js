@@ -1,7 +1,7 @@
 const withPlugins = require('next-compose-plugins');
 const transpileModules = require('next-transpile-modules')([]);
 const nextImage = require('next-images');
-console.log(process.env);
+
 module.exports = withPlugins([transpileModules(), nextImage], {
     reactStrictMode: false,
     swcMinify: true,

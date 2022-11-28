@@ -19,7 +19,8 @@
             "@app/*": ["modules/app/*"],
             "@auth/*": ["modules/auth/*"],
             "@business/*": ["modules/business/*"],
-            "@metain-api/*": ["modules/metain-api/*"]
+            "@api/*": ["modules/api/*"],
+            "@libs/*": ["libs/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

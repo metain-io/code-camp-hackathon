@@ -1,7 +1,7 @@
 import logger from '@libs/logger';
 import Axios from 'axios';
 
-const BASE_URL = '';
+const BASE_URL = process.env.NEXT_PUBLIC_METAIN_API_BASE_URL;
 
 const axios = Axios.create({
     baseURL: BASE_URL,

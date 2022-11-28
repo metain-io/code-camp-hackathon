@@ -24,12 +24,22 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
     function onFulfilled(response) {
-        return response;
+        return transformResponse(response);
     },
 
     function onRejected(error) {
         throw error;
     },
 );
+
+const transformResponse = (response: any) => {
+    response = response?.data || response;
+
+    try {
+        response = JSON.parse(response);
+    } catch (jsonParseResponseError) {}
+
+    return response;
+};
 
 export default axios;

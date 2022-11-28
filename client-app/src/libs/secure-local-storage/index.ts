@@ -14,7 +14,7 @@ async function decryptValue(encryptedValue: string): Promise<string> {
 }
 
 function encodeKey(key: string) {
-    return ENABLE_ENCODE_KEY ? Buffer.from(key, 'base64').toString() : key;
+    return ENABLE_ENCODE_KEY ? Buffer.from(key).toString('base64') : key;
 }
 
 async function setItem(key: string, value: string): Promise<void> {

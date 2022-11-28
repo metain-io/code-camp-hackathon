@@ -1,6 +1,6 @@
 import CryptoJS from 'crypto-js';
 
-const ENABLE_ENCODE_KEY = process.env.NEXT_PUBLIC_DEBUG != 'true' || true;
+const ENABLE_ENCODE_KEY = process.env.NEXT_PUBLIC_DEBUG != 'true';
 const ENCRYPT_KEY = process.env.NEXT_PUBLIC_SECURE_LOCAL_STORAGE_ENCRYPT_KEY || 'NEXT_PUBLIC_ENCRYPT_KEY!@#$%^';
 
 async function encryptValue(value: string): Promise<string> {
@@ -41,11 +41,11 @@ async function clearAll(): Promise<void> {
     localStorage.clear();
 }
 
-const storage = {
+const secureLocalStorage = {
     setItem,
     getItem,
     removeItem,
     clearAll,
 };
 
-export default storage;
+export default secureLocalStorage;

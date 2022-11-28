@@ -1,4 +1,4 @@
-let ENABLED_LOG: boolean = process.env.NEXT_PUBLIC_ENABLE_LOG == 'true';
+let ENABLED_LOG: boolean = process.env.NEXT_PUBLIC_DEBUG == 'true';
 let LOG_LEVELS: string[] = ['error', 'info', 'debug'];
 
 if (typeof window !== 'undefined') {

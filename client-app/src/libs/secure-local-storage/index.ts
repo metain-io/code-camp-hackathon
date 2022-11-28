@@ -1,7 +1,7 @@
 import CryptoJS from 'crypto-js';
 
 const ENABLE_ENCODE_KEY = process.env.NEXT_PUBLIC_DEBUG != 'true' || true;
-const ENCRYPT_KEY = process.env.NEXT_PUBLIC_ENCRYPT_KEY || 'NEXT_PUBLIC_ENCRYPT_KEY!@#$%^';
+const ENCRYPT_KEY = process.env.NEXT_PUBLIC_SECURE_LOCAL_STORAGE_ENCRYPT_KEY || 'NEXT_PUBLIC_ENCRYPT_KEY!@#$%^';
 
 async function encryptValue(value: string): Promise<string> {
     const encryptedValue = CryptoJS.AES.encrypt(value, ENCRYPT_KEY).toString();

@@ -1,3 +1,4 @@
+import logger from '@libs/logger';
 import Axios from 'axios';
 
 const BASE_URL = '';
@@ -37,7 +38,9 @@ const transformResponse = (response: any) => {
 
     try {
         response = JSON.parse(response);
-    } catch (jsonParseResponseError) {}
+    } catch (jsonParseResponseError) {
+        logger.error('jsonParseResponseError', jsonParseResponseError);
+    }
 
     return response;
 };

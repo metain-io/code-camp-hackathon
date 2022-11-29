@@ -39,11 +39,11 @@ const useLoginAuthentication = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStatus]);
 
-    const canShowChildren =
+    const visibleChildren =
         !PROTECTED_ROUTES.includes(router.route) ||
         (PROTECTED_ROUTES.includes(router.route) && loginStatus == LoginStatus.LoggedIn);
 
-    return { canShowChildren };
+    return { visibleChildren };
 };
 
 export { useLoginAuthentication };

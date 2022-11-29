@@ -6,13 +6,9 @@ type LoginAuthenticationProps = PropsWithChildren<{}>;
 const LoginAuthentication = (props: LoginAuthenticationProps) => {
     const { children } = props;
 
-    const { canShowChildren } = useLoginAuthentication();
+    const { visibleChildren } = useLoginAuthentication();
 
-    if (canShowChildren) {
-        return <>{children}</>;
-    }
-
-    return null;
+    return visibleChildren ? <>{children}</> : null;
 };
 
 export { LoginAuthentication };

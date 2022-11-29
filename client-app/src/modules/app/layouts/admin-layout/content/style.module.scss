@@ -1,0 +1,97 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+#content_wrapper {
+	position: relative;
+	padding: 5.6rem 0 3rem 0;
+	width: calc(100% - 22.4rem);
+	height: 100vh;
+	overflow-x: auto !important;
+	overflow-y: overlay !important;
+	scrollbar-width: thin !important;
+	scrollbar-color: $colorNeutral4 $colorNeutral3 !important;
+
+	&::-webkit-scrollbar {
+		position: absolute !important;
+		width: 0.6rem !important;
+		height: 0.6rem !important;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: $colorNeutral4;
+	}
+}
+
+#row_1 {
+	margin: 0;
+}
+
+#column_2 {
+	padding-top: 10.4rem;
+	padding-left: 3.2rem;
+	width: calc(100% - 41.6rem);
+}
+
+#column_3 {
+	padding-top: 10.4rem;
+	padding-right: 3.2rem;
+	width: 41.6rem;
+}
+
+#column_4 {
+	padding: 0 3.2rem;
+}
+
+/* Responsive *************************************************************************************************************************************************/
+@media screen and (min-width: 700px) {
+	#content_wrapper {
+		#column_3 {
+			position: fixed;
+			top: 8.6rem;
+			right: 0;
+		}
+	}
+}
+
+@media screen and (max-width: 1200px) {
+	#content_wrapper {
+		padding: 5.6rem 0 2rem 0;
+		width: 100%;
+	}
+
+	#column_2 {
+		padding-right: 1.2rem;
+		padding-left: 2.4rem;
+	}
+
+	#column_3 {
+		padding-left: 1.2rem;
+		padding-right: 2.4rem;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	#column_2,
+	#column_3 {
+		padding-left: 2rem;
+		padding-right: 2rem;
+		width: 100%;
+	}
+
+	#column_2 {
+		&.revert {
+			order: 2;
+		}
+	}
+
+	#column_3 {
+		&:not(:empty) {
+			margin-top: 1.6rem;
+		}
+
+		&.revert {
+			margin: 0 0 1.6rem 0;
+			order: 1;
+		}
+	}
+}

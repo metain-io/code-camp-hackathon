@@ -6,8 +6,8 @@ import '@app/styles/reset.scss';
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <MainLayout>
+        // <MainLayout>
             <Component {...pageProps} />
-        </MainLayout>
+        // </MainLayout>
     );
 }

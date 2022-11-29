@@ -28,7 +28,7 @@ const Slider = () => {
                                 <img src={`${name}`} className={styles.image_2} />
                             </div>
                         ))}
-                        <img src="/images/app/auth-layout/slider/background-circle-1.svg" className={styles.image_1} />
+                        <img src="/images/app/auth-layout/slider/background.svg" className={styles.image_1} />
                     </div>
                 </div>
 
@@ -36,6 +36,7 @@ const Slider = () => {
                     {sliderImages.map((value, index) => {
                         return (
                             <div
+                                key={index}
                                 className={[styles.item_2, currentSliderImageIndex === index ? styles.active : ''].join(
                                     ' ',
                                 )}

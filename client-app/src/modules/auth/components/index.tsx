@@ -1,1 +1,2 @@
 export * from './solana-wallet-context-provider';
+export * from './button-connect-phantom-wallet';

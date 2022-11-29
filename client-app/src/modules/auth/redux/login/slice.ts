@@ -2,7 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 enum LoginStatus {
     Idle,
-    Processing,
+    Initializing,
+    Authenticating,
     Failed,
     Logined,
 }
@@ -10,19 +11,44 @@ enum LoginStatus {
 type LoginState = {
     status: LoginStatus;
     error: any;
-    username?: string;
+    username: string | null;
 };
 
 const initialState: LoginState = {
     status: LoginStatus.Idle,
     error: null,
-    username: undefined,
+    username: null,
 };
 
 export const loginSlice = createSlice({
     name: 'auth/login',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        initRequested: (state) => {
+            state.status = LoginStatus.Initializing;
+        },
+        logoutRequested: (state) => {
+            state.status = LoginStatus.Idle;
+            state.error = null;
+            state.username = null;
+        },
+        loginWithPhantomWalletRequested: (state) => {
+            state.status = LoginStatus.Authenticating;
+            state.error = null;
+            state.username = null;
+        },
+        loginSuccess: (state, action: PayloadAction<any>) => {
+            const { username } = action.payload;
+            state.status = LoginStatus.Logined;
+            state.username = username;
+        },
+        loginFailed: (state, action: PayloadAction<any>) => {
+            const { error } = action.payload;
+            console.log('login-failed', { error });
+            state.status = LoginStatus.Failed;
+            state.error = error;
+        },
+    },
     extraReducers: (builder) => {},
 });
 

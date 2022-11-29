@@ -255,8 +255,6 @@ class UserService implements IUserService {
     }
 }
 
-const UserServiceInstance = new UserService();
-
+export default new UserService();
 export type { IUserService };
 export { UserAttributeName };
-export { UserServiceInstance as UserService };

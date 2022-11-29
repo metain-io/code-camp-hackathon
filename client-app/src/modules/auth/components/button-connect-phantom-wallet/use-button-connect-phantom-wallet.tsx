@@ -1,5 +1,12 @@
+import { loginActions } from '@auth/redux/login/slice';
+import { useDispatch } from 'react-redux';
+
 const useButtonConnectPhantomWallet = () => {
-    const handleOnClicked = () => {};
+    const dispatch = useDispatch();
+
+    const handleOnClicked = () => {
+        dispatch(loginActions.loginWithPhantomWalletRequested());
+    };
 
     return { handleOnClicked };
 };

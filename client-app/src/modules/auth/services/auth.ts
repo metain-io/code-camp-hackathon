@@ -46,12 +46,7 @@ interface IAuthService {
 
     resendUserConfirmationCode(): Promise<any>;
 
-    authenticateUser(
-        username: string,
-        useCustomFlow: boolean,
-        password?: string,
-        customAuthenticationCb?: IAuthenticationCallback,
-    ): Promise<any>;
+    authenticateUser(username: string, password: string, useCustomFlow: boolean): Promise<any>;
 
     isSignUp(username: string): Promise<boolean>;
 
@@ -140,9 +135,8 @@ class AuthService implements IAuthService {
      */
     authenticateUser(
         username: string,
+        password: string | undefined,
         useCustomFlow: boolean = false,
-        password?: string,
-        customAuthenticationCb?: IAuthenticationCallback,
     ): Promise<AuthenticateUserResult> {
         return new Promise((resolve, reject) => {
             if (!this._currentUser) {
@@ -161,7 +155,7 @@ class AuthService implements IAuthService {
 
             authenticate.apply(this._currentUser, [
                 authenticationDetail,
-                customAuthenticationCb || new AuthenticationCallback(this._currentUser, resolve, reject),
+                new AuthenticationCallback(this._currentUser, resolve, reject),
             ]);
         });
     }
@@ -176,19 +170,19 @@ class AuthService implements IAuthService {
             if (!this._currentUser) {
                 reject('_currentUser is undefined');
             }
-            this.authenticateUser(username, true, undefined, {
-                onSuccess: () => {
+
+            this.authenticateUser(username, undefined, true)
+                .then((result) => {
                     resolve(true);
-                },
-                onFailure: (err) => {
-                    if (err?.code === 'UserNotFoundException') {
+                })
+                .catch((error) => {
+                    if (error?.code === 'UserNotFoundException') {
                         resolve(false);
                         return;
                     }
 
                     resolve(true);
-                },
-            });
+                });
         });
     }
 

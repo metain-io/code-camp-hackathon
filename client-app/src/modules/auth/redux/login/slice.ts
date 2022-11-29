@@ -1,3 +1,4 @@
+import logger from '@libs/logger';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 enum LoginStatus {
@@ -25,26 +26,37 @@ export const loginSlice = createSlice({
     initialState: initialState,
     reducers: {
         initRequested: (state) => {
+            logger.info('auth/login/init-requested');
+
             state.status = LoginStatus.Initializing;
         },
         logoutRequested: (state) => {
+            logger.info('auth/login/logout-requested');
+
             state.status = LoginStatus.Idle;
             state.error = null;
             state.username = null;
         },
         loginWithPhantomWalletRequested: (state) => {
+            logger.info('auth/login/login-with-phantom-wallet-requested');
+
             state.status = LoginStatus.Authenticating;
             state.error = null;
             state.username = null;
         },
-        loginSuccess: (state, action: PayloadAction<any>) => {
+        loginSucceeded: (state, action: PayloadAction<any>) => {
             const { username } = action.payload;
+
+            logger.info('auth/login/login-succeeded', { username });
+
             state.status = LoginStatus.Logined;
             state.username = username;
         },
         loginFailed: (state, action: PayloadAction<any>) => {
             const { error } = action.payload;
-            console.log('login-failed', { error });
+
+            logger.error('auth/login/login-failed', { error });
+
             state.status = LoginStatus.Failed;
             state.error = error;
         },

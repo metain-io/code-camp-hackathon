@@ -1,4 +1,4 @@
-import AdminLayout from "@app/layouts/\u001Dadmin-layout";
+import { AdminLayout } from '@app/layouts';
 
 export default function DashboardPage() {
     return (

@@ -54,4 +54,4 @@ const AdminLayout = (props: AdminLayout_View.Props) => {
     );
 };
 
-export default AdminLayout;
+export {AdminLayout};

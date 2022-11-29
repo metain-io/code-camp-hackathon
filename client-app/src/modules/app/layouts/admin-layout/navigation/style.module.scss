@@ -1,0 +1,348 @@
+@import "@app/styles/_variable.scss";
+@import "@app/styles/_mixin.scss";
+
+$logoHeight: 7.8rem;
+$liEdgeRadius: 1.6rem;
+
+#navigation_wrapper {
+	position: relative;
+	width: 22.4rem;
+	background-color: $colorPrimary6;
+}
+
+#logo_block {
+	padding: 2rem;
+	width: 100%;
+	height: $logoHeight;
+}
+
+#scroll_block {
+	display: flex;
+	flex-direction: column;
+	padding: 6rem 0 2.4rem 0;
+	width: 100%;
+	height: calc(100vh - $logoHeight);
+	color: $colorNeutral1;
+	overflow-y: overlay;
+
+	&::-webkit-scrollbar {
+		width: 0;
+		background: transparent;
+	}
+
+	:global {
+		.navbar-collapse {
+			align-items: flex-start;
+			width: 100%;
+		}
+	}
+
+	.nav {
+		&_1 {
+			flex: 1 0 auto;
+			align-items: flex-start;
+			margin-bottom: 10rem;
+		}
+	}
+
+	.anchor {
+		&_1 {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			padding: 0 1.6rem;
+			margin: 0.2rem 0;
+			width: 100%;
+			height: 4rem;
+			color: $colorPrimary2;
+			@include fontSize(1.6rem);
+			cursor: pointer;
+		}
+	}
+
+	.span {
+		&_1 {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding-right: 2rem;
+			color: $colorPrimary2;
+			@include fontSize(1.2rem);
+			text-transform: uppercase;
+			cursor: pointer;
+
+			&:after {
+				content: "\f077";
+				font-family: Metain Light;
+				transition: transform 0.6s ease-in-out;
+			}
+
+			&.collapse:after {
+				transform: rotate(180deg);
+			}
+		}
+
+		&_2 {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			@include fontSize(1.6rem);
+
+			&:before {
+				content: "\f05a";
+				margin-right: 1rem;
+				font-family: Metain Solid;
+			}
+		}
+
+		&_3 {
+			@include fontSize(1.2rem);
+		}
+	}
+
+	.icon {
+		&_1 {
+			margin-right: 1rem;
+			width: 2rem;
+			font-size: 1.8rem;
+			text-align: center;
+		}
+	}
+
+	.button {
+		&_1 {
+			margin-bottom: 2.4rem;
+			width: 100%;
+
+			&:before {
+				content: "\f055";
+				font-family: Metain Solid;
+				font-size: 1.8rem;
+			}
+		}
+	}
+
+	.image {
+		&_1 {
+			margin-bottom: 2.4rem;
+			width: 100%;
+
+			img {
+				width: 100%;
+			}
+		}
+	}
+
+	.div {
+		&_1 {
+			display: flex;
+			flex-direction: column;
+			padding: 0 2rem;
+		}
+
+		&_2 {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			color: $colorPrimary2;
+		}
+	}
+
+	.item {
+		&_1 {
+			&:not(:first-of-type) {
+				margin-top: 2.4rem;
+			}
+		}
+
+		&_2 {
+			position: relative;
+
+			&.notify_error:after {
+				content: "\f071";
+				position: absolute;
+				top: calc(50% - 1.2rem);
+				right: 1.2rem;
+				padding: 0 1rem;
+				color: $colorNeutral1;
+				font-family: Metain Solid;
+				font-size: 1.6rem;
+				background: transparent;
+				border: 1px solid $colorNeutral1;
+				border-radius: 10rem;
+			}
+
+			.b {
+				&_1,
+				&_2 {
+					opacity: 0;
+
+					&:before,
+					&:after {
+						content: "";
+						position: absolute;
+						top: -$liEdgeRadius;
+						right: 0;
+						width: $liEdgeRadius;
+						height: $liEdgeRadius;
+					}
+
+					&:before {
+						background: $colorBackground1;
+					}
+
+					&:after {
+						border-bottom-right-radius: $liEdgeRadius;
+						background: $colorPrimary6;
+					}
+				}
+
+				&_2 {
+					&:before,
+					&:after {
+						top: auto;
+						bottom: -$liEdgeRadius;
+					}
+
+					&:after {
+						border-bottom-right-radius: 0;
+						border-top-right-radius: $liEdgeRadius;
+					}
+				}
+			}
+
+			&.active {
+				background: $colorBackground1;
+				border-radius: 0.8rem 0 0 0.8rem;
+
+				.anchor_1 {
+					color: $colorPrimary5 !important;
+					font-weight: 700;
+				}
+
+				.b_1,
+				.b_2 {
+					opacity: 1;
+				}
+			}
+
+			&:hover {
+				.anchor_1 {
+					color: $colorNeutral1;
+					font-weight: 700;
+				}
+			}
+
+			:global {
+				.__react_component_tooltip {
+					padding: 0.4rem !important;
+					background: $colorNeutral1 !important;
+					box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2) !important;
+					border-radius: 0.4rem !important;
+					opacity: 1 !important;
+
+					&.place-right::after {
+						border-right-color: $colorNeutral1 !important;
+					}
+
+					&.place-top::after {
+						border-top-color: $colorNeutral1 !important;
+					}
+				}
+			}
+
+			.commission_tooltip_area {
+				display: flex;
+				align-items: center;
+				padding: 1.6rem;
+				max-width: 19rem !important;
+				width: 19rem;
+				height: 14rem;
+				background: url("/image/zero/background-comingsoon.png") no-repeat;
+				background-size: 100% 100%;
+
+				span {
+					width: 60%;
+					@include fontSize(1.4rem);
+					font-weight: 400;
+					white-space: pre-wrap;
+				}
+
+				b {
+					display: block;
+					margin-top: 0.8rem;
+				}
+			}
+		}
+	}
+
+	.list {
+		&_1 {
+			padding: 0 0 0 2rem;
+			margin: 0;
+			width: 100%;
+			list-style-type: none;
+		}
+
+		&_2 {
+			padding: 0;
+			margin: 0;
+			max-height: 50vh;
+			list-style-type: none;
+			opacity: 1;
+			user-select: auto;
+			visibility: visible;
+			transition: max-height 0.4s ease-in-out, opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+
+			&.collapse {
+				max-height: 0;
+				opacity: 0;
+				user-select: none;
+				visibility: hidden;
+				transition: max-height 0.6s ease-in-out, opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+			}
+		}
+	}
+}
+
+#button_wrapper {
+	display: none;
+	font-size: 2.4rem;
+	user-select: none;
+	visibility: hidden;
+	opacity: 0;
+}
+
+/* Responsive *************************************************************************************************************************************************/
+@media screen and (max-width: 1200px) {
+	#navigation_wrapper {
+		position: fixed;
+		top: 0;
+		left: -22.4rem;
+		transition: left 0.25s ease-in-out;
+		z-index: 1100;
+
+		&.active {
+			left: 0;
+		}
+	}
+
+	#button_wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: fixed;
+		top: 1.6rem;
+		left: 2rem;
+		user-select: auto;
+		visibility: visible;
+		opacity: 1;
+		z-index: 1100;
+	}
+
+	#scroll_block {
+		b {
+			display: none;
+		}
+	}
+}

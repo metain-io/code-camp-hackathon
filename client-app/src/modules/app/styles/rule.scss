@@ -1,5 +1,5 @@
-@import '../styles/_variable.scss';
-@import '../styles/_mixin.scss';
+@import "../styles/_variable.scss";
+@import "../styles/_mixin.scss";
 
 /* Tag ********************************************************************************************************************************************************/
 html {
@@ -28,6 +28,8 @@ body {
 		height: 100vh;
 		background: rgba($colorNeutral10, 0.5);
 		// background-size: 50px 50px;
+		background: url("/gif/animation-loading.gif") no-repeat center center rgba($colorNeutral10, 0.5);
+		background-size: 50px 50px;
 		z-index: 10000;
 	}
 }
@@ -243,23 +245,39 @@ body {
 	&[data-status='failed'],
 	&[data-status='decrease'],
 	&[data-status='decrease-alt'] {
+	&[data-status="income"],
+	&[data-status="increase"],
+	&[data-status="increase-alt"],
+	&[data-status="total-return"],
+	&[data-status="finished"],
+	&[data-status="successfull"] {
+		color: $colorGreen7;
+		background: $colorGreen2;
+	}
+
+	&-cr6-br1,
+	&[data-status="decrease"],
+	&[data-status="decrease-alt"] {
 		color: $colorRed6;
 		background: $colorRed1;
 	}
 
 	&[data-status='pending'],
 	&[data-status='deposit'] {
+	&[data-status="pending"] {
 		color: $colorOrange6;
 		background: $colorOrange2;
 	}
 
 	&[data-status='first time'],
 	&[data-status='full payment'] {
+	&[data-status="first time"] {
 		color: $colorPrimary6;
 		background: $colorPrimary1;
 	}
 
 	&[data-status='secondary'] {
+	&[data-status="secondary"] {
 		color: $colorNeutral7;
 		background: $colorNeutral3;
 	}
@@ -293,6 +311,30 @@ body {
 
 	&[data-status='total-return']:before {
 		content: '\fa20';
+	&[data-status="verified"]:before,
+	&[data-status="unverified"]:before {
+		content: "\f2f7";
+	}
+
+	&[data-status="increase"]:before {
+		content: "\f0d8";
+	}
+
+	&[data-status="income"]:after,
+	&[data-status="increase-alt"]:before {
+		content: "\f062";
+	}
+
+	&[data-status="decrease"]:before {
+		content: "\f0d7";
+	}
+
+	&[data-status="decrease-alt"]:before {
+		content: "\f063";
+	}
+
+	&[data-status="total-return"]:before {
+		content: "\fa20";
 	}
 }
 
@@ -423,6 +465,7 @@ body {
 
 				&:before {
 					content: '';
+					content: "";
 					margin-right: 0.8rem;
 					width: 1.6rem;
 					height: 1.6rem;
@@ -436,18 +479,21 @@ body {
 				&:nth-of-type(1) {
 					&:before {
 						background: url('/svg/icon-action-deposit.svg') no-repeat;
+						background: url("/svg/icon-action-deposit.svg") no-repeat;
 					}
 				}
 
 				&:nth-of-type(2) {
 					&:before {
 						background: url('/svg/icon-action-withdraw.svg') no-repeat;
+						background: url("/svg/icon-action-withdraw.svg") no-repeat;
 					}
 				}
 
 				&:nth-of-type(3) {
 					&:before {
 						background: url('/svg/icon-action-swap.svg') no-repeat;
+						background: url("/svg/icon-action-swap.svg") no-repeat;
 					}
 				}
 			}
@@ -509,6 +555,7 @@ body {
 		&:before,
 		&:after {
 			content: '';
+			content: "";
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -534,6 +581,7 @@ body {
 [data-number] {
 	&:after {
 		content: 'th';
+		content: "th";
 		margin: 0 0.4rem 0 0.2rem;
 		font-size: 0.7em;
 		vertical-align: super;
@@ -556,6 +604,21 @@ body {
 [data-number='3'] {
 	&:after {
 		content: 'rd';
+[data-number="1"] {
+	&:after {
+		content: "st";
+	}
+}
+
+[data-number="2"] {
+	&:after {
+		content: "nd";
+	}
+}
+
+[data-number="3"] {
+	&:after {
+		content: "rd";
 	}
 }
 
@@ -565,6 +628,7 @@ body {
 
 	&:before {
 		content: '';
+		content: "";
 		margin-right: 0.8rem;
 		width: 2rem;
 		height: 2rem;
@@ -596,6 +660,28 @@ body {
 
 [data-icon='metain-coin-3d']:before {
 	background-image: url('/svg/icon-metain-coin-3d.svg');
+[data-icon="metamask"]:before {
+	background-image: url("/svg/icon-wallet-metamask.svg");
+}
+
+[data-icon="kyberswap"]:before {
+	background-image: url("/svg/icon-stock-kyberswap.svg");
+}
+
+[data-icon="bitcoin"]:before {
+	background-image: url("/svg/icon-token-btc.svg");
+}
+
+[data-icon="usdc"]:before {
+	background-image: url("/svg/icon-token-usdc.svg");
+}
+
+[data-icon="usdt"]:before {
+	background-image: url("/svg/icon-token-usdt.svg");
+}
+
+[data-icon="metaincoin3d"]:before {
+	background-image: url("/svg/icon-metain-coin-3d.svg");
 }
 
 /* Responsive *************************************************************************************************************************************************/
@@ -699,6 +785,11 @@ body {
 			&_1 {
 				display: flex;
 				flex-direction: column;
+			}
+		}
+		.span {
+			&_1 {
+				@include fontSize(1.8rem);
 			}
 		}
 	}

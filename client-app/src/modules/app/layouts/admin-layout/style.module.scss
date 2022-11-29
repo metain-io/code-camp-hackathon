@@ -1,0 +1,27 @@
+@import "@app/styles/_variable.scss";
+@import "@app/styles/_mixin.scss";
+
+#admin_controller {
+	display: flex;
+	justify-content: space-between;
+	padding: 0;
+	background: $colorBackground1;
+
+	.empty_breadcum {
+		margin: 1.5rem 0;
+
+		+ div,
+		+ div + div {
+			padding-top: 0 !important;
+		}
+	}
+}
+
+/* Responsive *************************************************************************************************************************************************/
+@media screen and (max-width: 700px) {
+	#admin_controller {
+		.empty_breadcum {
+			margin: 0;
+		}
+	}
+}

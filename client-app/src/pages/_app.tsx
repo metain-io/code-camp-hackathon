@@ -5,6 +5,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { store as appStore } from '@app/redux/store';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/scss/main.scss';
 import '@app/styles/animation.scss';
 import '@app/styles/font-metain.scss';
 import '@app/styles/rule.scss';

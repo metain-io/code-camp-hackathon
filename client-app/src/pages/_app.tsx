@@ -10,6 +10,7 @@ import '@app/styles/animation.scss';
 import '@app/styles/font-metain.scss';
 import '@app/styles/rule.scss';
 import '@app/styles/global.scss';
+import { LoginAuthentication } from '@auth/components';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode;
@@ -22,5 +23,9 @@ type AppPropsWithLayout = AppProps & {
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
     const getLayout = Component.getLayout ?? ((page) => page);
 
-    return <ReduxProvider store={appStore}>{getLayout(<Component {...pageProps} />)}</ReduxProvider>;
+    return (
+        <ReduxProvider store={appStore}>
+            <LoginAuthentication>{getLayout(<Component {...pageProps} />)}</LoginAuthentication>
+        </ReduxProvider>
+    );
 }

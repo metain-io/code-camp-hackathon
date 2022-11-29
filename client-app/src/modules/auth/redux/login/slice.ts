@@ -1,7 +1,7 @@
 import logger from '@libs/logger';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-enum LoginStatus {
+export enum LoginStatus {
     Idle,
     Initializing,
     Authenticating,

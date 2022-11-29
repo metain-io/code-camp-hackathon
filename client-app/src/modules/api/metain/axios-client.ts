@@ -1,10 +1,11 @@
-import logger from '@libs/logger';
-import Axios from 'axios';
 import AuthService from '@auth/services/auth';
+import logger from '@libs/logger';
+import { resolvePromise } from '@libs/utils';
+import Axios, { AxiosInstance } from 'axios';
 
 const BASE_URL = process.env.NEXT_PUBLIC_METAIN_API_BASE_URL;
-const CUSTODIAL_POOL_ID = process.env.NEXT_PUBLIC_CUSTODIAL_IDENTITY_POOL_ID;
-const CONFIDENT_POOL_ID = process.env.NEXT_PUBLIC_CONFIDENT_IDENTITY_POOL_ID;
+
+const processingRequests: { [key: string]: any } = {};
 
 const axios = Axios.create({
     baseURL: BASE_URL,
@@ -18,13 +19,11 @@ const axios = Axios.create({
 
 axios.interceptors.request.use(
     function onFulfilled(configs) {
-        // @ts-ignore
-        const userPoolId = AuthService.currentUser?.pool.userPoolId;
         const userSession = AuthService.currentUser?.getSignInUserSession();
 
         configs.headers = {
             ...configs.headers,
-            'x-user-pool': userPoolId == CUSTODIAL_POOL_ID ? 'custodial' : 'decentralized',
+            'x-user-pool': 'decentralized',
             'x-access-token': userSession?.getAccessToken().getJwtToken() || '',
             'x-id-token': userSession?.getIdToken().getJwtToken() || '',
         };
@@ -47,6 +46,34 @@ axios.interceptors.response.use(
     },
 );
 
+(axios as any).executeRequest = async (key: string, request: () => Promise<any>) => {
+    if (processingRequests[key]) {
+        return await processingRequests[key];
+    }
+
+    processingRequests[key] = request();
+
+    let [response, error] = await resolvePromise(processingRequests[key]!);
+
+    if (error && (error as any).response?.status == 401) {
+        [response, error] = await resolvePromise(AuthService.refreshUserSession());
+
+        if (!error) {
+            [response, error] = await resolvePromise(retryRequest(request, 2));
+        }
+    }
+
+    processingRequests[key] = undefined;
+
+    if (response) {
+        return response;
+    }
+
+    if (error) {
+        throw error;
+    }
+};
+
 const transformResponse = (response: any) => {
     response = response?.data || response;
 
@@ -59,4 +86,28 @@ const transformResponse = (response: any) => {
     return response;
 };
 
-export default axios;
+const retryRequest = async (request: () => Promise<any>, numOfTrial: number = 1, delayTimeEachTry: number = 3000) => {
+    for (let i = 0; i < numOfTrial; i++) {
+        const [response, error] = await resolvePromise(request());
+
+        if (response) {
+            return response;
+        }
+
+        if (error && i == numOfTrial - 1) {
+            throw error;
+        }
+
+        await delay(delayTimeEachTry);
+    }
+};
+
+const delay = (time: number) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(null);
+        }, time);
+    });
+};
+
+export default axios as AxiosInstance & { executeRequest: (key: string, request: () => Promise<any>) => Promise<any> };

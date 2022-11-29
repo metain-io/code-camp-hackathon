@@ -3,21 +3,32 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-const PUBLIC_ROUTES = ['/login', '/404'];
+const PROTECTED_ROUTES = [
+    '/',
+    '/dashboard',
+    '/welcome',
+    '/buy-nft',
+    '/trade-nft',
+    '/claim-dividends',
+    '/dashboard/share-dividends',
+];
 
 const useLoginAuthentication = () => {
     const loginStatus = useSelector(selectLoginStatus);
     const router = useRouter();
 
     React.useEffect(() => {
-        if (loginStatus != LoginStatus.Logined && router.route != '/login') {
-            router.replace('/login?redirectUrl=' + window.location.href);
+        if (loginStatus == LoginStatus.NotLogged && PROTECTED_ROUTES.includes(router.route)) {
+            if (router.route != '/') {
+                router.replace('/login?redirectUrl=' + window.location.href);
+            } else {
+                router.replace('/login');
+            }
             return;
         }
 
-        if (loginStatus == LoginStatus.Logined) {
+        if (loginStatus == LoginStatus.LoggedIn) {
             const { redirectUrl } = router.query;
-
             if (redirectUrl) {
                 router.replace(redirectUrl as string);
             } else {
@@ -29,8 +40,8 @@ const useLoginAuthentication = () => {
     }, [loginStatus]);
 
     const canShowChildren =
-        loginStatus == LoginStatus.Logined ||
-        (loginStatus != LoginStatus.Logined && PUBLIC_ROUTES.includes(router.route));
+        !PROTECTED_ROUTES.includes(router.route) ||
+        (PROTECTED_ROUTES.includes(router.route) && loginStatus == LoginStatus.LoggedIn);
 
     return { canShowChildren };
 };

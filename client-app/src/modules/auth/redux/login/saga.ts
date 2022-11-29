@@ -1,19 +1,23 @@
-import logger from '@libs/logger';
 import { resolveGenerator } from '@libs/utils';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { loginActions } from './slice';
+import { loginActions, LoginStatus } from './slice';
 import UserPoolService, { PoolTypeEnum } from '@auth/services/user-pool';
 import AuthService from '@auth/services/auth';
 import nacl from 'tweetnacl';
 import bs58 from 'bs58';
 
 function* init() {
-    logger.info('LoginSaga Init');
+    yield put(loginActions.initRequested());
+
+    yield put(
+        loginActions.initFinished({
+            status: LoginStatus.NotLogged,
+            username: null,
+        }),
+    );
 }
 
 function* handleLoginWithPhantomWallet(): any {
-    logger.info('Handle login with phantom wallet');
-
     const provider = (window as any)?.phantom?.solana;
 
     if (!provider?.isPhantom) {

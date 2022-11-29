@@ -1,11 +1,10 @@
 import type { AppProps } from 'next/app';
-import { SolanaWalletContextProvider } from '@auth/components';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
+import { Provider as ReduxProvider } from 'react-redux';
+import { store as appStore } from '@app/redux/store';
 
-import '@solana/wallet-adapter-react-ui/styles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'react-toastify/scss/main.scss';
 import '@app/styles/animation.scss';
 import '@app/styles/font-metain.scss';
 import '@app/styles/rule.scss';
@@ -22,5 +21,5 @@ type AppPropsWithLayout = AppProps & {
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
     const getLayout = Component.getLayout ?? ((page) => page);
 
-    return <SolanaWalletContextProvider>{getLayout(<Component {...pageProps} />)}</SolanaWalletContextProvider>;
+    return <ReduxProvider store={appStore}>{getLayout(<Component {...pageProps} />)}</ReduxProvider>;
 }

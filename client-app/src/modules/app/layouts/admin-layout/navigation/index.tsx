@@ -27,25 +27,19 @@ const Navigation = () => {
                     {
                         name: 'Dashboard',
                         icon: 'fms fm-building',
-                        url: 'pre-order',
+                        url: 'dashboard',
                         className: hasClaimableREIT ? styles.notify_error : '',
-                    },
-                    {
-                        name: 'Faucet',
-                        icon: 'fms fm-building',
-                        url: 'vot/building/1',
                     },
                     {
                         name: 'Trade NFT',
-                        icon: 'fms fm-wallet',
+                        icon: 'fms fm-arrow-square-right',
                         url: 'wallet',
                         className: hasClaimableREIT ? styles.notify_error : '',
                     },
                     {
-                        name: 'Share',
-                        icon: 'fms fm-wallet',
-                        url: 'wallet',
-                        className: hasClaimableREIT ? styles.notify_error : '',
+                        name: 'Token Faucet',
+                        icon: 'fms fm-gas-pump',
+                        url: 'vot/building/1',
                     },
                 ],
             },
@@ -54,7 +48,7 @@ const Navigation = () => {
                 children: [
                     {
                         name: 'Share Dividend',
-                        icon: 'fms fm-building',
+                        icon: 'fms fm-usd-circle',
                         url: 'pre-order',
                         className: hasClaimableREIT ? styles.notify_error : '',
                     },
@@ -116,7 +110,7 @@ const Navigation = () => {
             >
                 <b className={styles.b_1}></b>
                 <b className={styles.b_2}></b>
-                <Anchor className={styles.anchor_1} href={`/admin/${value.url}`} disabled={value.disabled}>
+                <Anchor className={styles.anchor_1} href={`/${value.url}`} disabled={value.disabled}>
                     <i className={[value.icon, styles.icon_1].join(' ')}></i> {value.name}
                     {!!value.tooltips && (
                         <>

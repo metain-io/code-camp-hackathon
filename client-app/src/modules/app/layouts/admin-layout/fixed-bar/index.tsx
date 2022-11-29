@@ -59,7 +59,7 @@ const FixedBar = () => {
                 <span className={styles.span_1}>{usernameContentFormated}</span>
                 <ReactTooltip id="tooltip-username" type="info" effect="solid">
                     <div className={styles.commission_tooltip_area}>
-                        <span>{copied ? 'Copy' : 'Copied'}</span>
+                        <span>{copied ? 'Copied' : 'Copy'}</span>
                     </div>
                 </ReactTooltip>
             </div>

@@ -1,58 +1,17 @@
+import { WalletAddress } from '@auth/components';
 import { useHelper } from '@shared/hooks';
 import fnUtils from '@shared/utils/fnUtils';
 import stringUtils from '@shared/utils/stringUtils';
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
 import Image from './components/image';
 import styles from './style.module.scss';
 
 const FixedBar = () => {
     return (
         <div id={styles.fixedbar_container}>
-            <WalletWrapper />
+            <WalletAddress />
             <div className={styles.separator}></div>
             <AccountWrapper />
-        </div>
-    );
-};
-
-const WalletWrapper = () => {
-    const { copyToClipboard } = useHelper();
-    const [copied, setCopied] = React.useState(false);
-    const copyTimerRef = React.useRef(null);
-
-    let usernameContent = 'WALLET_ADDRESS';
-    let usernameContentFormated = usernameContent;
-    try {
-        usernameContentFormated = stringUtils.format2ShortId(usernameContent, 5, 3);
-    } catch (ex) {
-        console.log('====== WalletWrapper - error: ', ex);
-    }
-
-    return (
-        <div
-            id={styles.wallet_wrapper}
-            data-tip={true}
-            data-for="tooltip-username"
-            onClick={() => {
-                copyToClipboard(usernameContent);
-                setCopied(true);
-                fnUtils.debounce(
-                    copyTimerRef,
-                    () => {
-                        setCopied(false);
-                    },
-                    1000,
-                );
-            }}
-        >
-            <Image className={styles.image_1} src={'/svg/icon-token-sol.svg'} alt="" />
-            <span className={styles.span_1}>{usernameContentFormated}</span>
-            <ReactTooltip id="tooltip-username" uuid="tooltip-username" type="info" effect="solid">
-                <div className={styles.commission_tooltip_area}>
-                    <span>{copied ? 'Copied' : 'Copy'}</span>
-                </div>
-            </ReactTooltip>
         </div>
     );
 };

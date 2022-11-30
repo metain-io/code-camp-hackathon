@@ -150,6 +150,7 @@ function* init(): any {
         loginActions.initFinished({
             status: LoginStatus.LoggedIn,
             username: username,
+            walletAddress: walletAccount,
         }),
     );
 
@@ -269,6 +270,7 @@ function* handleLoginWithPhantomWallet(): any {
     yield put(
         loginActions.loginSucceeded({
             username: username,
+            walletAddress: walletAccount,
         }),
     );
 

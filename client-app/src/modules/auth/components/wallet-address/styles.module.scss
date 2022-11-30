@@ -1,0 +1,64 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+#wallet_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.6rem;
+    margin-right: 1.6rem;
+    background: $colorBackground1;
+    border-radius: 0.8rem;
+    cursor: pointer;
+
+    .span {
+        &_1 {
+            @include fontSize(1.4rem);
+            font-weight: 500;
+
+            position: relative;
+            width: 15rem;
+            margin-left: 0.8rem;
+            padding-right: 2rem;
+
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+
+            &:after {
+                content: ' \f0c5';
+                position: absolute;
+                right: 0rem;
+                color: $colorPrimary2;
+                font-family: Metain Solid;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 640px) {
+    #wallet_wrapper {
+        .span_1 {
+            width: 6rem;
+            overflow: hidden;
+        }
+    }
+}
+
+@media screen and (max-width: 380px) {
+    #wallet_wrapper {
+        position: relative;
+        padding-right: 3rem;
+
+        .span_1 {
+            width: 3.2rem;
+            overflow: hidden;
+
+            &:after {
+                position: absolute;
+                top: calc(50% - 1.1rem);
+                right: 0.8rem;
+            }
+        }
+    }
+}

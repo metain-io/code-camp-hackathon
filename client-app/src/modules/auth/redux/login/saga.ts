@@ -211,9 +211,9 @@ function* handleLoginWithPhantomWallet(): any {
         return;
     }
 
-    // provider.on('connect', () => {})
-    // provider.on('disconnect', () => {})
-    // provider.on('accountChanged', ( publicKey: any) => {})
+    // provider.on('accountChanged', (publicKey: any) => {
+    //     console.log('account-changed', publicKey.toString());
+    // });
 
     yield put(
         loginActions.loginSucceeded({

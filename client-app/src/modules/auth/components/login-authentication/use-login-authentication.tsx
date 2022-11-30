@@ -10,6 +10,7 @@ const PROTECTED_ROUTES = [
     '/buy-nft',
     '/trade-nft',
     '/claim-dividends',
+    '/faucet-token',
     '/share-dividends',
 ];
 

@@ -6,6 +6,8 @@ import * as web3 from '@solana/web3.js';
 import * as SPL from '@solana/spl-token';
 import base58 from 'bs58';
 import { useNotify } from '@shared/hooks';
+import { useSelector } from 'react-redux';
+import { selectLoginWalletAddress } from '@auth/redux/login/slice';
 
 export default function FauceTokenPage() {
     const TOKEN_CONFIG = [
@@ -23,10 +25,11 @@ export default function FauceTokenPage() {
         },
     ];
     const { showToast } = useNotify();
+    const walletAddress = useSelector(selectLoginWalletAddress);
 
     const [selectToken, setSelectToken] = React.useState(TOKEN_CONFIG[0]);
     const [disableRequestBtn, setDisableRequestToken] = React.useState(false);
-    const [disableRequestSOLBtn, setDisableRequestSOLToken] = React.useState(false);
+    // const [disableRequestSOLBtn, setDisableRequestSOLToken] = React.useState(false);
 
     const changeSelectTokenHandler = (item: any) => {
         setSelectToken(item[0]);
@@ -52,19 +55,13 @@ export default function FauceTokenPage() {
                 process.env.NEXT_PUBLIC_BOSS_WALLET_PRIVATE_KEY || '',
             );
 
-            let userPublicKeyString = 'k9SWhioWFHrjFiNfu85hNoLzqaMQKnHJykcco84vXNg';
-            let userPublicKey = new web3.PublicKey(userPublicKeyString);
+            let userPublicKey = new web3.PublicKey(walletAddress);
             let tokenAccountOfUser = await SPL.getOrCreateAssociatedTokenAccount(
                 connection,
                 bossKeypair,
                 mintPublicKey,
                 userPublicKey,
             );
-
-            console.log('============ requestTokenHandler - data: ', {
-                tokenAccountOfUser,
-                value: tokenAccountOfUser.address.toBase58(),
-            });
 
             let minToInstruction = SPL.createMintToInstruction(
                 mintPublicKey,
@@ -77,10 +74,6 @@ export default function FauceTokenPage() {
             const rs = await web3.sendAndConfirmTransaction(connection, transaction, [bossKeypair]);
             requestSOLAirdropHandler();
 
-            console.log('============ requestTokenHandler - RS: ', rs);
-
-            // const tmp = Keypair.generate();
-            // const tokenAccountUSDTOfUser = await createTokenAccount()
             showToast({
                 status: 'success',
                 message: `Requested 1001 ${selectToken.label} successfully`,
@@ -96,8 +89,7 @@ export default function FauceTokenPage() {
         // setDisableRequestSOLToken(true);
         try {
             let connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');
-            let userPublicKeyString = 'k9SWhioWFHrjFiNfu85hNoLzqaMQKnHJykcco84vXNg';
-            let userPublicKey = new web3.PublicKey(userPublicKeyString);
+            let userPublicKey = new web3.PublicKey(walletAddress);
             await connection.requestAirdrop(userPublicKey, web3.LAMPORTS_PER_SOL);
 
             showToast({

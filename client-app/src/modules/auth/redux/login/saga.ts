@@ -278,9 +278,9 @@ function* handleLoginWithPhantomWallet(): any {
 }
 
 function* handleLogout() {
-    if (!AuthService.currentUser) {
-        yield call(AuthService.globalSignOutUser);
-        yield call(AuthService.signOutUser);
+    if (AuthService.currentUser) {
+        yield call([AuthService, AuthService.globalSignOutUser]);
+        yield call([AuthService, AuthService.signOutUser]);
     }
 }
 

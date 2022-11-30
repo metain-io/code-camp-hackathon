@@ -17,7 +17,7 @@ const NavigationBar = () => {
                     <Link href={'/claim-dividends'}>Claim Dividends</Link>
                 </li>
                 <li className={styles['navigation-menu__item']}>
-                    <Link href={'/dashboard/share-dividend'}>Share Dividend</Link>
+                    <Link href={'/dashboard/share-dividend'}>Dashboard</Link>
                 </li>
             </ul>
 

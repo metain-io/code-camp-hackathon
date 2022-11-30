@@ -10,7 +10,7 @@ const PROTECTED_ROUTES = [
     '/buy-nft',
     '/trade-nft',
     '/claim-dividends',
-    '/dashboard/share-dividends',
+    '/share-dividends',
 ];
 
 const AUTH_ROUTES = ['/login'];

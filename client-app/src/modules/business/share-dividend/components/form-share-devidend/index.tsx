@@ -27,32 +27,30 @@ const FormShareDividend = () => {
     };
 
     return (
-        <>
-            <form className={styles['form']}>
-                <div className={styles['form-header']}>
-                    <label className={styles['form-title']}>See Share Dividend History: </label>
+        <form className={styles['form']}>
+            <div className={styles['form-header']}>
+                <label className={styles['form-title']}>See Share Dividend History: </label>
 
-                    <div>
-                        <DividendHistoryToggler />
-                    </div>
+                <div>
+                    <DividendHistoryToggler />
                 </div>
+            </div>
 
-                <div className={styles['form-group']}>
-                    <label>Devidend for 1 NFT / day</label>
-                    <input value={amountDevidend} onChange={onInputAmountDividendChanged} />
-                </div>
+            <div className={styles['form-group']}>
+                <label>Devidend for 1 NFT / day</label>
+                <input value={amountDevidend} onChange={onInputAmountDividendChanged} />
+            </div>
 
-                <button onClick={onButtonShareDividendClicked}>Share Dividend</button>
+            <button onClick={onButtonShareDividendClicked}>Share Dividend</button>
 
-                <br></br>
+            <br></br>
 
-                <button onClick={onButtonResetClicked}>Next Day</button>
+            <button onClick={onButtonResetClicked}>Next Day</button>
 
-                <br></br>
+            <br></br>
 
-                <button onClick={onButtonNextDayClicked}>Reset Demo</button>
-            </form>
-        </>
+            <button onClick={onButtonNextDayClicked}>Reset Demo</button>
+        </form>
     );
 };
 

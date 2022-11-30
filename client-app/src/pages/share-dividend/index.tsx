@@ -1,4 +1,4 @@
-import { FormShareDividend } from '@business/dashboard/share-dividend/components';
+import { FormShareDividend } from '@business/share-dividend/components';
 import styles from './styles.module.scss';
 
 const PageBuyNft = () => {

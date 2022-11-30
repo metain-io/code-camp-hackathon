@@ -49,7 +49,7 @@ const Navigation = () => {
                     {
                         name: 'Share Dividend',
                         icon: 'fms fm-usd-circle',
-                        url: 'dashboard/share-dividend',
+                        url: 'share-dividend',
                         className: hasClaimableREIT ? styles.notify_error : '',
                     },
                 ],

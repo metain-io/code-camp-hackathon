@@ -1,4 +1,4 @@
-import { TableDividendHistory } from '@business/dashboard/share-dividend/components';
+import { TableDividendHistory } from '@business/share-dividend/components';
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import styles from './styles.module.scss';

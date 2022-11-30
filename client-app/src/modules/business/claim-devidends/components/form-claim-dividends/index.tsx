@@ -22,12 +22,26 @@ const FormClaimDividends = () => {
                     </div>
                 </div>
 
-                <div className={styles['form-group']}>
-                    <p>Amount NFT You Have: {amountNft}</p>
-                    <p>Amount Dividends You Receive: {amountDividends}</p>
-                </div>
+                <div className={styles['form-body']}>
+                    <div>
+                        <p>Available (Claimable)</p>
+                        <p>{amountNft} US$</p>
+                    </div>
 
-                <button onClick={onButtonClaimDividendsClicked}>Claim</button>
+                    <div>
+                        <p>Value (Claimed)</p>
+                        <p>{amountDividends} US$</p>
+                    </div>
+
+                    <div>
+                        <button
+                            className={[styles['button-claim-dividends'], 'mButton', 'mButton-cp5-bn1'].join(' ')}
+                            onClick={onButtonClaimDividendsClicked}
+                        >
+                            Claim
+                        </button>
+                    </div>
+                </div>
             </form>
         </>
     );

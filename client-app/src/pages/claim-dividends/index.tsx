@@ -5,8 +5,8 @@ import styles from './styles.module.scss';
 
 const PageClaimDividends = () => {
     return (
-        <div className={['page-container', styles['container']].join(' ')}>
-            <h1 className={['page-title', styles['title']].join(' ')}>Claim Dividends</h1>
+        <div className={styles['container']}>
+            <h1 className={styles['title']}>Claim Dividends</h1>
 
             <div className={styles['form-buy-nft-placeholder']}>
                 <FormClaimDividends />

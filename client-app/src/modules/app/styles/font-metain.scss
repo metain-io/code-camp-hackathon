@@ -14,17 +14,17 @@
 }
 
 .fms {
-    font-family: "Metain Solid";
+    font-family: 'Metain Solid';
     font-weight: 300;
 }
 
 .fml {
-    font-family: "Metain Light";
+    font-family: 'Metain Light';
     font-weight: 300;
 }
 
 .fmb {
-    font-family: "Metain Brand";
+    font-family: 'Metain Brand';
     font-weight: 400;
 }
 
@@ -167,38 +167,38 @@
 }
 
 .fm-rotate-90 {
-    -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+    -ms-filter: 'progid:DXImageTransform.Microsoft.BasicImage(rotation=1)';
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
 }
 
 .fm-rotate-180 {
-    -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+    -ms-filter: 'progid:DXImageTransform.Microsoft.BasicImage(rotation=2)';
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
 }
 
 .fm-rotate-270 {
-    -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+    -ms-filter: 'progid:DXImageTransform.Microsoft.BasicImage(rotation=3)';
     -webkit-transform: rotate(270deg);
     transform: rotate(270deg);
 }
 
 .fm-flip-horizontal {
-    -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+    -ms-filter: 'progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)';
     -webkit-transform: scale(-1, 1);
     transform: scale(-1, 1);
 }
 
 .fm-flip-vertical {
-    -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+    -ms-filter: 'progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)';
     -webkit-transform: scale(1, -1);
     transform: scale(1, -1);
 }
 
 .fm-flip-both,
 .fm-flip-horizontal.fm-flip-vertical {
-    -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+    -ms-filter: 'progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)';
     -webkit-transform: scale(-1, -1);
     transform: scale(-1, -1);
 }
@@ -244,282 +244,298 @@
 
 /* Light Solid Icon Define ************************************************************************************************************************************/
 .fm-check:before {
-    content: "\f00c";
+    content: '\f00c';
 }
 
 .fm-copy:before {
-    content: "\f0c5";
+    content: '\f0c5';
 }
 
 .fm-bars:before {
-    content: "\f0c9";
+    content: '\f0c9';
 }
 
 .fm-caret-down:before {
-    content: "\f0d7";
+    content: '\f0d7';
 }
 
 .fm-caret-up:before {
-    content: "\f0d8";
+    content: '\f0d8';
 }
 
 .fm-caret-left:before {
-    content: "\f0d9";
+    content: '\f0d9';
 }
 
 .fm-caret-right:before {
-    content: "\f0da";
+    content: '\f0da';
 }
 
 .fm-sort:before {
-    content: "\f0dc";
+    content: '\f0dc';
 }
 
 .fm-bell:before {
-    content: "\f0f3";
+    content: '\f0f3';
 }
 
 .fm-building:before {
-    content: "\f1ad";
+    content: '\f1ad';
 }
 
 .fm-sliders-h:before {
-    content: "\f1de";
+    content: '\f1de';
 }
 
 .fm-user-circle:before {
-    content: "\f2bd";
+    content: '\f2bd';
 }
 
 .fm-usd-circle:before {
-    content: "\f2e8";
+    content: '\f2e8';
 }
 
 .fm-trash-alt:before {
-    content: "\f2ed";
+    content: '\f2ed';
 }
 
 .fm-shield-check:before {
-    content: "\f2f7";
+    content: '\f2f7';
 }
 
 .fm-ribbon:before {
-    content: "\f4d6";
+    content: '\f4d6';
 }
 
 .fm-star:before {
-    content: "\f005";
+    content: '\f005';
 }
 
 .fm-info-circle:before {
-    content: "\f05a";
+    content: '\f05a';
 }
 
 .fm-gift:before {
-    content: "\f06b";
+    content: '\f06b';
 }
 
 .fm-eye:before {
-    content: "\f06e";
+    content: '\f06e';
 }
 
 .fm-book-user:before {
-    content: "\f7e7";
+    content: '\f7e7';
 }
 
 .fm-th-large:before {
-    content: "\f009";
+    content: '\f009';
 }
 
 .fm-pin-lock:before {
-    content: "\f13f";
+    content: '\f13f';
 }
 
 .fm-clock:before {
-    content: "\f017";
+    content: '\f017';
 }
 
 .fm-sync:before {
-    content: "\f021";
+    content: '\f021';
 }
 
 .fm-arrow-square-right:before {
-    content: "\f33b";
+    content: '\f33b';
 }
 
 .fm-arrow-square-down:before {
-    content: "\f339";
+    content: '\f339';
 }
 
 .fm-arrow-square-up:before {
-    content: "\f33c";
+    content: '\f33c';
 }
 
 .fm-ellipsis-v-alt:before {
-    content: "\f39c";
+    content: '\f39c';
 }
 
 .fm-chevron-left:before {
-    content: "\f053";
+    content: '\f053';
 }
 
 .fm-chevron-right:before {
-    content: "\f054";
+    content: '\f054';
 }
 
 .fm-plus-circle:before {
-    content: "\f055";
+    content: '\f055';
 }
 
 .fm-check-circle:before {
-    content: "\f058";
+    content: '\f058';
 }
 
 .fm-arrow-left:before {
-    content: "\f060";
+    content: '\f060';
 }
 
 .fm-arrow-right:before {
-    content: "\f061";
+    content: '\f061';
 }
 
 .fm-arrow-up:before {
-    content: "\f062";
+    content: '\f062';
 }
 
 .fm-arrow-down:before {
-    content: "\f063";
+    content: '\f063';
 }
 
 .fm-plus:before {
-    content: "\f067";
+    content: '\f067';
 }
 
 .fm-eye-slash:before {
-    content: "\f070";
+    content: '\f070';
 }
 
 .fm-chevron-up:before {
-    content: "\f077";
+    content: '\f077';
 }
 
 .fm-chevron-down:before {
-    content: "\f078";
+    content: '\f078';
 }
 
 .fm-chart-bar:before {
-    content: "\f080";
+    content: '\f080';
 }
 
 .fm-chart-candle:before {
-    content: "\f081";
+    content: '\f081';
 }
 
 .fm-trash-times:before {
-    content: "\f83a";
+    content: '\f83a';
 }
 
 .fm-trophy:before {
-    content: "\f091";
+    content: '\f091';
 }
 
 .fm-calendar:before {
-    content: "\f133";
+    content: '\f133';
 }
 
 .fm-sun:before {
-    content: "\f185";
+    content: '\f185';
 }
 
 .fm-archive-down:before {
-    content: "\f189";
+    content: '\f189';
 }
 
 .fm-user-plus:before {
-    content: "\f234";
+    content: '\f234';
 }
 
 .fm-file-plus:before {
-    content: "\f319";
+    content: '\f319';
 }
 
 .fm-arrow-to-right:before {
-    content: "\f340";
+    content: '\f340';
 }
 
 .fm-repeat:before {
-    content: "\f363";
+    content: '\f363';
 }
 
 .fm-wallet:before {
-    content: "\f555";
+    content: '\f555';
 }
 
 .fm-check-double:before {
-    content: "\f560";
+    content: '\f560';
 }
 
 .fm-analytics:before {
-    content: "\f643";
+    content: '\f643';
 }
 
 .fm-trend-up:before {
-    content: "\fa20";
+    content: '\fa20';
 }
 
 .fm-moon:before {
-    content: "\f186";
+    content: '\f186';
 }
 
 .fm-phone-alt:before {
-    content: "\f879";
+    content: '\f879';
 }
 
 .fm-envelope:before {
-    content: "\f0e0";
+    content: '\f0e0';
 }
 
 .fm-exchange-v:before {
-    content: "\f0e1";
+    content: '\f0e1';
 }
 
 .fm-images:before {
-    content: "\f302";
+    content: '\f302';
 }
 
 .fm-search:before {
-    content: "\f002";
+    content: '\f002';
 }
 
 .fm-gas-pump:before {
-    content: "\f52f";
+    content: '\f52f';
 }
 
 .fm-times-circle:before {
-    content: "\f057";
+    content: '\f057';
 }
 
 .fm-exclamation-circle:before {
-    content: "\f06a";
+    content: '\f06a';
 }
 
 .fm-exclamation-triangle:before {
-    content: "\f071";
+    content: '\f071';
+}
+
+.fm-pencil:before {
+    content: '\f040';
+}
+
+.fm-shopping-cart:before {
+    content: '\f07a';
+}
+
+.fm-lock:before {
+    content: '\f023';
+}
+
+.fm-lock-open:before {
+    content: '\f3c1';
 }
 
 /* Brand Icon Define ******************************************************************************************************************************************/
 .fm-telegram-plane:before {
-    content: "\f3fe";
+    content: '\f3fe';
 }
 
 .fm-facebook:before {
-    content: "\f09a";
+    content: '\f09a';
 }
 
 .fm-twitter:before {
-    content: "\f099";
+    content: '\f099';
 }
 
 .fm-discord:before {
-    content: "\f392";
+    content: '\f392';
 }

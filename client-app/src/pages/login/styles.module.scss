@@ -1,0 +1,40 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100vh;
+
+    .text-welcome {
+        margin-bottom: 0.8rem;
+        color: $colorNeutral10;
+        @include fontSize(3.2rem);
+        font-weight: 700;
+
+        margin-bottom: 3rem;
+    }
+
+    .button-connect-placeholder {
+        width: 100%;
+    }
+}
+
+/* Responsive *************************************************************************************************************************************************/
+@media screen and (max-width: 992px) {
+    .page-container {
+        height: auto;
+
+        .text-welcome {
+            @include fontSize(2.4rem);
+        }
+    }
+}
+
+@media screen and (max-width: 420px) and (max-height: 680px) {
+    .page-container {
+        height: auto;
+    }
+}

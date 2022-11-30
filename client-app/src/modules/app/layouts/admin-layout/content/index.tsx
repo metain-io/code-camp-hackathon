@@ -1,44 +1,17 @@
-import React from "react";
-import styles from "./style.module.scss";
+import React, { PropsWithChildren } from 'react';
+import styles from './style.module.scss';
 
-const Content = (props: Content_Component.Props) => {
-    /* Props **************************************************************************************************************************************************/
+type ContentProps = PropsWithChildren<{}>;
 
-    const {
-        // revertRightColumn = false,
-        // hasRightColumn = true,
-        // rightColumnComponent = "vot-buy",
-        breadcrumb = <></>,
-        // rightColumnContent = <AdminLayout_VotBuy />,
-    } = props;
+const Content = (props: ContentProps) => {
+    const { children } = props;
 
-    /* Stores *************************************************************************************************************************************************/
-
-    /* Hooks **************************************************************************************************************************************************/
-
-    /* Variables **********************************************************************************************************************************************/
-
-    /* Life Circle ********************************************************************************************************************************************/
-
-    /* Functions **********************************************************************************************************************************************/
-
-    /* Events *************************************************************************************************************************************************/
-
-    /* Components *********************************************************************************************************************************************/
-    const Theme2Wrapper = () => {
-        return (
-            <div id={styles.column_4} className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                {props.children}
-            </div>
-        );
-    };
-
-    /* Render *************************************************************************************************************************************************/
     return (
         <div id={styles.content_wrapper} className="container-fluid">
             <div id={styles.row_1} className="row">
-                {breadcrumb}
-                {Theme2Wrapper()}
+                <div id={styles.column_4} className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    {children}
+                </div>
             </div>
         </div>
     );

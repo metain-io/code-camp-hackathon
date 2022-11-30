@@ -1,0 +1,8 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+.button {
+    width: 100%;
+    font-weight: 500;
+    border-color: $colorPrimary5;
+}

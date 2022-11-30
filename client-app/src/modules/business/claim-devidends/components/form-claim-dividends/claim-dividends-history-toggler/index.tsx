@@ -21,6 +21,7 @@ const ClaimDividendsHistoryToggler = () => {
             </a>
 
             <Modal show={showHistory} onHide={handleHide} centered dialogClassName={styles['modal-dialog']}>
+                <label className={styles['modal-title']}>Claim Dividends History</label>
                 <TableClaimDividendsHistory />
             </Modal>
         </>

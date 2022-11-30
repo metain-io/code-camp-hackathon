@@ -42,7 +42,7 @@ export default function Document() {
                 <meta name="twitter:image" content={image} />
                 <meta name="twitter:card" content="summary_large_image" />
 
-                <link href="/font/autoload.css" rel="stylesheet"></link>
+                <link href="/fonts/autoload.css" rel="stylesheet"></link>
             </Head>
             <body>
                 <Main />

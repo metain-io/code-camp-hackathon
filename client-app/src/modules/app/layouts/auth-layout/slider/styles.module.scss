@@ -1,0 +1,196 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+#banner_container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    height: 100vh;
+}
+
+#logo_wrapper {
+    .image {
+        &_1 {
+            align-self: flex-start;
+            padding: 1rem 0;
+            height: 7rem;
+        }
+    }
+}
+
+#animation_wrapper {
+    .image {
+        &_1 {
+            width: 50vh;
+            height: 50vh;
+        }
+
+        &_3 {
+            position: absolute;
+            width: 80%;
+            left: 50%;
+            top: 50%;
+            z-index: 100;
+            transform: translate(-50%, -63%);
+            justify-content: center;
+        }
+    }
+
+    .item {
+        &_1 {
+            position: absolute;
+
+            img {
+                transform: scale(1);
+            }
+
+            &:nth-of-type(1) {
+                top: -7%;
+                right: 60%;
+                animation: 16s linear infinite rotateReverse;
+
+                img {
+                    animation: 1.5s linear infinite alternate scaleSmaller;
+                }
+            }
+
+            &:nth-of-type(2) {
+                top: 40%;
+                left: -15%;
+                animation: 16s linear infinite rotateReverse;
+
+                img {
+                    animation: 3s linear infinite alternate scaleSmaller;
+                }
+            }
+
+            &:nth-of-type(3) {
+                top: 70%;
+                right: 0;
+                animation: 16s linear infinite rotateReverse;
+
+                img {
+                    animation: 2.5s linear infinite alternate scaleSmaller;
+                }
+            }
+
+            &:nth-of-type(4) {
+                top: 10%;
+                right: -10%;
+                animation: 16s linear infinite rotateReverse;
+
+                img {
+                    animation: 1.5s linear infinite alternate scaleSmaller;
+                }
+            }
+
+            &:nth-of-type(5) {
+                top: 88%;
+                right: 50%;
+                animation: 16s linear infinite rotateReverse;
+
+                img {
+                    animation: 2s linear infinite alternate scaleSmaller;
+                }
+            }
+        }
+    }
+
+    .div {
+        &_1 {
+            position: relative;
+            transform: rotate(0deg);
+            animation: rotateAround 16s linear infinite;
+        }
+
+        &_2 {
+            position: relative;
+        }
+    }
+
+    &[data-index='two'] {
+        .item_1 {
+            &:nth-of-type(1) {
+                top: -15%;
+                right: 35%;
+            }
+
+            &:nth-of-type(2) {
+            }
+
+            &:nth-of-type(3) {
+                top: 85%;
+                right: 35%;
+            }
+
+            &:nth-of-type(4) {
+                top: 30%;
+                right: -15%;
+            }
+        }
+    }
+}
+
+#pagination_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 6rem;
+    width: 100%;
+
+    .item {
+        &_2 {
+            width: 0.8rem;
+            height: 0.8rem;
+            background: $colorPrimary6;
+            border: 0;
+            border-radius: 100%;
+            opacity: 0.4;
+            transition: width 0.5s ease-in-out;
+            cursor: pointer;
+
+            &:not(:last-of-type) {
+                margin-right: 0.8rem;
+            }
+
+            &.active {
+                width: 2.4rem;
+                border-radius: 16rem;
+                opacity: 1;
+            }
+        }
+    }
+}
+
+/* Responsive *************************************************************************************************************************************************/
+
+/* Animation **************************************************************************************************************************************************/
+:global {
+    @keyframes rotateAround {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes rotateReverse {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(-360deg);
+        }
+    }
+
+    @keyframes scaleSmaller {
+        0% {
+            transform: scale(0.8);
+        }
+        100% {
+            transform: scale(0.5);
+        }
+    }
+}

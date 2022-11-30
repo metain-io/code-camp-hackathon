@@ -1,4 +1,6 @@
+import { AdminLayout } from '@app/layouts';
 import { FormBuyNft } from '@business/buy-nft/components';
+import { ReactElement } from 'react';
 import styles from './styles.module.scss';
 
 const PageBuyNft = () => {
@@ -11,6 +13,10 @@ const PageBuyNft = () => {
             </div>
         </div>
     );
+};
+
+PageBuyNft.getLayout = function getLayout(page: ReactElement) {
+    return <AdminLayout>{page}</AdminLayout>;
 };
 
 export default PageBuyNft;

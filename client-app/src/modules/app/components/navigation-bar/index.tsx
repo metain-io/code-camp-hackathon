@@ -1,3 +1,4 @@
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './styles.module.scss';
@@ -18,7 +19,9 @@ const NavigationBar = () => {
                 </li>
             </ul>
 
-            <div className={styles['button-connect-placeholder']}></div>
+            <div className={styles['button-connect-placeholder']}>
+                <WalletMultiButton />
+            </div>
         </div>
     );
 };

@@ -1,0 +1,115 @@
+/* Metain Family Font *****************************************************************************************************************************************/
+@font-face {
+	font-family: 'Metain Solid';
+	src: local('Metain Solid'), url('metain/metain-solid.woff') format('woff2'),
+		url('metain/metain-solid.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+@font-face {
+	font-family: 'Metain Light';
+	src: local('Metain Light'), url('metain/metain-light.woff') format('woff2'),
+		url('metain/metain-light.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+@font-face {
+	font-family: 'Metain Brand';
+	src: local('Metain Brand'), url('metain/metain-brand.woff') format('woff2'),
+		url('metain/metain-brand.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+/* Google Sans Family Font ************************************************************************************************************************************/
+@font-face {
+	src: local('Google Sans'), url('googlesans/regular.ttf') format('truetype');
+	font-family: 'Google Sans';
+	font-weight: 400;
+	font-display: block;
+}
+
+@font-face {
+	src: local('Google Sans'), url('googlesans/medium.ttf') format('truetype');
+	font-family: 'Google Sans';
+	font-weight: 500;
+	font-display: block;
+}
+
+@font-face {
+	src: local('Google Sans'), url('googlesans/bold.ttf') format('truetype');
+	font-family: 'Google Sans';
+	font-weight: 700;
+	font-display: block;
+}
+
+/* Mulish Family Font *****************************************************************************************************************************************/
+@font-face {
+	src: local('Mulish'), url('mulish/regular.ttf') format('truetype');
+	font-family: 'Mulish';
+	font-weight: 400;
+	font-display: block;
+}
+
+@font-face {
+	src: local('Mulish'), url('mulish/semibold.ttf') format('truetype');
+	font-family: 'Mulish';
+	font-weight: 500;
+	font-display: block;
+}
+
+@font-face {
+	src: local('Mulish'), url('mulish/bold.ttf') format('truetype');
+	font-family: 'Mulish';
+	font-weight: 700;
+	font-display: block;
+}
+
+/* Inter Family Font *****************************************************************************************************************************************/
+@font-face {
+	src: local('Inter'), url('inter/regular.ttf') format('truetype');
+	font-family: 'Inter';
+	font-weight: 400;
+	font-display: block;
+}
+
+@font-face {
+	src: local('Inter'), url('inter/medium.ttf') format('truetype');
+	font-family: 'Inter';
+	font-weight: 500;
+	font-display: block;
+}
+
+@font-face {
+	src: local('Inter'), url('inter/bold.ttf') format('truetype');
+	font-family: 'Inter';
+	font-weight: 700;
+	font-display: block;
+}
+
+/* Manrope Family Font *****************************************************************************************************************************************/
+@font-face {
+	src: local('Manrope'), url('manrope/regular.ttf') format('truetype');
+	font-family: 'Manrope';
+	font-weight: 400;
+	font-display: block;
+}
+
+@font-face {
+	src: local('Manrope'), url('manrope/medium.ttf') format('truetype');
+	font-family: 'Manrope';
+	font-weight: 500;
+	font-display: block;
+}
+
+@font-face {
+	src: local('Manrope'), url('manrope/bold.ttf') format('truetype');
+	font-family: 'Manrope';
+	font-weight: 700;
+	font-display: block;
+}

@@ -6,7 +6,7 @@
     flex-direction: row;
     align-items: center;
 
-    padding: 0px max(20px, calc((100vw - 1200px) / 2));
+    padding: 0px 20px;
 
     border: 1px solid black;
 }
@@ -37,11 +37,17 @@
 }
 
 .button-connect-placeholder {
-    width: 150px;
+    width: 160px;
     height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     margin-left: auto;
 
     border: 1px solid black;
     border-radius: 20px;
+
+    overflow: hidden;
 }

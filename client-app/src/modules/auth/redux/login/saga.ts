@@ -7,31 +7,12 @@ import nacl from 'tweetnacl';
 import bs58 from 'bs58';
 import { eventChannel } from 'redux-saga';
 import logger from '@libs/logger';
+import BaseWallet from '@crypto-wallet/base-wallet';
+import PhantomWallet from '@crypto-wallet/wallet-adapters/phantom-wallet-adapter';
+import WalletService from '@crypto-wallet/services/wallet-service';
 
-function createWalletEventChannel(provider: any) {
-    return eventChannel((emit) => {
-        const handleConnect = () => {
-            emit({ type: 'WALLET_CONNECT' });
-        };
-
-        const handleDisconnect = () => {
-            emit({ type: 'WALLET_DISCONNECT' });
-        };
-
-        const handleAccountChanged = (publicKey: any) => {
-            emit({ type: 'ACCOUNT_CHANGED', payload: { walletAccount: publicKey.toString() } });
-        };
-
-        provider.on('connect', handleConnect);
-        provider.on('accountChanged', handleAccountChanged);
-        provider.on('disconnect', handleDisconnect);
-
-        return () => {
-            provider.off('connect', handleConnect);
-            provider.off('accountChanged', handleAccountChanged);
-            provider.off('disconnect', handleDisconnect);
-        };
-    });
+function createWalletEventChannel(wallet: BaseWallet) {
+    return eventChannel(wallet.registerEventChannel);
 }
 
 function* watchWalletEventChannel(walletProvider: any): any {
@@ -96,20 +77,9 @@ function* init(): any {
 
     const username = loadedUser.getUsername();
 
-    const provider = (window as any)?.phantom?.solana;
+    WalletService.currentWallet = new PhantomWallet();
 
-    if (!provider?.isPhantom) {
-        yield put(
-            loginActions.initFinished({
-                status: LoginStatus.NotLogged,
-                username: null,
-            }),
-        );
-
-        return;
-    }
-
-    const [connectResponse, connectError] = yield call(resolveGenerator, provider.connect());
+    const [walletAccount, connectError] = yield call(resolveGenerator, WalletService.connect(null));
 
     if (connectError) {
         yield put(
@@ -121,8 +91,6 @@ function* init(): any {
 
         return;
     }
-
-    const walletAccount = connectResponse?.publicKey?.toString();
 
     if (!walletAccount) {
         yield put(
@@ -154,28 +122,16 @@ function* init(): any {
         }),
     );
 
-    yield fork(watchWalletEventChannel, provider);
+    yield fork(watchWalletEventChannel, WalletService.currentWallet);
 }
 
 function* handleLoginWithPhantomWallet(): any {
-    const provider = (window as any)?.phantom?.solana;
+    WalletService.currentWallet = new PhantomWallet();
 
-    if (!provider?.isPhantom) {
-        yield put(loginActions.loginFailed({ error: new Error('Wallet cannot be detected') }));
-        return;
-    }
-
-    const [connectResponse, connectError] = yield call(resolveGenerator, provider.connect());
+    const [walletAccount, connectError] = yield call(resolveGenerator, WalletService.connect(null));
 
     if (connectError) {
         yield put(loginActions.loginFailed({ error: new Error('Connect failed') }));
-        return;
-    }
-
-    const walletAccount = connectResponse?.publicKey?.toString();
-
-    if (!walletAccount) {
-        yield put(loginActions.loginFailed({ error: new Error('Connect get wallet account') }));
         return;
     }
 
@@ -213,44 +169,12 @@ function* handleLoginWithPhantomWallet(): any {
 
     const message = authenticateUserResult.customChallange.challengeParameters.message;
 
-    const encodedMessage = new TextEncoder().encode(message);
-
-    const [signMessageResult, signMessageError] = yield call(
-        resolveGenerator,
-        provider.signMessage(encodedMessage, 'utf8'),
-    );
+    const [challengeAnswer, signMessageError] = yield call(resolveGenerator, WalletService.signMessage(message));
 
     if (signMessageError) {
         yield put(loginActions.loginFailed({ error: new Error('Sign message failed') }));
         return;
     }
-
-    const { signature, publicKey } = signMessageResult;
-
-    const [signatureVerified, verifySignatureError] = yield call(
-        resolveGenerator,
-        new Promise((resolve, reject) => {
-            try {
-                resolve(
-                    nacl.sign.detached.verify(Uint8Array.from(Buffer.from(message)), signature, publicKey.toBuffer()),
-                );
-            } catch (error) {
-                reject(error);
-            }
-        }),
-    );
-
-    if (verifySignatureError) {
-        yield put(loginActions.loginFailed({ error: new Error('Verify signature error') }));
-        return;
-    }
-
-    if (!signatureVerified) {
-        yield put(loginActions.loginFailed({ error: new Error('Verify signature failed') }));
-        return;
-    }
-
-    const challengeAnswer = `${publicKey.toString()}|${bs58.encode(signature)}`;
 
     const [sendChallengeAnswerResult, sendChallengeAnswerError] = yield call(
         resolveGenerator,
@@ -274,7 +198,7 @@ function* handleLoginWithPhantomWallet(): any {
         }),
     );
 
-    yield fork(watchWalletEventChannel, provider);
+    yield fork(watchWalletEventChannel, WalletService.currentWallet);
 }
 
 function* handleLogout() {

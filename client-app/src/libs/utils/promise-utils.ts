@@ -1,4 +1,4 @@
-export async function resolvePromise<T>(promise: Promise<T>) {
+export async function resolvePromise<T>(promise: Promise<T>): Promise<[T | null, any]> {
     try {
         const result: T = await promise;
 

@@ -3,8 +3,6 @@ import { call, fork, put, take, takeLatest } from 'redux-saga/effects';
 import { loginActions, LoginStatus } from './slice';
 import UserPoolService, { PoolTypeEnum } from '@auth/services/user-pool';
 import AuthService from '@auth/services/auth';
-import nacl from 'tweetnacl';
-import bs58 from 'bs58';
 import { eventChannel } from 'redux-saga';
 import logger from '@libs/logger';
 import BaseWallet from '@crypto-wallet/base-wallet';

@@ -1,0 +1,15 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+.button_logout {
+    @include fontSize(1.6rem);
+
+    margin-bottom: 0;
+    color: $colorRed7;
+
+    .icon_3 {
+        @include fontSize(1.6rem);
+        color: $colorRed7;
+        margin-right: 1rem;
+    }
+}

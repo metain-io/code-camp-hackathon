@@ -17,6 +17,9 @@ const NavigationBar = () => {
                 <li className={styles['navigation-menu__item']}>
                     <Link href={'/claim-dividends'}>Claim Dividends</Link>
                 </li>
+                <li className={styles['navigation-menu__item']}>
+                    <Link href={'/share-dividend'}>Dashboard</Link>
+                </li>
             </ul>
 
             <div className={styles['button-connect-placeholder']}>

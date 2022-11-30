@@ -1,0 +1,60 @@
+.table-wrapper {
+    $heightPerRow: 42px;
+
+    max-height: 50vh;
+
+    border: 1px solid black;
+    margin: 10px;
+    overflow: auto;
+
+    table {
+        width: 100%;
+        border: 1px solid black;
+
+        thead {
+            position: sticky;
+            top: 0;
+
+            background-color: white;
+            outline: 1px solid black;
+        }
+
+        tr,
+        th,
+        td {
+            border: 1px solid black;
+            height: $heightPerRow;
+        }
+
+        tr[data-type='empty-row'] {
+            line-height: $heightPerRow;
+            text-align: center;
+        }
+
+        th {
+            text-align: center;
+            line-height: $heightPerRow;
+            font-weight: bold;
+            white-space: nowrap;
+            padding: 4px;
+        }
+
+        th[data-name='date'] {
+            width: 10rem;
+        }
+
+        th[data-name^='amount'] {
+            width: 12rem;
+        }
+
+        td {
+            padding: 8px;
+            white-space: nowrap;
+            line-height: $heightPerRow;
+        }
+
+        td[data-name^='amount'] {
+            text-align: right;
+        }
+    }
+}

@@ -1,21 +1,76 @@
 import { resolveGenerator } from '@libs/utils';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, fork, put, take, takeLatest } from 'redux-saga/effects';
 import { loginActions, LoginStatus } from './slice';
 import UserPoolService, { PoolTypeEnum } from '@auth/services/user-pool';
 import AuthService from '@auth/services/auth';
 import nacl from 'tweetnacl';
 import bs58 from 'bs58';
+import { eventChannel } from 'redux-saga';
+import logger from '@libs/logger';
+
+function createWalletEventChannel(provider: any) {
+    return eventChannel((emit) => {
+        const handleConnect = () => {
+            emit({ type: 'WALLET_CONNECT' });
+        };
+
+        const handleDisconnect = () => {
+            emit({ type: 'WALLET_DISCONNECT' });
+        };
+
+        const handleAccountChanged = (publicKey: any) => {
+            emit({ type: 'ACCOUNT_CHANGED', payload: { walletAccount: publicKey.toString() } });
+        };
+
+        provider.on('connect', handleConnect);
+        provider.on('accountChanged', handleAccountChanged);
+        provider.on('disconnect', handleDisconnect);
+
+        return () => {
+            provider.off('connect', handleConnect);
+            provider.off('accountChanged', handleAccountChanged);
+            provider.off('disconnect', handleDisconnect);
+        };
+    });
+}
+
+function* watchWalletEventChannel(walletProvider: any): any {
+    const walletEventChannel = yield call(createWalletEventChannel, walletProvider);
+
+    while (true) {
+        try {
+            const { type, payload } = yield take(walletEventChannel);
+
+            switch (type) {
+                case 'WALLET_CONNECT':
+                    console.log('wallet-connected');
+                    break;
+                case 'WALLET_DISCONNECT':
+                    console.log('wallet-disconnect');
+                    break;
+                case 'ACCOUNT_CHANGED':
+                    const { walletAccount } = payload;
+                    console.log('account-changed', walletAccount);
+                    yield put(loginActions.logoutRequested());
+                    break;
+            }
+        } catch (error) {
+            logger.error('watchWalletEventChannelError', error);
+        }
+    }
+}
 
 function* init(): any {
     yield put(loginActions.initRequested());
 
     yield call(resolveGenerator, UserPoolService.syncUserPoolStorage(PoolTypeEnum.CONFIDENT));
+
     const [loadedUser, loadUserFromStorageError] = yield call(
         resolveGenerator,
         UserPoolService.loadUserFromStorage(PoolTypeEnum.CONFIDENT),
     );
 
-    if (!loadedUser) {
+    if (!loadedUser || loadUserFromStorageError) {
         yield put(
             loginActions.initFinished({
                 status: LoginStatus.NotLogged,
@@ -95,10 +150,11 @@ function* init(): any {
         loginActions.initFinished({
             status: LoginStatus.LoggedIn,
             username: username,
+            walletAddress: walletAccount,
         }),
     );
 
-    return;
+    yield fork(watchWalletEventChannel, provider);
 }
 
 function* handleLoginWithPhantomWallet(): any {
@@ -211,24 +267,25 @@ function* handleLoginWithPhantomWallet(): any {
         return;
     }
 
-    // provider.on('accountChanged', (publicKey: any) => {
-    //     console.log('account-changed', publicKey.toString());
-    // });
-
     yield put(
         loginActions.loginSucceeded({
             username: username,
+            walletAddress: walletAccount,
         }),
     );
+
+    yield fork(watchWalletEventChannel, provider);
 }
 
 function* handleLogout() {
-    yield call(AuthService.signOutUser);
-    yield call(AuthService.globalSignOutUser);
+    if (!AuthService.currentUser) {
+        yield call(AuthService.globalSignOutUser);
+        yield call(AuthService.signOutUser);
+    }
 }
 
 export function* loginSaga() {
-    yield call(init);
+    yield fork(init);
 
     yield takeLatest(loginActions.loginWithPhantomWalletRequested.type, handleLoginWithPhantomWallet);
     yield takeLatest(loginActions.logoutRequested.type, handleLogout);

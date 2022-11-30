@@ -11,6 +11,7 @@ import '@app/styles/font-metain.scss';
 import '@app/styles/rule.scss';
 import '@app/styles/global.scss';
 import { LoginAuthentication } from '@auth/components';
+import { ToastContainer } from 'react-toastify';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode;
@@ -26,6 +27,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     return (
         <ReduxProvider store={appStore}>
             <LoginAuthentication>{getLayout(<Component {...pageProps} />)}</LoginAuthentication>
+            <ToastContainer />
         </ReduxProvider>
     );
 }

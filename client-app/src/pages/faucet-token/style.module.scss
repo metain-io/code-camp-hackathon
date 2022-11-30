@@ -2,6 +2,7 @@
 @import "@app/styles/_mixin.scss";
 
 #faucet_token_wrapper{
+    margin-top: 2.4rem;
     .selectbox {
         &_1 {
             padding: 0 !important;
@@ -22,6 +23,7 @@
     .button {
         &_1 {
             margin-top: 2rem;
+            padding: 0 1.8rem;
         }
     }
 }

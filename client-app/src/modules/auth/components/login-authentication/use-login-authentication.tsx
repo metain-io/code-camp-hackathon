@@ -13,6 +13,8 @@ const PROTECTED_ROUTES = [
     '/dashboard/share-dividends',
 ];
 
+const AUTH_ROUTES = ['/login'];
+
 const useLoginAuthentication = () => {
     const loginStatus = useSelector(selectLoginStatus);
     const router = useRouter();
@@ -27,7 +29,7 @@ const useLoginAuthentication = () => {
             return;
         }
 
-        if (loginStatus == LoginStatus.LoggedIn) {
+        if (loginStatus == LoginStatus.LoggedIn && AUTH_ROUTES.includes(router.route)) {
             const { redirectUrl } = router.query;
             if (redirectUrl) {
                 router.replace(redirectUrl as string);

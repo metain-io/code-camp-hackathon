@@ -222,8 +222,14 @@ function* handleLoginWithPhantomWallet(): any {
     );
 }
 
+function* handleLogout() {
+    yield call(AuthService.signOutUser);
+    yield call(AuthService.globalSignOutUser);
+}
+
 export function* loginSaga() {
     yield call(init);
 
     yield takeLatest(loginActions.loginWithPhantomWalletRequested.type, handleLoginWithPhantomWallet);
+    yield takeLatest(loginActions.logoutRequested.type, handleLogout);
 }

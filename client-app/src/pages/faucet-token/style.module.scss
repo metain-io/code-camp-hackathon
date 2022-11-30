@@ -1,0 +1,27 @@
+@import "@app/styles/_variable.scss";
+@import "@app/styles/_mixin.scss";
+
+#faucet_token_wrapper{
+    .selectbox {
+        &_1 {
+            padding: 0 !important;
+            --dropdownWidth: 30rem !important;
+        }
+    }
+
+    .div {
+        &_1 {
+            // display: flex;
+            // align-items: center;
+            // justify-content: space-between;
+            margin-bottom: 1.8rem;
+            margin-top: 1.8rem;
+        }
+    }
+
+    .button {
+        &_1 {
+            margin-top: 2rem;
+        }
+    }
+}

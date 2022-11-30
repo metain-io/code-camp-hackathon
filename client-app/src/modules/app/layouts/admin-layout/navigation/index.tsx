@@ -39,7 +39,7 @@ const Navigation = () => {
                     {
                         name: 'Token Faucet',
                         icon: 'fms fm-gas-pump',
-                        url: 'vot/building/1',
+                        url: 'faucet-token',
                     },
                 ],
             },
@@ -102,7 +102,7 @@ const Navigation = () => {
         return (
             <li
                 key={`Navigation-Item-2-${key}`}
-                className={[styles.item_2, value?.className, routerArray[2] === urlArray[0] ? styles.active : ''].join(
+                className={[styles.item_2, value?.className, routerArray[1] === urlArray[0] ? styles.active : ''].join(
                     ' ',
                 )}
                 data-tip={!!value.tooltips}

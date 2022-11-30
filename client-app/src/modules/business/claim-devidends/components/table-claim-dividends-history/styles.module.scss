@@ -37,6 +37,8 @@
             padding: 4px 14px;
 
             text-align: center;
+            @include fontSize(1.6rem);
+            font-weight: 500;
             line-height: $heightPerRow;
             white-space: nowrap;
 

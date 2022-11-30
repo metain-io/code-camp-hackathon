@@ -6,15 +6,99 @@ import AuthService from '@auth/services/auth';
 import nacl from 'tweetnacl';
 import bs58 from 'bs58';
 
-function* init() {
+function* init(): any {
     yield put(loginActions.initRequested());
+
+    yield call(resolveGenerator, UserPoolService.syncUserPoolStorage(PoolTypeEnum.CONFIDENT));
+    const [loadedUser, loadUserFromStorageError] = yield call(
+        resolveGenerator,
+        UserPoolService.loadUserFromStorage(PoolTypeEnum.CONFIDENT),
+    );
+
+    if (!loadedUser) {
+        yield put(
+            loginActions.initFinished({
+                status: LoginStatus.NotLogged,
+                username: null,
+            }),
+        );
+
+        return;
+    }
+
+    AuthService.currentUser = loadedUser;
+
+    if (!AuthService.currentUserSessionValid()) {
+        yield put(
+            loginActions.initFinished({
+                status: LoginStatus.NotLogged,
+                username: null,
+            }),
+        );
+
+        return;
+    }
+
+    const username = loadedUser.getUsername();
+
+    const provider = (window as any)?.phantom?.solana;
+
+    if (!provider?.isPhantom) {
+        yield put(
+            loginActions.initFinished({
+                status: LoginStatus.NotLogged,
+                username: null,
+            }),
+        );
+
+        return;
+    }
+
+    const [connectResponse, connectError] = yield call(resolveGenerator, provider.connect());
+
+    if (connectError) {
+        yield put(
+            loginActions.initFinished({
+                status: LoginStatus.NotLogged,
+                username: null,
+            }),
+        );
+
+        return;
+    }
+
+    const walletAccount = connectResponse?.publicKey?.toString();
+
+    if (!walletAccount) {
+        yield put(
+            loginActions.initFinished({
+                status: LoginStatus.NotLogged,
+                username: null,
+            }),
+        );
+
+        return;
+    }
+
+    if (walletAccount.toLowerCase() != username.split('-')[3].toLowerCase()) {
+        yield put(
+            loginActions.initFinished({
+                status: LoginStatus.NotLogged,
+                username: null,
+            }),
+        );
+
+        return;
+    }
 
     yield put(
         loginActions.initFinished({
-            status: LoginStatus.NotLogged,
-            username: null,
+            status: LoginStatus.LoggedIn,
+            username: username,
         }),
     );
+
+    return;
 }
 
 function* handleLoginWithPhantomWallet(): any {
@@ -126,6 +210,10 @@ function* handleLoginWithPhantomWallet(): any {
         yield put(loginActions.loginFailed({ error: new Error('Send challenge answer failed') }));
         return;
     }
+
+    // provider.on('connect', () => {})
+    // provider.on('disconnect', () => {})
+    // provider.on('accountChanged', ( publicKey: any) => {})
 
     yield put(
         loginActions.loginSucceeded({

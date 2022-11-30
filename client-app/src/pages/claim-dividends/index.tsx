@@ -8,7 +8,7 @@ const PageClaimDividends = () => {
         <div className={styles['container']}>
             <h2 className={styles['title']}>Claim Dividends</h2>
 
-            <div className={styles['form-buy-nft-placeholder']} style={{ marginBottom: '20px' }}>
+            <div className={styles['form-buy-nft-placeholder']} style={{ marginBottom: '30px' }}>
                 <FormClaimDividends />
             </div>
 

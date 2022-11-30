@@ -1,4 +1,6 @@
+import { AdminLayout } from '@app/layouts';
 import { FormClaimDividends } from '@business/claim-devidends/components';
+import { ReactElement } from 'react';
 import styles from './styles.module.scss';
 
 const PageClaimDividends = () => {
@@ -11,6 +13,10 @@ const PageClaimDividends = () => {
             </div>
         </div>
     );
+};
+
+PageClaimDividends.getLayout = function getLayout(page: ReactElement) {
+    return <AdminLayout>{page}</AdminLayout>;
 };
 
 export default PageClaimDividends;

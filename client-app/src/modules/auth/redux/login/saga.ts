@@ -26,6 +26,7 @@ function* watchWalletEventChannel(walletProvider: any): any {
                     break;
                 case 'WALLET_DISCONNECT':
                     console.log('wallet-disconnect');
+                    walletEventChannel.close();
                     break;
                 case 'ACCOUNT_CHANGED':
                     const { walletAccount } = payload;
@@ -200,10 +201,9 @@ function* handleLoginWithPhantomWallet(): any {
 }
 
 function* handleLogout() {
-    if (AuthService.currentUser) {
-        yield call([AuthService, AuthService.globalSignOutUser]);
-        yield call([AuthService, AuthService.signOutUser]);
-    }
+    yield call([AuthService, AuthService.globalSignOutUser]);
+    yield call([AuthService, AuthService.signOutUser]);
+    yield call([WalletService, WalletService.disconnect]);
 }
 
 export function* loginSaga() {

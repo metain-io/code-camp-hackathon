@@ -19,6 +19,14 @@ class WalletService {
         return await this._currentWallet.connect(network);
     }
 
+    async disconnect(): Promise<void> {
+        if (!this._currentWallet) {
+            throw new Error('_currentWallet is undefined');
+        }
+
+        return await this._currentWallet.disconnect();
+    }
+
     async signMessage(message: string): Promise<string> {
         if (!this._currentWallet) {
             throw new Error('_currentWallet is undefined');

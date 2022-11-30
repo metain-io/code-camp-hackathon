@@ -28,6 +28,10 @@ export default class PhantomWallet extends BaseWallet {
         return walletAddress;
     }
 
+    async disconnect(): Promise<void> {
+        this.provider.emit('disconnect');
+    }
+
     async signMessage(message: string): Promise<string> {
         const encodedMessage = new TextEncoder().encode(message);
 

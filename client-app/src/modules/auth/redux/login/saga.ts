@@ -80,6 +80,17 @@ function* init(): any {
 
     WalletService.currentWallet = new PhantomWallet();
 
+    if (!WalletService.currentWallet.available) {
+        yield put(
+            loginActions.initFinished({
+                status: LoginStatus.NotLogged,
+                username: null,
+            }),
+        );
+
+        return;
+    }
+
     const [walletAccount, connectError] = yield call(resolveGenerator, WalletService.connect(null));
 
     if (connectError) {
@@ -128,6 +139,17 @@ function* init(): any {
 
 function* handleLoginWithPhantomWallet(): any {
     WalletService.currentWallet = new PhantomWallet();
+
+    if (!WalletService.currentWallet.available) {
+        yield put(
+            loginActions.loginFailed({
+                error: new Error(
+                    `Wallet is not available. Please go to ${WalletService.currentWallet.supportUrl} to install wallet`,
+                ),
+            }),
+        );
+        return;
+    }
 
     const [walletAccount, connectError] = yield call(resolveGenerator, WalletService.connect(null));
 

@@ -26,7 +26,7 @@ const Navigation = () => {
                 children: [
                     {
                         name: 'Dashboard',
-                        icon: 'fms fm-chart-bar',
+                        icon: 'fms fm-th-large',
                         url: 'dashboard',
                         className: '',
                     },

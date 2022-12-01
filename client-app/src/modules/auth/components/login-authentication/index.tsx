@@ -1,4 +1,5 @@
 import { PropsWithChildren } from 'react';
+import { BackdropSpinner } from '..';
 import { useLoginAuthentication } from './use-login-authentication';
 
 type LoginAuthenticationProps = PropsWithChildren<{}>;
@@ -8,7 +9,7 @@ const LoginAuthentication = (props: LoginAuthenticationProps) => {
 
     const { visibleChildren } = useLoginAuthentication();
 
-    return visibleChildren ? <>{children}</> : null;
+    return visibleChildren ? <>{children}</> : <BackdropSpinner />;
 };
 
 export { LoginAuthentication };

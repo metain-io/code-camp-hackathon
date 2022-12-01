@@ -3,59 +3,41 @@ import { call, fork, put, take, takeLatest } from 'redux-saga/effects';
 import { loginActions, LoginStatus } from './slice';
 import UserPoolService, { PoolTypeEnum } from '@auth/services/user-pool';
 import AuthService from '@auth/services/auth';
-import nacl from 'tweetnacl';
-import bs58 from 'bs58';
 import { eventChannel } from 'redux-saga';
 import logger from '@libs/logger';
+import CryptoWallet, { CryptoWalletEvent } from '@crypto-wallet/crypto-wallet';
+import PhantomWallet from '@crypto-wallet/wallet-adapters/phantom-wallet-adapter';
+import WalletService from '@crypto-wallet/services/crypto-wallet-service';
 
-function createWalletEventChannel(provider: any) {
-    return eventChannel((emit) => {
-        const handleConnect = () => {
-            emit({ type: 'WALLET_CONNECT' });
-        };
-
-        const handleDisconnect = () => {
-            emit({ type: 'WALLET_DISCONNECT' });
-        };
-
-        const handleAccountChanged = (publicKey: any) => {
-            emit({ type: 'ACCOUNT_CHANGED', payload: { walletAccount: publicKey.toString() } });
-        };
-
-        provider.on('connect', handleConnect);
-        provider.on('accountChanged', handleAccountChanged);
-        provider.on('disconnect', handleDisconnect);
-
-        return () => {
-            provider.off('connect', handleConnect);
-            provider.off('accountChanged', handleAccountChanged);
-            provider.off('disconnect', handleDisconnect);
-        };
-    });
+function createCryptoWalletEventChannel(cryptoWallet: CryptoWallet) {
+    return eventChannel(cryptoWallet.eventChannelEmitter);
 }
 
-function* watchWalletEventChannel(walletProvider: any): any {
-    const walletEventChannel = yield call(createWalletEventChannel, walletProvider);
+function* watchCryptoWalletEventChannel(walletProvider: any): any {
+    const walletEventChannel = yield call(createCryptoWalletEventChannel, walletProvider);
 
     while (true) {
         try {
             const { type, payload } = yield take(walletEventChannel);
 
             switch (type) {
-                case 'WALLET_CONNECT':
+                case CryptoWalletEvent.WalletConnect:
                     console.log('wallet-connected');
                     break;
-                case 'WALLET_DISCONNECT':
+                case CryptoWalletEvent.WalletDisconnect:
                     console.log('wallet-disconnect');
-                    break;
-                case 'ACCOUNT_CHANGED':
-                    const { walletAccount } = payload;
-                    console.log('account-changed', walletAccount);
+                    walletEventChannel.close();
                     yield put(loginActions.logoutRequested());
+                    break;
+                case CryptoWalletEvent.WalletAccountChanged:
+                    const { walletAccount } = payload;
+                    console.log('wallet-account-changed', walletAccount);
+                    // yield put(loginActions.logoutRequested());
+                    yield put(loginActions.loginWithPhantomWalletRequested());
                     break;
             }
         } catch (error) {
-            logger.error('watchWalletEventChannelError', error);
+            logger.error('watchCryptoWalletEventChannelError', error);
         }
     }
 }
@@ -96,9 +78,9 @@ function* init(): any {
 
     const username = loadedUser.getUsername();
 
-    const provider = (window as any)?.phantom?.solana;
+    WalletService.currentWallet = new PhantomWallet();
 
-    if (!provider?.isPhantom) {
+    if (!WalletService.currentWallet.available) {
         yield put(
             loginActions.initFinished({
                 status: LoginStatus.NotLogged,
@@ -109,7 +91,7 @@ function* init(): any {
         return;
     }
 
-    const [connectResponse, connectError] = yield call(resolveGenerator, provider.connect());
+    const [walletAccount, connectError] = yield call(resolveGenerator, WalletService.connect(null));
 
     if (connectError) {
         yield put(
@@ -121,8 +103,6 @@ function* init(): any {
 
         return;
     }
-
-    const walletAccount = connectResponse?.publicKey?.toString();
 
     if (!walletAccount) {
         yield put(
@@ -154,28 +134,27 @@ function* init(): any {
         }),
     );
 
-    yield fork(watchWalletEventChannel, provider);
+    yield fork(watchCryptoWalletEventChannel, WalletService.currentWallet);
 }
 
 function* handleLoginWithPhantomWallet(): any {
-    const provider = (window as any)?.phantom?.solana;
+    WalletService.currentWallet = new PhantomWallet();
 
-    if (!provider?.isPhantom) {
-        yield put(loginActions.loginFailed({ error: new Error('Wallet cannot be detected') }));
+    if (!WalletService.currentWallet.available) {
+        yield put(
+            loginActions.loginFailed({
+                error: new Error(
+                    `Wallet is not available. Please go to <a>${WalletService.currentWallet.downloadUrl}</a> to install wallet`,
+                ),
+            }),
+        );
         return;
     }
 
-    const [connectResponse, connectError] = yield call(resolveGenerator, provider.connect());
+    const [walletAccount, connectError] = yield call(resolveGenerator, WalletService.connect(null));
 
     if (connectError) {
         yield put(loginActions.loginFailed({ error: new Error('Connect failed') }));
-        return;
-    }
-
-    const walletAccount = connectResponse?.publicKey?.toString();
-
-    if (!walletAccount) {
-        yield put(loginActions.loginFailed({ error: new Error('Connect get wallet account') }));
         return;
     }
 
@@ -213,44 +192,12 @@ function* handleLoginWithPhantomWallet(): any {
 
     const message = authenticateUserResult.customChallange.challengeParameters.message;
 
-    const encodedMessage = new TextEncoder().encode(message);
-
-    const [signMessageResult, signMessageError] = yield call(
-        resolveGenerator,
-        provider.signMessage(encodedMessage, 'utf8'),
-    );
+    const [challengeAnswer, signMessageError] = yield call(resolveGenerator, WalletService.signMessage(message));
 
     if (signMessageError) {
         yield put(loginActions.loginFailed({ error: new Error('Sign message failed') }));
         return;
     }
-
-    const { signature, publicKey } = signMessageResult;
-
-    const [signatureVerified, verifySignatureError] = yield call(
-        resolveGenerator,
-        new Promise((resolve, reject) => {
-            try {
-                resolve(
-                    nacl.sign.detached.verify(Uint8Array.from(Buffer.from(message)), signature, publicKey.toBuffer()),
-                );
-            } catch (error) {
-                reject(error);
-            }
-        }),
-    );
-
-    if (verifySignatureError) {
-        yield put(loginActions.loginFailed({ error: new Error('Verify signature error') }));
-        return;
-    }
-
-    if (!signatureVerified) {
-        yield put(loginActions.loginFailed({ error: new Error('Verify signature failed') }));
-        return;
-    }
-
-    const challengeAnswer = `${publicKey.toString()}|${bs58.encode(signature)}`;
 
     const [sendChallengeAnswerResult, sendChallengeAnswerError] = yield call(
         resolveGenerator,
@@ -274,13 +221,17 @@ function* handleLoginWithPhantomWallet(): any {
         }),
     );
 
-    yield fork(watchWalletEventChannel, provider);
+    yield fork(watchCryptoWalletEventChannel, WalletService.currentWallet);
 }
 
 function* handleLogout() {
     if (AuthService.currentUser) {
         yield call([AuthService, AuthService.globalSignOutUser]);
         yield call([AuthService, AuthService.signOutUser]);
+    }
+
+    if (WalletService.currentWallet) {
+        yield call([WalletService, WalletService.disconnect]);
     }
 }
 

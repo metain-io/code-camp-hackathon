@@ -20,6 +20,7 @@
             "@auth/*": ["modules/auth/*"],
             "@business/*": ["modules/business/*"],
             "@api/*": ["modules/api/*"],
+            "@crypto-wallet/*": ["modules/crypto-wallet/*"],
             "@libs/*": ["libs/*"],
             "@shared/*": ["shared/*"]
         }

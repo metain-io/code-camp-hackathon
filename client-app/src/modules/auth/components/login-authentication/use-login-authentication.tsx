@@ -21,7 +21,12 @@ const useLoginAuthentication = () => {
     const router = useRouter();
 
     React.useEffect(() => {
-        if (loginStatus == LoginStatus.NotLogged && PROTECTED_ROUTES.includes(router.route)) {
+        if (
+            (loginStatus == LoginStatus.NotLogged ||
+                loginStatus == LoginStatus.AuthenticateFailed ||
+                loginStatus == LoginStatus.InitializeFailed) &&
+            PROTECTED_ROUTES.includes(router.route)
+        ) {
             if (router.route != '/') {
                 router.replace('/login?redirectUrl=' + window.location.href);
             } else {

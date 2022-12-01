@@ -3,7 +3,7 @@ import Select, { components } from "react-select";
 
 import styles from "./style.module.scss";
 
-declare namespace SelectBox_Component {
+export declare namespace SelectBox_Component {
 	export interface Value {
 		value: string;
 		label: string;

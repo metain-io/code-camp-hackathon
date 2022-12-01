@@ -1,12 +1,13 @@
 import { AdminLayout } from '@app/layouts';
 import { ReactElement } from 'react';
-import styles from './styles.module.scss';
+// import styles from './styles.module.scss';
 
 const PageOpportunityTrustPortfolio = () => {
     return (
-        <div className={styles['container']}>
-            <h2 className={styles['title']}>VOT1...</h2>
-        </div>
+        // <div className={styles['container']}>
+        // <h2 className={styles['title']}>VOT1...</h2>
+        // </div>
+        <></>
     );
 };
 

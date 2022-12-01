@@ -33,7 +33,7 @@ const Navigation = () => {
                     {
                         name: 'VOT1',
                         icon: 'fms fm-building',
-                        url: 'buy-nft',
+                        url: 'vot-1',
                         className: '',
                     },
                     {
@@ -56,7 +56,7 @@ const Navigation = () => {
                 ],
             },
             {
-                title: 'Tools',
+                title: 'Utilities',
                 children: [
                     {
                         name: 'Token Faucet',

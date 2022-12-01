@@ -1,12 +1,3 @@
-import { MainLayout } from '@app/layouts';
-import PageWelcome from './welcome';
+import PageDashboard from './dashboard';
 
-const Page = () => {
-    return (
-        <MainLayout>
-            <PageWelcome />
-        </MainLayout>
-    );
-};
-
-export default Page;
+export default PageDashboard;

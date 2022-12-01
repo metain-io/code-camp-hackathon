@@ -1,0 +1,184 @@
+{
+    "VOT1": {
+        "id": "VOT1",
+        "name": "TDX Building",
+        "type": "CBD - HCMC, Vietnam",
+        "address": "42/4A Tran Dinh Xu Street, Co Giang Ward, District 1",
+        "price": 1970000,
+        "targetRaise": 1970000,
+        "valuationDate": 1660780800000,
+        "expectedNetRentalYield": 3.29,
+        "expectedPropertyValueAppreciation": 18.9,
+        "holdingTimes": "5 years +1 +1",
+        "operateStatus": "Operating",
+        "imageUrls": [
+            "/image/vot/tdx-building-image-1.jpeg",
+            "/image/vot/tdx-building-image-2.jpeg",
+            "/image/vot/tdx-building-image-3.jpeg",
+            "/image/vot/tdx-building-image-4.jpeg",
+            "/image/vot/tdx-building-image-5.jpeg",
+            "/image/vot/tdx-building-image-6.jpeg"
+        ],
+        "partnerResponsibilitiess": [
+            {
+                "name": "Audit",
+                "partners": [
+                    {
+                        "name": "Deloitte",
+                        "imageUrl": "/svg/logo-partner-deloitte.svg"
+                    }
+                ]
+            },
+            {
+                "name": "Valuation",
+                "partners": [
+                    {
+                        "name": "CBRE",
+                        "imageUrl": "/svg/logo-partner-cbre.svg"
+                    }
+                ]
+            },
+            {
+                "name": "Legit Advisor",
+                "partners": [
+                    {
+                        "name": "Morgan Lewis",
+                        "imageUrl": "/svg/logo-partner-morganlewis.svg"
+                    }
+                ]
+            },
+            {
+                "name": "Smartcontract Audit",
+                "partners": [
+                    {
+                        "name": "Certik",
+                        "imageUrl": "/svg/logo-partner-certik.svg"
+                    },
+                    {
+                        "name": "Verichain",
+                        "imageUrl": "/svg/logo-partner-verichain.svg"
+                    }
+                ]
+            }
+        ],
+        "documents": [
+            {
+                "name": "Land Certificate",
+                "href": "/docs/TDX-Land-Certificate.pdf"
+            },
+            {
+                "name": "Valuation paper",
+                "href": "/docs/TDX-Valuation-Paper.pdf"
+            },
+            {
+                "name": "Layout Plan",
+                "href": "/docs/TDX-Layout.pdf"
+            },
+            {
+                "name": "Finance & Tax",
+                "href": "#"
+            },
+            {
+                "name": "Perf. Report",
+                "href": "/docs/TDX-Performance-Report.pdf"
+            },
+            {
+                "name": "Audit Report",
+                "href": "https://www.verichains.io/?search=metain+reit"
+            }
+        ],
+        "description": "Nestled in a peaceful alley surrounding by tourism district, 10 mins walks to Bui Vien walkstreet and Ben Thanh Market, Tran Dinh Xu Apartment Building located at 42/2 Tran Dinh Xu street, Ward Co Giang, District 1, HCMC. It offers a good quality apartment services in CBD area. The project is 5 storeys with floor area 486.3sqm , provides 23 elegantly furnished serviced apartments and surrounded by a plenty of facilities such as a restaurant, residents’ lounge, fitness center, retail shops, nightlife walking street. its central location also offers convenient access to HCMC’s central business district, government offices and embassies.",
+        "highlightProperties": [
+            {
+                "name": "Land area",
+                "content": "144.2 sqm"
+            },
+            {
+                "name": "Rental Type",
+                "content": "Apartment for lease"
+            },
+            {
+                "name": "Land tenure",
+                "content": "Freehold"
+            },
+            {
+                "name": "Avg. Occupancy",
+                "content": "> 90%"
+            },
+            {
+                "name": "Property Type",
+                "content": "Landed Redidences"
+            },
+            {
+                "name": "Rental income Payment inteval",
+                "content": "Quarterly"
+            },
+            {
+                "name": "GFA",
+                "content": "468.3 sqm"
+            },
+            {
+                "name": "NFT Price",
+                "content": "$10.00"
+            },
+            {
+                "name": "NFA",
+                "content": "468.3 sqm"
+            },
+            {
+                "name": "Fix Total NFT Supply",
+                "content": "197,000"
+            },
+            {
+                "name": "Number of units",
+                "content": "23"
+            },
+            {
+                "name": "Portfolio value",
+                "content": "$1,970,000"
+            },
+            {
+                "name": "Construction Year",
+                "content": "2019"
+            }
+        ],
+        "roadmap": [
+            {
+                "title": "Pre Order",
+                "startDate": "2022-08-18",
+                "endDate": "2022-08-18",
+                "timeLabel": "2022-08-18"
+            },
+            {
+                "title": "Private Offering",
+                "startDate": "2022-09-16",
+                "endDate": "2022-09-16",
+                "timeLabel": "2022-09-16"
+            },
+            {
+                "title": "INO",
+                "startDate": "2023-01-01",
+                "endDate": "2023-01-31",
+                "timeLabel": "Q1 2023"
+            },
+            {
+                "title": "Aquiring & Renovation",
+                "startDate": "2023-02-01",
+                "endDate": "2023-02-28",
+                "timeLabel": "Q1 2023"
+            },
+            {
+                "title": "Start Operation",
+                "startDate": "2023-03-01",
+                "endDate": "2023-03-31",
+                "timeLabel": "Q1 2023"
+            }
+        ],
+        "mapMarker": {
+            "lat": 10.760095095280906,
+            "long": 106.69241845499067,
+            "iconUrl": "marker",
+            "title": "TDX Buildings"
+        }
+    }
+}

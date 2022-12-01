@@ -9,6 +9,7 @@ export default abstract class CryptoWallet {
     abstract get walletAccount(): string | undefined;
     abstract get available(): boolean;
     abstract get supportUrl(): string | undefined;
+    abstract get downloadUrl(): string | undefined;
     abstract connect(network: any): Promise<string>;
     abstract disconnect(): Promise<void>;
     abstract signMessage(message: string): Promise<string>;

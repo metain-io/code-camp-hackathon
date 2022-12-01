@@ -144,7 +144,7 @@ function* handleLoginWithPhantomWallet(): any {
         yield put(
             loginActions.loginFailed({
                 error: new Error(
-                    `Wallet is not available. Please go to ${WalletService.currentWallet.supportUrl} to install wallet`,
+                    `Wallet is not available. Please go to <a>${WalletService.currentWallet.downloadUrl}</a> to install wallet`,
                 ),
             }),
         );

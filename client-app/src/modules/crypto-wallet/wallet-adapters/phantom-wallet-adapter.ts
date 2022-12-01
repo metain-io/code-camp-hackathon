@@ -26,6 +26,10 @@ export default class PhantomWallet extends CryptoWallet {
         return undefined;
     }
 
+    get downloadUrl(): string | undefined {
+        return 'https://phantom.app/download';
+    }
+
     async connect(network: any): Promise<string> {
         const connectResult = await this._provider.connect();
 

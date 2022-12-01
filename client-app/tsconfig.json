@@ -21,6 +21,7 @@
             "@business/*": ["modules/business/*"],
             "@api/*": ["modules/api/*"],
             "@crypto-wallet/*": ["modules/crypto-wallet/*"],
+            "@opportunity-trust-portfolio/*": ["modules/opportunity-trust-portfolio/*"],
             "@libs/*": ["libs/*"],
             "@shared/*": ["shared/*"]
         }

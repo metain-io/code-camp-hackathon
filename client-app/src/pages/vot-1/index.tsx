@@ -4,10 +4,14 @@ import { ReactElement } from 'react';
 
 const PageOpportunityTrustPortfolio = () => {
     return (
-        // <div className={styles['container']}>
-        // <h2 className={styles['title']}>VOT1...</h2>
-        // </div>
-        <></>
+        <div className="mBreadcrumb-style-4 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div className="div_1">
+                <span className="span_1">VOT1: TDX Building</span>
+                <span className="mTag span_2" data-status="successfull">
+                    Total Return: Est 15-25% APY
+                </span>
+            </div>
+        </div>
     );
 };
 

@@ -8,11 +8,11 @@ const Content = (props: ContentProps) => {
 
     return (
         <div id={styles.content_wrapper} className="container-fluid">
-            <div id={styles.row_1} className="row">
-                <div id={styles.column_4} className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    {children}
-                </div>
-            </div>
+            {/* <div id={styles.row_1} className="row"> */}
+            {/* <div id={styles.column_4} className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"> */}
+            {children}
+            {/* </div> */}
+            {/* </div> */}
         </div>
     );
 };

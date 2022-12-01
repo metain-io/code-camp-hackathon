@@ -1,0 +1,16 @@
+@import "@app/styles/_variable.scss";
+@import "@app/styles/_mixin.scss";
+
+.pwChart.simple_line {
+	display: flex;
+	justify-content: flex-end;
+	width: var(--width);
+	height: var(--height);
+
+	canvas {
+		max-width: 100%;
+		max-height: 100%;
+	}
+}
+
+/* Responsive *************************************************************************************************************************************************/

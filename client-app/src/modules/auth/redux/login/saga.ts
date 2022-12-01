@@ -5,37 +5,39 @@ import UserPoolService, { PoolTypeEnum } from '@auth/services/user-pool';
 import AuthService from '@auth/services/auth';
 import { eventChannel } from 'redux-saga';
 import logger from '@libs/logger';
-import BaseWallet from '@crypto-wallet/base-wallet';
+import CryptoWallet, { CryptoWalletEvent } from '@crypto-wallet/crypto-wallet';
 import PhantomWallet from '@crypto-wallet/wallet-adapters/phantom-wallet-adapter';
-import WalletService from '@crypto-wallet/services/wallet-service';
+import WalletService from '@crypto-wallet/services/crypto-wallet-service';
 
-function createWalletEventChannel(wallet: BaseWallet) {
-    return eventChannel(wallet.registerEventChannel);
+function createCryptoWalletEventChannel(cryptoWallet: CryptoWallet) {
+    return eventChannel(cryptoWallet.eventChannelEmitter);
 }
 
-function* watchWalletEventChannel(walletProvider: any): any {
-    const walletEventChannel = yield call(createWalletEventChannel, walletProvider);
+function* watchCryptoWalletEventChannel(walletProvider: any): any {
+    const walletEventChannel = yield call(createCryptoWalletEventChannel, walletProvider);
 
     while (true) {
         try {
             const { type, payload } = yield take(walletEventChannel);
 
             switch (type) {
-                case 'WALLET_CONNECT':
+                case CryptoWalletEvent.WalletConnect:
                     console.log('wallet-connected');
                     break;
-                case 'WALLET_DISCONNECT':
+                case CryptoWalletEvent.WalletDisconnect:
                     console.log('wallet-disconnect');
                     walletEventChannel.close();
-                    break;
-                case 'ACCOUNT_CHANGED':
-                    const { walletAccount } = payload;
-                    console.log('account-changed', walletAccount);
                     yield put(loginActions.logoutRequested());
+                    break;
+                case CryptoWalletEvent.WalletAccountChanged:
+                    const { walletAccount } = payload;
+                    console.log('wallet-account-changed', walletAccount);
+                    // yield put(loginActions.logoutRequested());
+                    yield put(loginActions.loginWithPhantomWalletRequested());
                     break;
             }
         } catch (error) {
-            logger.error('watchWalletEventChannelError', error);
+            logger.error('watchCryptoWalletEventChannelError', error);
         }
     }
 }
@@ -121,7 +123,7 @@ function* init(): any {
         }),
     );
 
-    yield fork(watchWalletEventChannel, WalletService.currentWallet);
+    yield fork(watchCryptoWalletEventChannel, WalletService.currentWallet);
 }
 
 function* handleLoginWithPhantomWallet(): any {
@@ -197,13 +199,18 @@ function* handleLoginWithPhantomWallet(): any {
         }),
     );
 
-    yield fork(watchWalletEventChannel, WalletService.currentWallet);
+    yield fork(watchCryptoWalletEventChannel, WalletService.currentWallet);
 }
 
 function* handleLogout() {
-    yield call([AuthService, AuthService.globalSignOutUser]);
-    yield call([AuthService, AuthService.signOutUser]);
-    yield call([WalletService, WalletService.disconnect]);
+    if (AuthService.currentUser) {
+        yield call([AuthService, AuthService.globalSignOutUser]);
+        yield call([AuthService, AuthService.signOutUser]);
+    }
+
+    if (WalletService.currentWallet) {
+        yield call([WalletService, WalletService.disconnect]);
+    }
 }
 
 export function* loginSaga() {

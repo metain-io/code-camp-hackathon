@@ -1,9 +1,9 @@
-import BaseWallet from '../base-wallet';
+import CryptoWallet from '../crypto-wallet';
 
-class WalletService {
-    _currentWallet?: BaseWallet;
+class CryptoWalletService {
+    _currentWallet?: CryptoWallet;
 
-    set currentWallet(wallet: BaseWallet | undefined) {
+    set currentWallet(wallet: CryptoWallet | undefined) {
         this._currentWallet = wallet;
     }
 
@@ -36,4 +36,4 @@ class WalletService {
     }
 }
 
-export default new WalletService();
+export default new CryptoWalletService();

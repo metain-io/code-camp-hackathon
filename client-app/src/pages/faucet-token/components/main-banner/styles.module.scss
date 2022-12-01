@@ -1,0 +1,309 @@
+@import "@app/styles/_variable.scss";
+@import "@app/styles/_mixin.scss";
+
+#main-project-info-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3.2rem 2.4rem;
+    margin-bottom: 2.4rem;
+    background: linear-gradient(156.49deg, #1ea2ff -88.92%, #002393 67.76%);
+
+    .span {
+        &_1 {
+            margin-bottom: 2.4rem;
+            color: $colorNeutral1;
+            @include fontSize(3.2rem);
+            font-weight: 700;
+            white-space: pre-wrap;
+        }
+
+        &_2 {
+            margin-bottom: 1.2rem;
+            color: $colorSecondary4;
+            @include fontSize(1.8rem);
+            font-weight: 700;
+        }
+
+        &_3 {
+            color: $colorNeutral1;
+            @include fontSize(1.4rem);
+        }
+
+        &_4,
+        &_5 {
+            color: $colorNeutral1;
+            @include fontSize(1.4rem);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        &_4 {
+            position: absolute;
+            top: 0;
+            right: calc(50% + 2.8rem);
+            width: max-content;
+        }
+
+        &_5 {
+            position: absolute;
+            bottom: 0;
+            left: calc(50% + 1.6rem);
+        }
+
+        &_6 {
+            color: $colorNeutral1;
+            @include fontSize(2.4rem);
+            font-weight: 700;
+        }
+
+        &_7 {
+            color: $colorPrimary3;
+            @include fontSize(1.2rem);
+            font-weight: 500;
+        }
+
+        &_8 {
+            margin-bottom: 0.4rem;
+            color: $colorNeutral4;
+            @include fontSize(1.2rem);
+        }
+
+        &_9 {
+            @include fontSize(1.8rem);
+            font-weight: 700;
+        }
+    }
+
+    .list {
+        &_1 {
+            margin-bottom: 2.4rem;
+            color: $colorNeutral1;
+
+            @include fontSize(1.4rem);
+
+            b {
+                font-weight: 400 !important;
+            }
+        }
+    }
+
+    .listTutorialSteps {
+        margin-bottom: 2.4rem;
+        color: $colorNeutral1;
+        list-style: none;
+        padding: 0;
+
+        @include fontSize(1.4rem);
+
+        .tutorialStep {
+        }
+
+        .tutorialStepHeader {
+            margin-bottom: 2px;
+
+            font-style: normal;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 20px;
+            text-transform: uppercase;
+
+            color: #ffffff;
+        }
+
+        .tutorialStepBullet {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border: 1px solid #fff;
+            border-radius: 12px;
+            margin-right: 8px;
+        }
+
+        .tutorialStepContent {
+            width: 100%;
+            padding-left: 32px;
+
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 18px;
+
+            color: $colorNeutral3;
+        }
+    }
+
+    .image {
+        &_1 {
+            width: 30rem;
+            height: 30rem;
+        }
+    }
+
+    .button {
+        &_1 {
+            width: 25rem;
+            height: 3.8rem;
+            @include fontSize(1.4rem);
+            font-weight: 500;
+            text-decoration: none;
+        }
+    }
+
+    .item {
+        &_1 {
+            display: flex;
+            flex: 0 0 calc(100% / 3);
+            flex-direction: column;
+
+            &:last-of-type {
+                .span_8,
+                .span_9 {
+                    color: $colorRed6;
+                }
+            }
+        }
+    }
+
+    .div {
+        &_1 {
+            display: flex;
+            flex: 0 0 50%;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        &_2 {
+            display: flex;
+            justify-content: center;
+            flex: 0 0 30rem;
+            position: relative;
+        }
+
+        &_3 {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            text-align: center;
+            transform: translate(-60%, -50%);
+        }
+
+        &_4 {
+            display: flex;
+            flex: 0 0 100%;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1.6rem;
+            margin-top: 3.6rem;
+            color: $colorNeutral1;
+            border-top: 1px solid rgba($colorNeutral1, 0.2);
+        }
+    }
+}
+
+@media screen and (max-width: 1340px) {
+    #main-project-info-banner {
+        justify-content: center;
+
+        .span {
+            &_1 {
+                margin-bottom: 1.6rem;
+                @include fontSize(2.4rem);
+                white-space: nowrap;
+            }
+
+            &_2 {
+                margin-bottom: 0.8rem;
+                @include fontSize(1.6rem);
+            }
+
+            &_3 {
+                @include fontSize(1.6rem);
+            }
+
+            &_9 {
+                @include fontSize(1.6rem);
+            }
+        }
+
+        .button {
+            &_1 {
+                width: 100%;
+            }
+        }
+
+        .div {
+            &_1 {
+                order: 2;
+                flex: 0 0 100%;
+            }
+
+            &_2 {
+                order: 1;
+                margin-bottom: 2.4rem;
+            }
+
+            &_4 {
+                order: 3;
+                margin-top: 2.4rem;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 700px) and (max-width: 900px) {
+    #main-project-info-banner {
+        .image {
+            &_1 {
+                width: 25rem;
+                height: 25rem;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 700px) and (max-width: 900px), screen and (max-width: 480px) {
+    #main-project-info-banner {
+        .item {
+            &_1 {
+                flex: 0 0 50%;
+                margin: 0.4rem 0;
+
+                &:nth-of-type(3) {
+                    margin-top: 0.8rem;
+                }
+            }
+        }
+
+        .div {
+            &_2 {
+                flex: 0 0 25rem;
+            }
+
+            &_4 {
+                flex-wrap: wrap;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 700px) {
+    #main-project-info-banner {
+        margin-bottom: 1.6rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #main-project-info-banner {
+        .span {
+            &_3 {
+                @include fontSize(1.4rem);
+            }
+        }
+    }
+}

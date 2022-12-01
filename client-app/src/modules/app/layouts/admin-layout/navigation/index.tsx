@@ -53,11 +53,6 @@ const Navigation = () => {
                         url: 'share-dividend',
                         className: hasClaimableREIT ? styles.notify_error : '',
                     },
-                    {
-                        name: 'Token Faucet',
-                        icon: 'fms fm-gas-pump',
-                        url: 'faucet-token',
-                    },
                 ],
             },
             {

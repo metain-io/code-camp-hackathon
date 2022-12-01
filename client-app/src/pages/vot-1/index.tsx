@@ -24,7 +24,7 @@ const PageOpportunityTrustPortfolio = () => {
                     <div id={styles.info_wrapper} className="mBackground-style-1">
                         <Summary />
                         <Gallery />
-                        <Partners />
+                        {/* <Partners /> */}
                     </div>
 
                     <div className={[styles.block_1, 'mBlock'].join(' ')}>

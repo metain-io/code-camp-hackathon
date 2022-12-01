@@ -2,6 +2,7 @@ export enum CryptoWalletEvent {
     WalletConnect = 'WALLET_CONNECT',
     WalletDisconnect = 'WALLET_DISCONNECT',
     WalletAccountChanged = 'WALLET_ACCOUNT_CHANGED',
+    WalletNetworkChanged = 'WALLET_NETWORK_CHANGED',
 }
 
 export default abstract class CryptoWallet {

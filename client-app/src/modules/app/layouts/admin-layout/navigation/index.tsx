@@ -22,24 +22,19 @@ const Navigation = () => {
     const menuList = React.useMemo(() => {
         let result: Array<any> = [
             {
-                title: 'Client Menu',
+                title: 'Client',
                 children: [
                     {
                         name: 'Dashboard',
-                        icon: 'fms fm-building',
+                        icon: 'fms fm-chart-bar',
                         url: 'dashboard',
-                        className: hasClaimableREIT ? styles.notify_error : '',
-                    },
-                    {
-                        name: 'Buy NFT',
-                        icon: 'fms fm-arrow-square-right',
-                        url: 'buy-nft',
                         className: '',
                     },
                     {
-                        name: 'Token Faucet',
-                        icon: 'fms fm-gas-pump',
-                        url: 'faucet-token',
+                        name: 'VOT1',
+                        icon: 'fms fm-building',
+                        url: 'buy-nft',
+                        className: '',
                     },
                     {
                         name: 'Claim Dividends',
@@ -50,13 +45,23 @@ const Navigation = () => {
                 ],
             },
             {
-                title: 'Server Menu',
+                title: 'Admin',
                 children: [
                     {
                         name: 'Share Dividend',
                         icon: 'fms fm-usd-circle',
                         url: 'share-dividend',
                         className: hasClaimableREIT ? styles.notify_error : '',
+                    },
+                ],
+            },
+            {
+                title: 'Tools',
+                children: [
+                    {
+                        name: 'Token Faucet',
+                        icon: 'fms fm-gas-pump',
+                        url: 'faucet-token',
                     },
                 ],
             },

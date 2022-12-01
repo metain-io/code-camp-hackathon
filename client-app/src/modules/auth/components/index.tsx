@@ -3,3 +3,4 @@ export * from './button-connect-phantom-wallet';
 export * from './login-authentication';
 export * from './wallet-address';
 export * from './button-logout';
+export * from './backdrop-spinner';

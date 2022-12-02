@@ -1,0 +1,203 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+$blockHeight: 35rem;
+$blockGap: 0.6rem;
+
+.otp-detail-summary {
+    display: flex;
+    flex-direction: column;
+
+    .span {
+        &_1 {
+            height: 3.2rem;
+            @include fontSize(2.4rem);
+            font-weight: 700;
+        }
+
+        &_2 {
+            height: 2.4rem;
+            color: $colorPrimary1;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        &_3 {
+            height: 2rem;
+            color: $colorPrimary2;
+            @include fontSize(1.4rem);
+            text-align: right;
+        }
+
+        &_4 {
+            margin-bottom: 0.8rem;
+            color: $colorPrimary1;
+            @include fontSize(1.2rem);
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        &_5 {
+            @include fontSize(1.8rem);
+            font-weight: 700;
+        }
+
+        &_6 {
+            color: $colorPrimary1;
+            @include fontSize(1.2rem);
+        }
+
+        &_7 {
+            color: $colorGreen6;
+            @include fontSize(4rem);
+        }
+
+        &_8 {
+            @include fontSize(1.2rem);
+        }
+    }
+
+    .div {
+        &_1 {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 2rem;
+            height: 4.6rem;
+        }
+
+        &_2 {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem;
+            // margin-bottom: 2rem;
+            background: rgba($colorPrimary7, 0.4);
+            backdrop-filter: blur(0.8rem);
+            border: 1px solid $colorSecondary7;
+            border-radius: 0.8rem;
+        }
+
+        &_3 {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            &.border_left {
+                padding-left: 2.4rem;
+                border-left: 1px solid rgba($colorNeutral5, 0.5);
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 900px) and (max-width: 1300px) {
+    .otp-detail-summary {
+        .span {
+            &_5 {
+                @include fontSize(1.6rem);
+            }
+
+            &_4,
+            &_6,
+            &_8 {
+                @include fontSize(1rem);
+            }
+
+            &_7 {
+                @include fontSize(3.6rem);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .otp-detail-summary {
+        .span {
+            &_1,
+            &_2,
+            &_3 {
+                width: 100%;
+                text-align: left;
+            }
+
+            &_1 {
+                margin-bottom: 1.6rem;
+            }
+
+            &_3 {
+                height: auto;
+            }
+        }
+
+        .div {
+            &_1 {
+                flex-direction: row;
+                height: auto;
+            }
+
+            &_4 {
+                flex-direction: row;
+                position: relative;
+                height: auto;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 900px) and (max-width: 992px) {
+    .otp-detail-summary {
+        .span {
+            &_8 {
+                display: flex;
+                flex: 1 0 auto;
+            }
+        }
+
+        .div {
+            &_3 {
+                width: calc(100% / 3);
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 700px) and (max-width: 900px), screen and (max-width: 650px) {
+    .otp-detail-summary {
+        .span {
+            &_4 {
+                width: 100%;
+            }
+
+            &_7 {
+                @include fontSize(3.6rem);
+            }
+
+            &_8 {
+                flex: 1 0 auto;
+            }
+        }
+
+        .div {
+            &_2 {
+                flex-wrap: wrap;
+            }
+
+            &_3 {
+                padding-left: 0 !important;
+                width: calc(50% - 0.8rem) !important;
+                border: 0 !important;
+
+                &:first-of-type {
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    padding-bottom: 1.6rem;
+                    margin-bottom: 1.6rem;
+                    width: 100% !important;
+                    border-bottom: 1px solid rgba($colorNeutral1, 0.2) !important;
+                }
+            }
+        }
+    }
+}

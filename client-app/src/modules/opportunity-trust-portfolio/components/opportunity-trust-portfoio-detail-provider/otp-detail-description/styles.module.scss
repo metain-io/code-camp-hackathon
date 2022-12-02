@@ -1,0 +1,24 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+.otp-detail-description {
+    display: flex;
+    flex-wrap: wrap;
+
+    .span {
+        &_2 {
+            width: 100%;
+            color: $colorNeutral9;
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .otp-detail-description {
+        .span {
+            &_2 {
+                @include fontSize(1.4rem);
+            }
+        }
+    }
+}

@@ -1,0 +1,115 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+.otp-detail-documents {
+    margin-left: -1.6rem;
+
+    .item {
+        width: calc(100% / 3 - 1.6rem);
+
+        display: inline-flex;
+        align-items: center;
+
+        padding: 0.6rem 1.4rem;
+        margin: 0.8rem 0;
+        margin-left: 1.6rem;
+
+        border: 1px solid $colorPrimary5;
+        border-radius: 0.8rem;
+
+        &_icon {
+            margin-right: 0.6rem;
+        }
+
+        &_label {
+            white-space: nowrap;
+            font-size: 1.4rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+    }
+}
+
+// @media screen and (min-width: 992px) and (max-width: 1400px), screen and (min-width: 600px) and (max-width: 700px) {
+// .otp-detail-documents {
+//     .item {
+//         width: calc(100% / 2 - 1.6rem);
+
+//         &_label {
+//             font-size: 1.2rem;
+//         }
+//     }
+// }
+// }
+
+@media screen and (min-width: 800px) and (max-width: 992px), screen and (min-width: 420px) and (max-width: 600px) {
+    .otp-detail-documents {
+        .item {
+            width: calc(100% / 2 - 1.6rem);
+
+            &_label {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 700px) and (max-width: 800px), screen and (max-width: 420px) {
+    .otp-detail-documents {
+        .item {
+            width: calc(100% / 2 - 1.6rem);
+
+            &_label {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 340px) {
+    .otp-detail-documents {
+        .item {
+            width: calc(100% / 2 - 1.6rem);
+
+            &_label {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
+
+// @media screen and (min-width: 1200px) and (max-width: 1240px) {
+// .otp-detail-documents {
+//     .item {
+//         width: calc(100% / 2 - 1.6rem);
+
+//         &_label {
+//             font-size: 1.2rem;
+//         }
+//     }
+// }
+// }
+
+// @media screen and (min-width: 1400px) and (max-width: 1480px) {
+// .otp-detail-documents {
+//     .item {
+//         width: calc(100% / 2 - 1.6rem);
+
+//         &_label {
+//             font-size: 1.2rem;
+//         }
+//     }
+// }
+// }
+
+@media screen and (max-width: 700px) {
+    .otp-detail-documents {
+        .item {
+            width: calc(100% / 2 - 1.6rem);
+
+            &_label {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}

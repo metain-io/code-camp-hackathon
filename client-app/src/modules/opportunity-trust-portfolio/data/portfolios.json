@@ -48,7 +48,7 @@
                 ]
             },
             {
-                "name": "Smartcontract Audit",
+                "name": "Smart Contract Audit",
                 "partners": [
                     {
                         "name": "Certik",
@@ -174,11 +174,6 @@
                 "timeLabel": "Q1 2023"
             }
         ],
-        "mapMarker": {
-            "lat": 10.760095095280906,
-            "long": 106.69241845499067,
-            "iconUrl": "marker",
-            "title": "TDX Buildings"
-        }
+        "mapUrl": "https://www.google.com/maps/d/u/1/embed?mid=1t-0oVYXvgrPMQmNlfx12YO_UxXxqoq8&ehbc=2E312F"
     }
 }

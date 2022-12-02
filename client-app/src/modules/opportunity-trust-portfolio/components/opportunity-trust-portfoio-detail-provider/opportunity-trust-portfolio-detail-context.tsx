@@ -35,12 +35,7 @@ type OpportunityTrustPortfolioDetailContextState = {
         endDate: string;
         timeLabel: string;
     }>;
-    mapMarker: {
-        lat: number;
-        long: number;
-        iconUrl: string;
-        title: string;
-    };
+    mapUrl: string;
 };
 
 const OpportunityTrustPortfolioDetailContext = React.createContext({} as OpportunityTrustPortfolioDetailContextState);

@@ -19,3 +19,12 @@ const OpportunityTrustPortfolioDetailProvider = (props: OpportunityTrustPortfoli
 };
 
 export { OpportunityTrustPortfolioDetailProvider };
+export * from './otp-detail-summary';
+export * from './otp-detail-gallery';
+export * from './otp-detail-partners';
+export * from './otp-detail-documents';
+export * from './otp-detail-description';
+export * from './otp-detail-highlight-properties';
+export * from './otp-detail-highlight-properties';
+export * from './otp-detail-roadmap';
+export * from './otp-detail-map';

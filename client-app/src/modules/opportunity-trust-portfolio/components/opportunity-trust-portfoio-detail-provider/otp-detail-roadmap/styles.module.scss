@@ -1,0 +1,191 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+.otp-detail-roadmap {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+
+    .span {
+        &_1 {
+            margin-bottom: 1.2rem;
+            width: 100%;
+            color: $colorPrimary10;
+            font-weight: 700;
+        }
+
+        &_2 {
+            color: $colorNeutral5;
+            @include fontSize(1.1rem);
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        &_3 {
+            color: $colorNeutral5;
+            @include fontSize(1.4rem);
+        }
+    }
+
+    .item {
+        &_1 {
+            display: flex;
+            flex: 0 0 calc(100% / 5);
+            flex-direction: column;
+            position: relative;
+            padding: 0.8rem 0.4rem 0 0.4rem;
+            border-top: 2px solid $colorNeutral4;
+
+            &:before {
+                content: '';
+                position: absolute;
+                top: -0.5rem;
+                left: -0.1rem;
+                width: 0.8rem;
+                height: 0.8rem;
+                background: $colorNeutral1;
+                border: 1px solid $colorNeutral5;
+                border-radius: 100%;
+            }
+
+            &.passed {
+                border-color: $colorPrimary5;
+
+                &:before {
+                    background: $colorGreen6;
+                    border-color: $colorGreen6;
+                }
+
+                .span {
+                    &_2 {
+                        color: $colorPrimary5;
+                    }
+
+                    &_3 {
+                        color: $colorNeutral9;
+                    }
+                }
+            }
+
+            &.current {
+                &:before {
+                    background: $colorPrimary5;
+                    border-color: $colorPrimary5;
+                    z-index: 100;
+                }
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: -2px;
+                    left: 0px;
+                    width: var(--percent);
+                    height: 2px;
+                    background: $colorPrimary5;
+                }
+
+                .span {
+                    &_2 {
+                        color: $colorPrimary5;
+                    }
+
+                    &_3 {
+                        color: $colorNeutral9;
+                    }
+
+                    &_4 {
+                        position: absolute;
+                        top: -5px;
+                        left: -1px;
+                        width: 8px;
+                        height: 8px;
+
+                        &:before,
+                        &:after {
+                            content: '';
+                            position: absolute;
+                            top: -11px;
+                            left: -11px;
+                            width: 30px;
+                            height: 30px;
+                            border: 1px solid rgba($colorPrimary5, 0.6);
+                            border-radius: 100%;
+                        }
+
+                        &:before {
+                            animation: pulsate 2s ease-out 1s infinite;
+                            opacity: 0;
+                        }
+
+                        &:after {
+                            top: -19px;
+                            left: -19px;
+                            width: 46px;
+                            height: 46px;
+                            opacity: 0;
+                            animation: pulsate 2s ease-out 1s infinite;
+                        }
+                    }
+                }
+            }
+
+            &.newest {
+                border-color: $colorPrimary5;
+
+                &:before {
+                    background: $colorPrimary5;
+                    border-color: $colorPrimary5;
+                }
+
+                .span {
+                    &_2 {
+                        color: $colorPrimary5;
+                    }
+
+                    &_3 {
+                        color: $colorNeutral9;
+                    }
+                }
+            }
+        }
+    }
+
+    .div {
+        &_1 {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            width: 100%;
+        }
+    }
+}
+@media screen and (max-width: 1440px) {
+    .otp-detail-roadmap {
+        .item {
+            &_1 {
+                flex: 1 0 17rem;
+            }
+        }
+
+        .div {
+            &_1 {
+                padding: 5px 0;
+                overflow-x: scroll;
+            }
+        }
+    }
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(0.1, 0.1);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.2, 1.2);
+        opacity: 0;
+    }
+}

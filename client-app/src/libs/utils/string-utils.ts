@@ -8,21 +8,24 @@
  * @param lastCharacterQty
  * @returns
  */
-function format2ShortId(str: string, firstCharacterQty: number = 3, lastCharacterQty: number = 3) {
+export function format2ShortId(str: string, firstCharacterQty: number = 3, lastCharacterQty: number = 3) {
     if (!str) {
-        return "";
+        return '';
     }
     let calculatedFirstCharacterQty = firstCharacterQty;
     let calculatedLastCharacterQty = str.length - lastCharacterQty;
-    let moreCharater = '...'
+    let moreCharater = '...';
 
     if (firstCharacterQty + lastCharacterQty >= str.length) {
         calculatedFirstCharacterQty = str.length;
         calculatedLastCharacterQty = str.length;
-        moreCharater = ''
+        moreCharater = '';
     }
 
-    return `${str.substring(0, calculatedFirstCharacterQty)}${moreCharater}${str.substring(calculatedLastCharacterQty, str.length)}`;
+    return `${str.substring(0, calculatedFirstCharacterQty)}${moreCharater}${str.substring(
+        calculatedLastCharacterQty,
+        str.length,
+    )}`;
 }
 
 /**
@@ -34,10 +37,10 @@ function format2ShortId(str: string, firstCharacterQty: number = 3, lastCharacte
  * @param placeholder
  * @returns
  */
-function formatHintEmail(str?: string, placeholder: string = '*') {
-    if (!str) return str
-    const lastIndexOfDotCharacter = str.lastIndexOf('.') > 0 ? str.lastIndexOf('.') : str.length - 4
-    return `${str.substring(0, 1)}*****@***${str.substring(lastIndexOfDotCharacter, str.length)}`
+export function formatHintEmail(str?: string, placeholder: string = '*') {
+    if (!str) return str;
+    const lastIndexOfDotCharacter = str.lastIndexOf('.') > 0 ? str.lastIndexOf('.') : str.length - 4;
+    return `${str.substring(0, 1)}*****@***${str.substring(lastIndexOfDotCharacter, str.length)}`;
 }
 
 /**
@@ -50,21 +53,15 @@ function formatHintEmail(str?: string, placeholder: string = '*') {
  * @param params
  * @returns
  */
-function formatString(str: string, params: object) {
+export function formatString(str: string, params: object) {
     if (arguments.length > 1) {
-        let key
-        let args = arguments[1]
+        let key;
+        let args = arguments[1];
 
         for (key in args) {
-            str = str.replace(new RegExp('\\{' + key + '\\}', 'gi'), args[key] ?? '')
+            str = str.replace(new RegExp('\\{' + key + '\\}', 'gi'), args[key] ?? '');
         }
     }
 
-    return str
-}
-
-export default {
-    format2ShortId,
-    formatHintEmail,
-    formatString,
+    return str;
 }

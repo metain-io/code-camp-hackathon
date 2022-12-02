@@ -1,0 +1,96 @@
+@import "@app/styles/_variable.scss";
+@import "@app/styles/_mixin.scss";
+
+#faucet_token_wrapper{
+    .selectbox {
+        &_1 {
+            padding: 0 !important;
+            --dropdownWidth: 30rem !important;
+        }
+    }
+
+    .div {
+        &_1 {
+            margin-bottom: 1.8rem;
+        }
+    }
+
+    .button {
+        &_1 {
+            margin-top: 2rem;
+            padding: 2.8rem 1.8rem;
+            width: 100%;
+        }
+    }
+}
+
+#row_1 {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 3.2rem;
+}
+
+#column_2 {
+    padding-top: 2.4rem;
+    padding-right: 1.2rem;
+    width: calc(100% - 41.6rem);
+
+    .kyc_container {
+        margin-top: 2.4rem;
+    }
+}
+
+#column_3 {
+    padding-top: 2.4rem;
+    padding-left: 1.2rem;
+    width: 41.6rem;
+}
+
+.mobile_container {
+    padding: 0 3.2rem;
+    display: flex;
+    width: 100%;
+}
+
+@media screen and (max-width: 1200px) {
+    #column_2 {
+        padding-top: 0;
+    }
+
+    #column_3 {
+        padding-top: 0;
+    }
+}
+
+@media screen and (max-width: 1007px) {
+    #column_2,
+    #column_3 {
+        padding-top: 0;
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
+    }
+
+    #column_2 {
+        &.revert {
+            order: 1;
+        }
+    }
+
+    #column_3 {
+        &:not(:empty) {
+            margin-top: 1.6rem;
+        }
+
+        &.revert {
+            margin: 0 0 1.6rem 0;
+            order: 2;
+        }
+    }
+}
+
+@media screen and (min-width: 700px) and (max-width: 1200px) {
+    #row_1 {
+        margin-top: 10rem;
+    }
+}

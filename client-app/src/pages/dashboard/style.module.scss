@@ -1,0 +1,400 @@
+@import "@app/styles/_variable.scss";
+@import "@app/styles/_mixin.scss";
+
+#information_wrapper {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 2.4rem;
+    margin-top: 2.4rem;
+	height: 22.8rem;
+
+	.loyalty {
+		flex: 0 0 17rem;
+	}
+
+	.div {
+		&_1,
+		&_2 {
+			flex: 0 0 calc(50% - 10.9rem);
+		}
+
+		&_2 {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+
+		&_3 {
+			display: flex;
+			flex-direction: column;
+			flex-wrap: wrap;
+			align-content: flex-start;
+			justify-content: center;
+			padding: 2rem 2.4rem;
+			height: 10.2rem;
+		}
+	}
+
+	.icon {
+		&_1 {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-right: 1.6rem;
+			width: 4.8rem;
+			height: 4.8rem;
+			color: $colorSecondary6;
+			font-size: 2rem;
+			background: $colorSecondary1;
+			border-radius: 0.8rem;
+		}
+	}
+
+	.span {
+		&_1 {
+			display: flex;
+			align-items: center;
+			flex: 1 0 auto;
+			height: 2rem;
+			color: $colorNeutral6;
+			@include fontSize(1.4rem);
+		}
+
+		&_2 {
+			display: flex;
+			align-items: center;
+			height: 3.2rem;
+			color: $colorNeutral9;
+			@include fontSize(2.4rem);
+			font-weight: 700;
+		}
+	}
+
+	:global {
+		.chart {
+			canvas {
+				height: 10rem !important;
+			}
+		}
+
+		.chart-footer {
+			> span:first-of-type {
+				@include fontSize(2.4rem);
+			}
+		}
+	}
+}
+
+#chart_wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 2.4rem;
+
+	.div {
+		&_1 {
+			width: calc(50% - 1.2rem);
+		}
+	}
+
+	.selectbox {
+		&_1 {
+			width: 15rem;
+			border: 1px solid $colorNeutral3;
+			border-radius: 0.4rem;
+			box-shadow: none;
+		}
+	}
+
+	:global {
+		.value {
+			margin-right: 0.8rem;
+			width: auto;
+			position: relative;
+
+			.token-amount {
+				position: absolute;
+				top: 20px;
+				left: 0;
+				font-size: 12px;
+				color: #002ab2;
+			}
+		}
+	}
+}
+
+#dashboard_wrapper {
+    padding: 0 3.2rem;
+}
+
+#token_wrapper {
+    margin: 2.4rem 0;
+
+    .div {
+        &_1 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.8rem;
+        }
+    }
+
+    .table_div {
+        &_1 {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            justify-content: center;
+            height: 4.6rem;
+
+            .span {
+                &_1 {
+                    height: 2rem;
+                    color: $colorNeutral9;
+                    font-weight: 700;
+                    width: 18rem;
+                }
+
+                &_2 {
+                    height: 1.8rem;
+                    color: $colorNeutral6;
+                    @include fontSize(1.2rem);
+                    text-transform: uppercase;
+                }
+            }
+
+            .image {
+                &_1 {
+                    display: flex;
+                    align-items: center;
+                    padding: 0.8rem 0;
+                    margin-right: 0.8rem;
+                    width: 2.4rem;
+                    height: 4rem;
+                }
+            }
+        }
+    }
+}
+
+/* Responsive *************************************************************************************************************************************************/
+@media screen and (max-width: 1400px) {
+	#information_wrapper {
+		flex-wrap: wrap;
+		height: auto;
+
+		.div {
+			&_1 {
+				flex: 0 0 calc(100% - 19.4rem);
+			}
+
+			&_2 {
+				flex-direction: row;
+				flex: 1 0 100%;
+				margin-top: 1.6rem;
+			}
+
+			&_3 {
+				flex: 0 0 calc(50% - 1.2rem);
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 920px) {
+    #token_wrapper {
+        .span {
+            &_1 {
+                @include fontSize(1.4rem);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+	#information_wrapper,
+	#chart_wrapper {
+		margin-bottom: 1.6rem;
+	}
+}
+
+@media screen and (min-width: 700px) and (max-width: 1100px),
+screen and (max-width: 620px) {
+    #token_wrapper {
+        .span {
+            &_1 {
+                margin-bottom: 0.8rem;
+            }
+        }
+
+        .div {
+            &_1 {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 700px) and (max-width: 992px) {
+    #token_wrapper {
+        margin: 1.6rem 0;
+    }
+
+	#information_wrapper {
+		.span {
+			&_1 {
+				@include fontSize(1.4rem);
+			}
+
+			&_2 {
+				@include fontSize(1.6rem);
+			}
+		}
+
+		.loyalty {
+			flex: 0 0 100%;
+			margin-bottom: 1.6rem;
+		}
+
+		.div {
+			&_1 {
+				flex: 0 0 100%;
+			}
+
+			&_2 {
+				flex-wrap: wrap;
+				margin-top: 1.6rem;
+			}
+
+			&_3 {
+				flex: 0 0 calc(50% - 0.8rem);
+				padding: 1rem 1.6rem;
+				height: 8.6rem;
+
+				&:not(:last-of-type) {
+					margin-bottom: 1.6rem;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 850px) {
+	#information_wrapper {
+		.div {
+			&_2 {
+				flex-wrap: wrap;
+			}
+
+			&_3 {
+				flex: 0 0 100%;
+
+				&:not(:last-of-type) {
+					margin-bottom: 1.6rem;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 700px) {
+	#chart_wrapper {
+		.div {
+			&_1 {
+				flex: 0 0 calc(50% - 1.6rem / 2);
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 480px) {
+	#information_wrapper {
+		.loyalty {
+			flex: 1 0 100%;
+		}
+
+		.div {
+			&_1 {
+				flex: 1 0 100%;
+				margin-top: 1.6rem;
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1500px) {
+	#information_wrapper {
+		.span {
+			&_1 {
+				@include fontSize(1.2rem);
+			}
+
+			&_2 {
+				@include fontSize(1.8rem);
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 700px) and (max-width: 1100px) {
+	#chart_wrapper {
+		.div {
+			&_1 {
+				&:not(:last-of-type) {
+					margin-bottom: 2.4rem !important;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1300px),
+	screen and (min-width: 700px) and (max-width: 800px),
+	screen and (min-width: 480px) and (max-width: 600px) {
+	#chart_wrapper {
+		:global {
+			.chart-footer {
+				flex-wrap: wrap;
+
+				span {
+					flex: 0 0 100%;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 1100px) and (max-width: 1400px), screen and (max-width: 800px) {
+	#chart_wrapper {
+		:global {
+			.chart-header {
+				> div {
+					flex: 1 0 100%;
+					margin-top: 1.6rem;
+
+					> div {
+						width: 100%;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 700px) and (max-width: 1100px), screen and (max-width: 480px) {
+	#chart_wrapper {
+		flex-wrap: wrap;
+
+		.div {
+			&_1 {
+				flex: 1 0 100%;
+
+				&:not(:last-of-type) {
+					margin-bottom: 1.6rem;
+				}
+			}
+		}
+	}
+}

@@ -1,4 +1,4 @@
-@import "../styles/_variable.scss";
+@import '../styles/_variable.scss';
 
 /* Variable ***************************************************************************************************************************************************/
 $lineHeight-fontSize-pair: ();
@@ -7,13 +7,17 @@ $lineHeight-fontSize-pair: ();
 
 /* Mixin ******************************************************************************************************************************************************/
 @mixin fontSize($fontSize) {
-	$lineHeight: map-get($lineHeight-fontSize-pair, $fontSize);
+    $lineHeight: map-get($lineHeight-fontSize-pair, $fontSize);
 
-	@if $lineHeight == null {
-		line-height: calc($fontSize + 0.8rem);
-	} @else {
-		line-height: $lineHeight;
-	}
+    @if $lineHeight == null {
+        line-height: calc($fontSize + 0.8rem);
+    } @else {
+        line-height: $lineHeight;
+    }
 
-	font-size: $fontSize;
+    font-size: $fontSize;
+}
+
+@mixin shadow() {
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }

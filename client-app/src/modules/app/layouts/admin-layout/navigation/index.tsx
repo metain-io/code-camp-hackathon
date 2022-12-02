@@ -22,35 +22,46 @@ const Navigation = () => {
     const menuList = React.useMemo(() => {
         let result: Array<any> = [
             {
-                title: 'Client Menu',
+                title: 'Client',
                 children: [
                     {
                         name: 'Dashboard',
-                        icon: 'fms fm-building',
+                        icon: 'fms fm-th-large',
                         url: 'dashboard',
-                        className: hasClaimableREIT ? styles.notify_error : '',
+                        className: '',
                     },
                     {
-                        name: 'Trade NFT',
-                        icon: 'fms fm-arrow-square-right',
-                        url: 'wallet',
-                        className: hasClaimableREIT ? styles.notify_error : '',
+                        name: 'VOT1',
+                        icon: 'fms fm-building',
+                        url: 'vot-1',
+                        className: '',
                     },
                     {
-                        name: 'Token Faucet',
-                        icon: 'fms fm-gas-pump',
-                        url: 'vot/building/1',
+                        name: 'Claim Dividends',
+                        icon: 'fms fm-usd-circle',
+                        url: 'claim-dividends',
+                        className: '',
                     },
                 ],
             },
             {
-                title: 'Server Menu',
+                title: 'Admin',
                 children: [
                     {
                         name: 'Share Dividend',
                         icon: 'fms fm-usd-circle',
-                        url: 'pre-order',
+                        url: 'share-dividend',
                         className: hasClaimableREIT ? styles.notify_error : '',
+                    },
+                ],
+            },
+            {
+                title: 'Utilities',
+                children: [
+                    {
+                        name: 'Token Faucet',
+                        icon: 'fms fm-gas-pump',
+                        url: 'faucet-token',
                     },
                 ],
             },
@@ -102,7 +113,7 @@ const Navigation = () => {
         return (
             <li
                 key={`Navigation-Item-2-${key}`}
-                className={[styles.item_2, value?.className, routerArray[2] === urlArray[0] ? styles.active : ''].join(
+                className={[styles.item_2, value?.className, routerArray[1] === urlArray[0] ? styles.active : ''].join(
                     ' ',
                 )}
                 data-tip={!!value.tooltips}

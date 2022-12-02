@@ -1,0 +1,15 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+.otp-detail-map {
+    margin-bottom: 2.4rem;
+    width: 100%;
+
+    .span {
+        &_11 {
+            display: flex;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+    }
+}

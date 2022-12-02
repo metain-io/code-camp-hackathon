@@ -1,0 +1,108 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+$blockHeight: 35rem;
+$blockGap: 0.6rem;
+
+.otp-detail-partners {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .span {
+        &_2 {
+            margin-bottom: 0.6rem;
+            color: $colorNeutral4;
+            @include fontSize(1.2rem);
+            text-transform: uppercase;
+        }
+    }
+
+    .image {
+        &_1 {
+            height: 2.4rem;
+
+            &:not(:first-of-type) {
+                margin-left: 2rem;
+            }
+        }
+
+        &_Certik {
+            height: 22px;
+        }
+    }
+
+    .div {
+        &_1 {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .item {
+        &_1 {
+            display: flex;
+            flex-direction: column;
+            min-width: calc(15% - 1.2rem);
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .otp-detail-partners {
+        .item {
+            &_1 {
+                width: calc(50% - 0.8rem);
+
+                &:nth-of-type(1),
+                &:nth-of-type(2) {
+                    margin-bottom: 1.6rem;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 700px) and (max-width: 800px) {
+    .otp-detail-partners {
+        .span {
+            &_2 {
+                @include fontSize(0.8rem);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .otp-detail-partners {
+        .image {
+            &_1 {
+                height: 2rem;
+
+                &:not(:first-of-type) {
+                    margin-left: 1rem;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .otp-detail-partners {
+        .span {
+            &_2 {
+                @include fontSize(1.1rem);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .otp-detail-partners {
+        .span {
+            &_2 {
+                @include fontSize(0.9rem);
+            }
+        }
+    }
+}

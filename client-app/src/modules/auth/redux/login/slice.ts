@@ -15,12 +15,14 @@ type LoginState = {
     status: LoginStatus;
     error: any;
     username: string | null;
+    walletAddress: string | null;
 };
 
 const initialState: LoginState = {
     status: LoginStatus.Undefined,
     error: null,
     username: null,
+    walletAddress: null,
 };
 
 export const loginSlice = createSlice({
@@ -33,12 +35,13 @@ export const loginSlice = createSlice({
             state.status = LoginStatus.Initializing;
         },
         initFinished: (state, action: PayloadAction<any>) => {
-            const { status, username } = action.payload;
+            const { status, username, walletAddress } = action.payload;
 
             logger.info('auth/login/init-finished');
 
             state.status = status;
             state.username = username;
+            state.walletAddress = walletAddress;
         },
         initFailed: (state, action: PayloadAction<any>) => {
             const { error } = action.payload;
@@ -54,6 +57,7 @@ export const loginSlice = createSlice({
             state.status = LoginStatus.NotLogged;
             state.error = null;
             state.username = null;
+            state.walletAddress = null;
         },
         loginWithPhantomWalletRequested: (state) => {
             logger.info('auth/login/login-with-phantom-wallet-requested');
@@ -61,14 +65,16 @@ export const loginSlice = createSlice({
             state.status = LoginStatus.Authenticating;
             state.error = null;
             state.username = null;
+            state.walletAddress = null;
         },
         loginSucceeded: (state, action: PayloadAction<any>) => {
-            const { username } = action.payload;
+            const { username, walletAddress } = action.payload;
 
             logger.info('auth/login/login-succeeded', { username });
 
             state.status = LoginStatus.LoggedIn;
             state.username = username;
+            state.walletAddress = walletAddress;
         },
         loginFailed: (state, action: PayloadAction<any>) => {
             const { error } = action.payload;
@@ -89,3 +95,4 @@ export const loginReducers = loginSlice.reducer;
 export const selectLoginStatus = (state: any) => state.login.status;
 export const selectLoginError = (state: any) => state.login.error;
 export const selectLoginUsername = (state: any) => state.login.username;
+export const selectLoginWalletAddress = (state: any) => state.login.walletAddress;

@@ -1,0 +1,10 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+.button {
+    width: 100%;
+    height: 3.8rem;
+    font-weight: 500;
+    border-radius: 0.8rem;
+    text-transform: uppercase;
+}

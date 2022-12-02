@@ -2,10 +2,10 @@ import React from 'react';
 import { useResponsive } from '@shared/hooks';
 import Image from '../image';
 import styles from './style.module.scss';
-import stringUtils from '@libs/utils/string-utils';
+import { format2ShortId } from '@libs/utils';
 import Chart from '../chart';
 import { Table_Component } from './type';
- 
+
 const Table = (props: Table_Component.Props) => {
     /* Props **************************************************************************************************************************************************/
     const {
@@ -24,10 +24,9 @@ const Table = (props: Table_Component.Props) => {
     /* Hooks **************************************************************************************************************************************************/
     const deviceType = useResponsive();
 
-    const [S_tableArray, S_changeTableArray] = React.useState<
-        | Table_Component.Row[]
-        | Table_Component.NFT_Row[]
-    >(tableArray);
+    const [S_tableArray, S_changeTableArray] = React.useState<Table_Component.Row[] | Table_Component.NFT_Row[]>(
+        tableArray,
+    );
     const [S_loading, S_setLoading] = React.useState(tableArray && tableArray.length > 0 ? false : true);
 
     /* Variables **********************************************************************************************************************************************/
@@ -41,7 +40,7 @@ const Table = (props: Table_Component.Props) => {
 
     React.useEffect(() => {
         S_setLoading(false);
-    }, [S_tableArray])
+    }, [S_tableArray]);
 
     /* Functions **********************************************************************************************************************************************/
 
@@ -118,7 +117,7 @@ const Table = (props: Table_Component.Props) => {
             case 'from':
             case 'to':
             case 'address':
-                return <span>{stringUtils.format2ShortId(rowValue[value], deviceType === 'mobile' ? 5 : 30, 5)}</span>;
+                return <span>{format2ShortId(rowValue[value], deviceType === 'mobile' ? 5 : 30, 5)}</span>;
             case 'chart_data':
                 return (
                     <Chart
@@ -253,10 +252,10 @@ const Table = (props: Table_Component.Props) => {
         >
             {
                 {
-                    browser: BrowserWrapper(),
+                    'browser': BrowserWrapper(),
                     'tablet-large': BrowserWrapper(),
-                    tablet: BrowserWrapper(),
-                    mobile: mobileLayout ? MobileWrapper() : BrowserWrapper(),
+                    'tablet': BrowserWrapper(),
+                    'mobile': mobileLayout ? MobileWrapper() : BrowserWrapper(),
                 }[deviceType]
             }
         </div>

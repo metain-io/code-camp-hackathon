@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ShareDividend = () => {
+const useShareDividend = () => {
     const [amountDevidend, setAmountDividend] = React.useState(0);
 
     const handleAmountDevidendChanged = (value: string) => {
@@ -28,4 +28,4 @@ const ShareDividend = () => {
     };
 };
 
-export { ShareDividend };
+export { useShareDividend };

@@ -1,11 +1,11 @@
 import { ChangeEvent, MouseEvent } from 'react';
 import { DividendHistoryToggler } from './dividend-history-toggler';
 import styles from './styles.module.scss';
-import { shareDividend } from './share-dividend';
+import { useShareDividend } from './use-share-dividend';
 
 const FormShareDividend = () => {
     const { handleAmountDevidendChanged, amountDevidend, handleShareDividend, handleNextDay, handleReset } =
-        shareDividend();
+        useShareDividend();
 
     const onInputAmountDividendChanged = (e: ChangeEvent<HTMLInputElement>) => {
         handleAmountDevidendChanged(e.target.value);

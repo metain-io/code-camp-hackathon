@@ -15,8 +15,7 @@ const PurchaseInput = () => {
                     <span>{id} NFT</span>
                 </div>
                 <div>
-                    {/** input number */}
-                    <input inputMode="numeric" type={'number'} />
+                    <input inputMode="numeric" type={'number'} placeholder="0" />
                 </div>
             </div>
 
@@ -25,15 +24,13 @@ const PurchaseInput = () => {
             <div className={styles.input_block}>
                 <p className={styles.input_block_label}>YOU PAY</p>
                 <div className={[styles.input_block_label_currency, styles.flex_end].join(' ')}>
-                    {/* select token */}
                     <select>
                         <option>USDT</option>
                         <option>USDC</option>
                     </select>
                 </div>
                 <div>
-                    {/** input number */}
-                    <input inputMode="numeric" type={'number'} />
+                    <input inputMode="numeric" type={'number'} placeholder="0" style={{ textAlign: 'right' }} />
                 </div>
             </div>
         </div>

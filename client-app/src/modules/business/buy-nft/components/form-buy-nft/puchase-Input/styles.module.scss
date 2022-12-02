@@ -19,6 +19,8 @@
         outline: none;
         border: none;
         height: 24px;
+
+        @include fontSize(1.4rem);
     }
     // ------
     .selectbox {

@@ -1,11 +1,8 @@
 import Anchor from '@app/layouts/admin-layout/navigation/components/anchor';
 import Image from '@app/layouts/admin-layout/navigation/components/image';
 import { useOpportunityTrustPortfolioDetailContext } from '@opportunity-trust-portfolio/components/opportunity-trust-portfoio-detail-provider/opportunity-trust-portfolio-detail-context';
-import { ChangeEvent, MouseEvent } from 'react';
-import { BuyNftHistoryToggler } from './buy-nft-history-toggler';
 import { PurchaseInput } from './puchase-Input';
 import styles from './styles.module.scss';
-import { useBuyNft } from './use-buy-nft';
 
 const FormBuyNft = () => {
     return (
@@ -51,30 +48,18 @@ const Header = () => {
 };
 
 const Body = () => {
-    const { id, name } = useOpportunityTrustPortfolioDetailContext();
+    const { id } = useOpportunityTrustPortfolioDetailContext();
 
     return (
         <div id={styles.confirmorder_wrapper}>
             <PurchaseInput />
-            {/* <PreOrderInput
-                buyREITForm={buyREITForm}
-                setBuyREITForm={setBuyREITForm}
-                tokenList={tokenList}
-                changeYouSendSelectBoxHandler={changeYouSendSelectBoxHandler}
-                setAmountUsd={setAmountUsd}
-                amountUsd={amountUsd}
-            /> */}
+
             <div className={styles.separator_1}></div>
+
             <div className={styles.div_3}>
                 <span className={styles.span_1}>Wallet Balance:</span>
                 <div className={styles.div_4}>
-                    <span className={styles.block_span_4}>
-                        {/* {buyREITForm.selectedTokenBalance
-                            ? `${WrappedBn.format(buyREITForm.selectedTokenBalance.amount)} ${
-                                  buyREITForm.selectedTokenBalance?.currency?.symbol
-                              }`
-                            : '- -'} */}
-                    </span>
+                    <span className={styles.block_span_4}>- - USDT</span>
                 </div>
             </div>
             <div className={styles.div_2}>
@@ -100,8 +85,9 @@ const Body = () => {
                     Term and Conditions
                 </a>
             </span>
-            {/* <ModalInsufficientFund ref={modalInsufficientFundRef} requiredAmountUsd={totalAmountUsdPayment} />
-            <BackdropSpinner active={isProcessing || fullPaymentEnabled === undefined} /> */}
+
+            {/* <ModalInsufficientFund ref={modalInsufficientFundRef} requiredAmountUsd={totalAmountUsdPayment} /> */}
+            {/* <BackdropSpinner active={isProcessing || fullPaymentEnabled === undefined} /> */}
         </div>
     );
 };

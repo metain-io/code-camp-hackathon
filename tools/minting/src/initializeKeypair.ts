@@ -15,7 +15,6 @@ export async function initializeKeypair(connection: web3.Connection): Promise<we
   }
 
   const secretKey = base58.decode(process.env.PRIVATE_KEY);
-  console.log(secretKey.toString());
   const keypairFromSecretKey = web3.Keypair.fromSecretKey(secretKey);
   await airdropSolIfNeeded(keypairFromSecretKey, connection);
   return keypairFromSecretKey;

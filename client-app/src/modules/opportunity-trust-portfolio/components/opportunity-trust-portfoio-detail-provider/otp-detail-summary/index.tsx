@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { useOpportunityTrustPortfolioDetailContext } from '../opportunity-trust-portfolio-detail-context';
 import styles from './styles.module.scss';
 
@@ -11,7 +12,7 @@ const OtpDetailSummary = () => {
                 <div className={styles.div_3}>
                     <span className={styles.span_4}>Target Raise</span>
                     <span className={styles.span_5}>{price} US$</span>
-                    <span className={styles.span_6}>Valuation at {valuationDate}</span>
+                    <span className={styles.span_6}>Valuation at {moment(valuationDate).format('DD MMMM YYYY')}</span>
                 </div>
                 <div className={[styles.div_3, styles.border_left].join(' ')}>
                     <span className={styles.span_7}>{expectedNetRentalYield}%</span>

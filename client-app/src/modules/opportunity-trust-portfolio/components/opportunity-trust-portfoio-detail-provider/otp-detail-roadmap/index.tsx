@@ -15,25 +15,33 @@ const OtpDetailRoadmap = () => {
                     let className = '';
                     let percent = 0;
 
-                    const startDate = moment(value.startDate);
-                    const endDate = moment(value.endDate);
-                    const nextStartDate = roadmap[index + 1]?.startDate && moment(roadmap[index + 1]?.startDate);
-
-                    if (currentDate >= startDate || currentDate >= endDate) {
-                        className = styles.passed;
+                    if (value.startDate === value.endDate) {
+                        if (currentDate >= moment(value.startDate)) {
+                            className = styles.passed;
+                        }
+                    } else {
+                        if (
+                            (currentDate <= moment(value.endDate) && currentDate >= moment(value.startDate)) ||
+                            currentDate >= moment(value.endDate)
+                        ) {
+                            className = styles.passed;
+                        }
                     }
 
-                    if (roadmap[index + 1] === undefined) {
-                        className = styles.newest;
-                    }
+                    if (className === styles.passed) {
+                        if (roadmap[index + 1] === undefined) {
+                            className = styles.newest;
+                        } else if (
+                            currentDate >= moment(value.startDate) &&
+                            currentDate < moment(roadmap[index + 1].startDate)
+                        ) {
+                            className = styles.current;
 
-                    if (currentDate >= startDate && nextStartDate && currentDate < nextStartDate) {
-                        className = styles.current;
+                            const passedDay = currentDate.diff(moment(value.startDate), 'days');
+                            const remainDay = moment(roadmap[index + 1].startDate).diff(currentDate, 'days');
 
-                        const passedDay = currentDate.diff(startDate, 'days');
-                        const remainDay = nextStartDate.diff(currentDate, 'days');
-
-                        percent = (passedDay / (remainDay + passedDay)) * 100;
+                            percent = (passedDay / (remainDay + passedDay)) * 100;
+                        }
                     }
 
                     return (

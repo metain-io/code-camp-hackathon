@@ -87,7 +87,7 @@ const Body = () => {
                 </>
             </div>
 
-            <div className={[styles.button_1, 'mButton mButton-cn1-bp6'].join(' ')}>
+            <div className={[styles.button_1].join(' ')}>
                 <ButtonPurchase />
             </div>
 

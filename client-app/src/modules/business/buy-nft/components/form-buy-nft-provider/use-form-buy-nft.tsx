@@ -1,5 +1,6 @@
 import { useOpportunityTrustPortfolioDetailContext } from '@opportunity-trust-portfolio/components/opportunity-trust-portfoio-detail-provider/opportunity-trust-portfolio-detail-context';
 import React from 'react';
+import { FormBuyNftStatus } from './form-buy-nft-context';
 
 const selectableTokens = [
     {
@@ -18,6 +19,10 @@ const selectableTokens = [
 
 const useFormBuyNft = () => {
     const { id, name } = useOpportunityTrustPortfolioDetailContext();
+
+    const [status, setStatus] = React.useState(FormBuyNftStatus.Idle);
+    const [error, setError] = React.useState<any>(null);
+
     const [amountNft, setAmountNft] = React.useState<string>('');
     const [amountToken, setAmountToken] = React.useState<string>('');
     const [selectedTokenIndex, setSelectedTokenIndex] = React.useState(0);
@@ -63,16 +68,36 @@ const useFormBuyNft = () => {
             amountToken,
             selectedToken: selectedTokenIndex >= 0 ? selectableTokens[selectedTokenIndex] : null,
         });
+
+        setStatus(() => FormBuyNftStatus.Processing);
+
+        setTimeout(() => {
+            const random = Math.random() * 10;
+
+            if (random > 5) {
+                console.log('handlePurchaseNft succeeded');
+                setStatus(() => FormBuyNftStatus.ProcessSucceeded);
+            } else {
+                console.log('handlePurchaseNft failed');
+                setStatus(() => FormBuyNftStatus.ProcessFailed);
+                setError(() => 'Something went wrong');
+            }
+        }, 2000);
     };
 
     return {
+        status,
+        error,
+
         id,
         name,
+
         amountNft,
         amountToken,
         selectableTokens,
         selectedTokenIndex,
         selectedToken: selectedTokenIndex >= 0 ? selectableTokens[selectedTokenIndex] : null,
+
         handleAmountNftChanged,
         handleAmountTokenChanged,
         handleSelectedTokenIndexChanged,

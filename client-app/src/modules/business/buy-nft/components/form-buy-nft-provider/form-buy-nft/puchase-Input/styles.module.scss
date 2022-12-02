@@ -8,6 +8,8 @@
     // ------
     input {
         width: 100%;
+        padding: 0;
+        margin: 0;
         outline: none;
         border: none;
 
@@ -34,6 +36,14 @@
         height: 24px;
 
         @include fontSize(1.4rem);
+    }
+
+    span {
+        &.formatted {
+            display: block;
+            width: 100%;
+            @include fontSize(1.2rem);
+        }
     }
     // ------
     .selectbox {

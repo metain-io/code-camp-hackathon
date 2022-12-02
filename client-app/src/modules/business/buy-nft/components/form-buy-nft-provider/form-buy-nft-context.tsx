@@ -3,10 +3,11 @@ import React from 'react';
 type FormBuyNftContextState = {
     id: string;
     name: string;
-    amountNft?: number;
-    amountToken?: number;
+    amountNft: string;
+    amountToken: string;
     selectableTokens: Array<any>;
     selectedTokenIndex: number;
+    selectedToken: { symbol: string; iconUrl: string };
     handleAmountNftChanged: (value: string) => void;
     handleAmountTokenChanged: (value: string) => void;
     handleSelectedTokenIndexChanged: (index: number) => void;

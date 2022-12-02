@@ -52,7 +52,7 @@ const Header = () => {
 };
 
 const Body = () => {
-    const { id } = useFormBuyNftContext();
+    const { id, selectedToken } = useFormBuyNftContext();
 
     return (
         <div id={styles.confirmorder_wrapper}>
@@ -63,7 +63,7 @@ const Body = () => {
             <div className={styles.div_3}>
                 <span className={styles.span_1}>Wallet Balance:</span>
                 <div className={styles.div_4}>
-                    <span className={styles.block_span_4}>- - USDT</span>
+                    <span className={styles.block_span_4}>- - {selectedToken.symbol}</span>
                 </div>
             </div>
             <div className={styles.div_2}>

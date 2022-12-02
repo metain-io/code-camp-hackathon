@@ -1,21 +1,74 @@
 import Image from '@app/layouts/admin-layout/navigation/components/image';
-import React from 'react';
-import { useFormBuyNft } from '../../use-form-buy-nft';
+import { formatNumber } from '@libs/utils';
+import React, { FormEvent } from 'react';
+import { ChangeEvent } from 'react';
+import { useFormBuyNftContext } from '../../form-buy-nft-context';
 import styles from './styles.module.scss';
 
 const PurchaseInput = () => {
-    const { id } = useFormBuyNft();
+    const {
+        id,
+        selectableTokens,
+        selectedToken,
+        amountNft,
+        amountToken,
+        handleAmountNftChanged,
+        handleAmountTokenChanged,
+        handleSelectedTokenIndexChanged,
+    } = useFormBuyNftContext();
+
+    const isInputingAmountNftRef = React.useRef(false);
+
+    const onSelectTokenChanged = (e: ChangeEvent<HTMLSelectElement>) => {
+        const selectedIndex = e.target.value;
+        handleSelectedTokenIndexChanged(+selectedIndex);
+    };
+
+    const onBeforeInputAmountNft = (e: FormEvent<HTMLInputElement>) => {
+        isInputingAmountNftRef.current = true;
+    };
+
+    const onBeforeInputAmountToken = (e: FormEvent<HTMLInputElement>) => {
+        isInputingAmountNftRef.current = false;
+    };
+
+    const onInputAmountNftChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        if (!isInputingAmountNftRef.current) {
+            return;
+        }
+
+        const value = e.target.value;
+        handleAmountNftChanged(value);
+    };
+
+    const onInputAmountTokenChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        if (isInputingAmountNftRef.current) {
+            return;
+        }
+
+        const value = e.target.value;
+        handleAmountTokenChanged(value);
+    };
 
     return (
         <div id={styles.preorder_input}>
             <div className={styles.input_block}>
                 <p className={styles.input_block_label}>YOU BUY</p>
                 <div className={styles.input_block_label_currency}>
-                    <Image src="/svg/icon-vot-nft.svg" />
+                    <Image src="/svg/icon-vot-nft.svg" alt="" />
                     <span>{id} NFT</span>
                 </div>
                 <div>
-                    <input inputMode="numeric" type={'number'} placeholder="0" />
+                    <input
+                        inputMode="numeric"
+                        type={'number'}
+                        placeholder="0"
+                        value={amountNft}
+                        onBeforeInput={onBeforeInputAmountNft}
+                        onChange={onInputAmountNftChanged}
+                    />
+
+                    {amountNft && <span className={styles['formatted']}>{formatNumber(+amountNft)}</span>}
                 </div>
             </div>
 
@@ -24,13 +77,33 @@ const PurchaseInput = () => {
             <div className={styles.input_block}>
                 <p className={styles.input_block_label}>YOU PAY</p>
                 <div className={[styles.input_block_label_currency, styles.flex_end].join(' ')}>
-                    <select>
-                        <option>USDT</option>
-                        <option>USDC</option>
+                    <Image src={selectedToken.iconUrl} alt="" />
+                    <select onChange={onSelectTokenChanged}>
+                        {/* <option value="-1">Select Token</option> */}
+                        {selectableTokens.map((token, index) => {
+                            return (
+                                <option key={`token-${index}`} value={index}>
+                                    {token.symbol}
+                                </option>
+                            );
+                        })}
                     </select>
                 </div>
                 <div>
-                    <input inputMode="numeric" type={'number'} placeholder="0" style={{ textAlign: 'right' }} />
+                    <input
+                        inputMode="numeric"
+                        type={'number'}
+                        placeholder="0"
+                        value={amountToken}
+                        onBeforeInput={onBeforeInputAmountToken}
+                        onChange={onInputAmountTokenChanged}
+                        style={{ textAlign: 'right' }}
+                    />
+                    {amountToken && (
+                        <span className={styles['formatted']} style={{ textAlign: 'right' }}>
+                            {formatNumber(+amountToken)}
+                        </span>
+                    )}
                 </div>
             </div>
         </div>

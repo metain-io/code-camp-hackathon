@@ -3,8 +3,8 @@ import React from 'react';
 type FormBuyNftContextState = {
     id: string;
     name: string;
-    amountNft: number | null;
-    amountToken: number | null;
+    amountNft?: number;
+    amountToken?: number;
     selectableTokens: Array<any>;
     selectedTokenIndex: number;
     handleAmountNftChanged: (value: string) => void;

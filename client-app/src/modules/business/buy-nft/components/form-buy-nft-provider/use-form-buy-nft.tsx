@@ -5,8 +5,8 @@ const selectableTokens = ['USDT', 'USDC'];
 
 const useFormBuyNft = () => {
     const { id, name } = useOpportunityTrustPortfolioDetailContext();
-    const [amountNft, setAmountNft] = React.useState<number | null>(null);
-    const [amountToken, setAmountToken] = React.useState<number | null>(null);
+    const [amountNft, setAmountNft] = React.useState<number | undefined>(undefined);
+    const [amountToken, setAmountToken] = React.useState<number | undefined>(undefined);
     const [selectedTokenIndex, setSelectedTokenIndex] = React.useState(-1);
 
     const handleAmountNftChanged = (value: string) => {

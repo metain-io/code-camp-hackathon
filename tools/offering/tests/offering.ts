@@ -61,13 +61,13 @@ describe("offering", () => {
   let mintUSDT;
   let mintVOT1;
 
-  const getPdaParams = async (connection: anchor.web3.Connection, signer: anchor.web3.PublicKey, mintNFT: anchor.web3.PublicKey): Promise<any> => {
+  const getPdaParams = async (connection: anchor.web3.Connection, signer: anchor.web3.PublicKey, mintUSD: anchor.web3.PublicKey, mintNFT: anchor.web3.PublicKey): Promise<any> => {
     const uid = new anchor.BN(parseInt((Date.now() / 1000).toString()));
     const uidBuffer = uid.toBuffer("le", 8);
 
-    let [statePubKey, stateBump] = await anchor.web3.PublicKey.findProgramAddress([Buffer.from("state"), signer.toBuffer(), mintNFT.toBuffer(), uidBuffer], program.programId);
+    let [statePubKey, stateBump] = await anchor.web3.PublicKey.findProgramAddress([Buffer.from("state"), signer.toBuffer(), mintUSD.toBuffer(), mintNFT.toBuffer(), uidBuffer], program.programId);
     let [walletPubKey, walletBump] = await anchor.web3.PublicKey.findProgramAddress(
-      [Buffer.from("wallet"), signer.toBuffer(), mintNFT.toBuffer(), uidBuffer], program.programId,
+      [Buffer.from("wallet"), signer.toBuffer(), mintUSD.toBuffer(), mintNFT.toBuffer(), uidBuffer], program.programId,
     );
     return {
       stateBump,
@@ -98,7 +98,7 @@ describe("offering", () => {
       mintTokens(connection, buyer, mintUSDT, buyerTokenAccount.address, admin, 1000 * 1000000)
     ]);
 
-    pda = await getPdaParams(connection, treasurer.publicKey, mintVOT1);
+    pda = await getPdaParams(connection, treasurer.publicKey, mintUSDT, mintVOT1);
 
     expect(mintUSDT.toBase58());
   });
@@ -109,7 +109,7 @@ describe("offering", () => {
     ]);
 
     await program.methods
-      .depositNft(new anchor.BN(pda.idx), pda.stateBump, new anchor.BN(NFT_TOTAL_SUPPLY))
+      .depositNft(new anchor.BN(pda.idx), pda.stateBump, new anchor.BN(NFT_TOTAL_SUPPLY), "USDT")
       .accounts({
         treasurer: walletToTakeNft.owner,
         mintOfTokenBeingSent: mintVOT1,
@@ -145,9 +145,7 @@ describe("offering", () => {
         escrowWalletState: pda.escrowWalletKey,
         applicationState: pda.stateKey,
         systemProgram: anchor.web3.SystemProgram.programId,
-        tokenProgram: token.TOKEN_PROGRAM_ID,
-        associatedTokenProgram: token.ASSOCIATED_TOKEN_PROGRAM_ID,
-        rent: anchor.web3.SYSVAR_RENT_PUBKEY
+        tokenProgram: token.TOKEN_PROGRAM_ID
       })
       .signers([buyer])
       .rpc();

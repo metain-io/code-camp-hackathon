@@ -6,6 +6,7 @@ declare_id!("AbHafG3NvBumgzKZnKFZnvTcmM2zVFQfBmn4kHbWYn3d");
 fn transfer_escrow_out<'info>(
     user_sending: AccountInfo<'info>,
     user_receiving: AccountInfo<'info>,
+    mint_of_token_being_paid: AccountInfo<'info>,
     mint_of_token_being_sent: AccountInfo<'info>,
     escrow_wallet: &mut Account<'info, TokenAccount>,
     application_idx: u64,
@@ -19,11 +20,13 @@ fn transfer_escrow_out<'info>(
     // Nothing interesting here! just boilerplate to compute our signer seeds for
     // signing on behalf of our PDA.
     let bump_vector = state_bump.to_le_bytes();
+    let mint_of_token_being_paid_pk = mint_of_token_being_paid.key().clone();
     let mint_of_token_being_sent_pk = mint_of_token_being_sent.key().clone();
     let application_idx_bytes = application_idx.to_le_bytes();
     let inner = vec![
         b"state".as_ref(),
         user_sending.key.as_ref(),
+        mint_of_token_being_paid_pk.as_ref(),
         mint_of_token_being_sent_pk.as_ref(),
         application_idx_bytes.as_ref(),
         bump_vector.as_ref(),
@@ -50,17 +53,19 @@ fn transfer_escrow_out<'info>(
 pub mod offering {
     use super::*;
 
-    pub fn deposit_nft(ctx: Context<DepositNft>, application_idx: u64, state_bump: u8, amount: u64) -> Result<()> {
+    pub fn deposit_nft(ctx: Context<DepositNft>, application_idx: u64, state_bump: u8, amount: u64, pay_symbol: String) -> Result<()> {
         // Set the state attributes
         let state = &mut ctx.accounts.application_state;
         state.idx = application_idx;
 
         let bump_vector = state_bump.to_le_bytes();
+        let mint_of_token_being_paid_pk = ctx.accounts.mint_of_token_being_paid.key().clone();
         let mint_of_token_being_sent_pk = ctx.accounts.mint_of_token_being_sent.key().clone();
         let application_idx_bytes = application_idx.to_le_bytes();
         let inner = vec![
             b"state".as_ref(),
             ctx.accounts.treasurer.key.as_ref(),
+            mint_of_token_being_paid_pk.as_ref(),
             mint_of_token_being_sent_pk.as_ref(),
             application_idx_bytes.as_ref(),
             bump_vector.as_ref(),
@@ -100,6 +105,7 @@ pub mod offering {
         transfer_escrow_out(
             ctx.accounts.treasurer.to_account_info(),
             ctx.accounts.buyer.to_account_info(),
+            ctx.accounts.mint_of_token_being_paid.to_account_info(),
             ctx.accounts.mint_of_token_being_sent.to_account_info(),
             &mut ctx.accounts.escrow_wallet_state,
             application_idx,
@@ -127,9 +133,9 @@ pub struct DepositNft<'info> {
     // Derived PDAs
     #[account(
         init,
-        space = 8 + 8,
+        space = 8 + 8 + 32,
         payer = treasurer,
-        seeds=[b"state".as_ref(), treasurer.key().as_ref(), mint_of_token_being_sent.key().as_ref(), application_idx.to_le_bytes().as_ref()],
+        seeds=[b"state".as_ref(), treasurer.key().as_ref(), mint_of_token_being_paid.key().as_ref(), mint_of_token_being_sent.key().as_ref(), application_idx.to_le_bytes().as_ref()],
         bump,
     )]
     application_state: Account<'info, State>,
@@ -137,7 +143,7 @@ pub struct DepositNft<'info> {
     #[account(
         init,
         payer = treasurer,
-        seeds=[b"wallet".as_ref(), treasurer.key().as_ref(), mint_of_token_being_sent.key().as_ref(), application_idx.to_le_bytes().as_ref()],
+        seeds=[b"wallet".as_ref(), treasurer.key().as_ref(), mint_of_token_being_paid.key().as_ref(), mint_of_token_being_sent.key().as_ref(), application_idx.to_le_bytes().as_ref()],
         bump,
         token::mint=mint_of_token_being_sent,
         token::authority=application_state,
@@ -146,9 +152,9 @@ pub struct DepositNft<'info> {
 
     // Users and accounts in the system
     #[account(mut)]
-    treasurer: Signer<'info>,                     // VOT manager
-    mint_of_token_being_sent: Account<'info, Mint>,  // NFT
-    mint_of_token_being_paid: Account<'info, Mint>, // USDC
+    treasurer: Signer<'info>,
+    mint_of_token_being_sent: Box<Account<'info, Mint>>,
+    mint_of_token_being_paid: Box<Account<'info, Mint>>,
 
     // VOT wallet that has already approved the escrow wallet
     #[account(
@@ -170,14 +176,14 @@ pub struct Buy<'info> {
     // Derived PDAs
     #[account(
         mut,
-        seeds=[b"state".as_ref(), treasurer.key().as_ref(), mint_of_token_being_sent.key().as_ref(), application_idx.to_le_bytes().as_ref()],
+        seeds=[b"state".as_ref(), treasurer.key().as_ref(), mint_of_token_being_paid.key().as_ref(), mint_of_token_being_sent.key().as_ref(), application_idx.to_le_bytes().as_ref()],
         bump = state_bump
     )]
-    application_state: Account<'info, State>,
+    application_state: Box<Account<'info, State>>,
 
     #[account(
         mut,
-        seeds=[b"wallet".as_ref(), treasurer.key().as_ref(), mint_of_token_being_sent.key().as_ref(), application_idx.to_le_bytes().as_ref()],
+        seeds=[b"wallet".as_ref(), treasurer.key().as_ref(), mint_of_token_being_paid.key().as_ref(), mint_of_token_being_sent.key().as_ref(), application_idx.to_le_bytes().as_ref()],
         bump = wallet_bump,
         token::mint=mint_of_token_being_sent,
         token::authority=application_state,
@@ -205,7 +211,8 @@ pub struct Buy<'info> {
 
     #[account(mut)]
     buyer: Signer<'info>,
-    mint_of_token_being_sent: Account<'info, Mint>,
+    mint_of_token_being_sent: Box<Account<'info, Mint>>,
+    mint_of_token_being_paid: Box<Account<'info, Mint>>,
 
     /// CHECK: It is always safe to be beneficiary
     treasurer: AccountInfo<'info>,

@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::{token::{Mint, Token, TokenAccount, Transfer}};
 
-declare_id!("AbHafG3NvBumgzKZnKFZnvTcmM2zVFQfBmn4kHbWYn3d");
+declare_id!("EbgwApfZNUQxGEqG2uJV5wkBVTZomp1ccDu7BuFsDKdY");
 
 fn transfer_nft_out<'info>(
     treasurer: AccountInfo<'info>,

@@ -8,6 +8,8 @@ import { Program, Spl } from "@project-serum/anchor";
 import { Offering } from "../target/types/offering";
 
 const NFT_TOTAL_SUPPLY = 200000;
+const NFT_TO_BUY = 11;
+const NFT_PRICE = 10;
 
 let pda;
 
@@ -65,10 +67,11 @@ describe("offering", () => {
     const uid = new anchor.BN(parseInt((Date.now() / 1000).toString()));
     const uidBuffer = uid.toBuffer("le", 8);
 
-    let [statePubKey, stateBump] = await anchor.web3.PublicKey.findProgramAddress([Buffer.from("state"), signer.toBuffer(), mintUSD.toBuffer(), mintNFT.toBuffer(), uidBuffer], program.programId);
-    let [walletPubKey, walletBump] = await anchor.web3.PublicKey.findProgramAddress(
+    let [statePubKey, stateBump] = anchor.web3.PublicKey.findProgramAddressSync([Buffer.from("state"), signer.toBuffer(), mintUSD.toBuffer(), mintNFT.toBuffer(), uidBuffer], program.programId);
+    let [walletPubKey, walletBump] = anchor.web3.PublicKey.findProgramAddressSync(
       [Buffer.from("wallet"), signer.toBuffer(), mintUSD.toBuffer(), mintNFT.toBuffer(), uidBuffer], program.programId,
     );
+    
     return {
       stateBump,
 
@@ -109,13 +112,13 @@ describe("offering", () => {
     ]);
 
     await program.methods
-      .depositNft(new anchor.BN(pda.idx), pda.stateBump, new anchor.BN(NFT_TOTAL_SUPPLY), "USDT")
+      .depositNft(new anchor.BN(pda.idx), pda.stateBump, new anchor.BN(NFT_TOTAL_SUPPLY), new anchor.BN(NFT_PRICE * 1000000))
       .accounts({
         treasurer: walletToTakeNft.owner,
-        mintOfTokenBeingSent: mintVOT1,
-        mintOfTokenBeingPaid: mintUSDT,
-        walletToWithdrawFrom: walletToTakeNft.address,
-        escrowWalletState: pda.escrowWalletKey,
+        mintOfNft: mintVOT1,
+        mintOfUsd: mintUSDT,        
+        escrowNftWalletState: pda.escrowWalletKey,
+        treasurerNftWallet: walletToTakeNft.address,
         applicationState: pda.stateKey,
         systemProgram: anchor.web3.SystemProgram.programId,
         tokenProgram: token.TOKEN_PROGRAM_ID,
@@ -125,24 +128,24 @@ describe("offering", () => {
       .rpc();
   });
 
-  it("Buy NFT", async () => {
-    const [walletToWithdrawFrom, walletToDepositTo, walletToSendTo] = await Promise.all([
+  it("Buy NFT", async () => {    
+    const [buyerUsdWallet, treasurerUsdWallet, buyerNftWallet] = await Promise.all([
       createTokenAccount(connection, buyer, mintUSDT, buyer.publicKey),
       createTokenAccount(connection, treasurer, mintUSDT, treasurer.publicKey),
       createTokenAccount(connection, buyer, mintVOT1, buyer.publicKey)
     ]);
 
     await program.methods
-      .buy(new anchor.BN(pda.idx), pda.stateBump, pda.escrowBump, new anchor.BN(10))
+      .buy(new anchor.BN(pda.idx), pda.stateBump, pda.escrowBump, new anchor.BN(NFT_TO_BUY))
       .accounts({
-        treasurer: treasurer.publicKey,
-        mintOfTokenBeingPaid: mintUSDT,
-        mintOfTokenBeingSent: mintVOT1,
-        buyer: walletToWithdrawFrom.owner,
-        walletToWithdrawFrom: walletToWithdrawFrom.address,
-        walletToDepositTo: walletToDepositTo.address,
-        walletToSendTo: walletToSendTo.address,
-        escrowWalletState: pda.escrowWalletKey,
+        treasurer: treasurer.publicKey,        
+        mintOfNft: mintVOT1,
+        mintOfUsd: mintUSDT,
+        escrowNftWalletState: pda.escrowWalletKey,
+        buyer: buyerUsdWallet.owner,
+        buyerUsdWallet: buyerUsdWallet.address,
+        treasurerUsdWallet: treasurerUsdWallet.address,
+        buyerNftWallet: buyerNftWallet.address,        
         applicationState: pda.stateKey,
         systemProgram: anchor.web3.SystemProgram.programId,
         tokenProgram: token.TOKEN_PROGRAM_ID
@@ -150,10 +153,12 @@ describe("offering", () => {
       .signers([buyer])
       .rpc();
 
-    const balance = await connection.getTokenAccountBalance(walletToDepositTo.address);
-    console.log(balance.value.amount);
+    const [treasurerUsdBalance, buyerNftBalance] = await Promise.all([
+      connection.getTokenAccountBalance(treasurerUsdWallet.address),
+      connection.getTokenAccountBalance(buyerNftWallet.address)
+    ]);
 
-    const balance2 = await connection.getTokenAccountBalance(walletToSendTo.address);
-    console.log(balance2);
+    expect(buyerNftBalance.value.uiAmount).to.equal(NFT_TO_BUY) &&
+    expect(treasurerUsdBalance.value.uiAmount).to.equal(NFT_PRICE * NFT_TO_BUY);
   });
 });

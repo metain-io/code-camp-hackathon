@@ -1,4 +1,5 @@
 import { AdminLayout } from '@app/layouts';
+import { FormBuyNft } from '@business/buy-nft/components';
 import {
     OpportunityTrustPortfolioDetailProvider,
     OtpDetailDescription,
@@ -63,7 +64,9 @@ const PageOpportunityTrustPortfolio = () => {
                     </div>
                 </div>
 
-                <div id={styles.column_2}></div>
+                <div id={styles.column_2}>
+                    <FormBuyNft />
+                </div>
             </div>
         </OpportunityTrustPortfolioDetailProvider>
     );

@@ -9,10 +9,7 @@
 
     padding: 20px;
 
-    // border: 1px solid black;
-    border-radius: 16px;
-
-    background: $colorNeutral1;
+    border-radius: 0.8rem;
 
     @include shadow();
 }

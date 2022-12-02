@@ -13,14 +13,14 @@ const FormClaimDividends = () => {
 
     return (
         <>
-            <form className={styles['form']}>
-                <div className={styles['form-header']}>
+            <form className={[styles['form'], 'mBackground-style-1'].join(' ')}>
+                {/* <div className={styles['form-header']}>
                     <label className={styles['form-title']}>Claim dividends to invest more NFT for future life!!</label>
 
-                    {/* <div>
+                    <div>
                         <ClaimDividendsHistoryToggler />
-                    </div> */}
-                </div>
+                    </div>
+                </div> */}
 
                 <div className={styles['form-body']}>
                     <div>

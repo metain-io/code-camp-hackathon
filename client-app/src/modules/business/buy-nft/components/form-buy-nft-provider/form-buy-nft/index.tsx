@@ -24,7 +24,7 @@ const Header = () => {
 
     return (
         <div id={styles.header_wrapper}>
-            <Image className={styles.image_1} src={'/image/vot/vot-1.png'} />
+            <Image className={styles.image_1} src={'/image/vot/vot-1.png'} alt="" />
 
             <div className={styles.div_1}>
                 <span className={styles.span_1}>PURCHASE</span>

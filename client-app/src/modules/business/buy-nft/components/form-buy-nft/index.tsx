@@ -34,11 +34,11 @@ const Header = () => {
                         <span className={styles.span_3}>- - US$/NFT</span>
                     </div>
                     <div className={styles.item_1}>
-                        <span className={styles.span_2}>Total Supply</span>
+                        <span className={styles.span_2}>TOTAL SUPPLY</span>
                         <span className={styles.span_3}>- - NFT</span>
                     </div>
                     <div className={styles.item_1}>
-                        <span className={styles.span_2}>Sold</span>
+                        <span className={styles.span_2}>SOLD</span>
                         <span className={styles.span_3}>- - NFT</span>
                     </div>
                 </div>

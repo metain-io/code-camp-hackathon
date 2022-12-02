@@ -1,22 +1,26 @@
 import Anchor from '@app/layouts/admin-layout/navigation/components/anchor';
 import Image from '@app/layouts/admin-layout/navigation/components/image';
-import { useOpportunityTrustPortfolioDetailContext } from '@opportunity-trust-portfolio/components/opportunity-trust-portfoio-detail-provider/opportunity-trust-portfolio-detail-context';
+import { FormBuyNftProvider } from '..';
+import { useFormBuyNftContext } from '../form-buy-nft-context';
+import { ButtonPurchase } from './button-purchase';
 import { PurchaseInput } from './puchase-Input';
 import styles from './styles.module.scss';
 
 const FormBuyNft = () => {
     return (
-        <div id={styles.preorder_container}>
-            <div className={styles.inner_content}>
-                <Header />
-                <Body />
+        <FormBuyNftProvider>
+            <div id={styles.preorder_container}>
+                <div className={styles.inner_content}>
+                    <Header />
+                    <Body />
+                </div>
             </div>
-        </div>
+        </FormBuyNftProvider>
     );
 };
 
 const Header = () => {
-    const { id, name } = useOpportunityTrustPortfolioDetailContext();
+    const { id, name } = useFormBuyNftContext();
 
     return (
         <div id={styles.header_wrapper}>
@@ -48,7 +52,7 @@ const Header = () => {
 };
 
 const Body = () => {
-    const { id } = useOpportunityTrustPortfolioDetailContext();
+    const { id } = useFormBuyNftContext();
 
     return (
         <div id={styles.confirmorder_wrapper}>
@@ -77,7 +81,9 @@ const Body = () => {
                 </>
             </div>
 
-            <button className={[styles.button_1, 'mButton mButton-cn1-bp6'].join(' ')}>PURCHASE</button>
+            <div className={[styles.button_1, 'mButton mButton-cn1-bp6'].join(' ')}>
+                <ButtonPurchase />
+            </div>
 
             <span className={styles.span_6}>
                 By using Metain App. You agree to{' '}

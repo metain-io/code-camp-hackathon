@@ -12,6 +12,19 @@
         border: none;
 
         @include fontSize(3.2rem);
+
+        &::placeholder {
+            color: $colorNeutral4;
+            opacity: 1;
+        }
+
+        &:-ms-input-placeholder {
+            color: $colorNeutral4;
+        }
+
+        &::-ms-input-placeholder {
+            color: $colorNeutral4;
+        }
     }
 
     select {

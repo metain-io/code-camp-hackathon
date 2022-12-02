@@ -1,10 +1,10 @@
 import Image from '@app/layouts/admin-layout/navigation/components/image';
-import { useOpportunityTrustPortfolioDetailContext } from '@opportunity-trust-portfolio/components/opportunity-trust-portfoio-detail-provider/opportunity-trust-portfolio-detail-context';
 import React from 'react';
+import { useFormBuyNft } from '../../use-form-buy-nft';
 import styles from './styles.module.scss';
 
 const PurchaseInput = () => {
-    const { id } = useOpportunityTrustPortfolioDetailContext();
+    const { id } = useFormBuyNft();
 
     return (
         <div id={styles.preorder_input}>

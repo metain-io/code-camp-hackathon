@@ -27,6 +27,7 @@
 #row_1 {
     display: flex;
     flex-wrap: wrap;
+    padding: 0 3.2rem;
 }
 
 #column_2 {
@@ -43,6 +44,12 @@
     padding-top: 2.4rem;
     padding-left: 1.2rem;
     width: 41.6rem;
+}
+
+.mobile_container {
+    padding: 0 3.2rem;
+    display: flex;
+    width: 100%;
 }
 
 @media screen and (max-width: 1200px) {

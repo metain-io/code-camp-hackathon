@@ -19,7 +19,7 @@ const FaucetTokenPage = () => {
                 </div>
             </div>
 
-            {deviceType !== 'browser' && <FaucetTokenBox />}
+            {deviceType !== 'browser' && <div className={styles.mobile_container}><FaucetTokenBox /></div>}
         </>
     );
 }

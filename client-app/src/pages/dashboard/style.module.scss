@@ -123,12 +123,59 @@
 	}
 }
 
-#market_wrapper {
-	.div {
-		&_1 {
-			margin-bottom: 1.2rem;
-		}
-	}
+#dashboard_wrapper {
+    padding: 0 3.2rem;
+}
+
+#token_wrapper {
+    margin: 2.4rem 0;
+
+    .div {
+        &_1 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.8rem;
+        }
+    }
+
+    .table_div {
+        &_1 {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            justify-content: center;
+            height: 4.6rem;
+
+            .span {
+                &_1 {
+                    height: 2rem;
+                    color: $colorNeutral9;
+                    font-weight: 700;
+                    width: 18rem;
+                }
+
+                &_2 {
+                    height: 1.8rem;
+                    color: $colorNeutral6;
+                    @include fontSize(1.2rem);
+                    text-transform: uppercase;
+                }
+            }
+
+            .image {
+                &_1 {
+                    display: flex;
+                    align-items: center;
+                    padding: 0.8rem 0;
+                    margin-right: 0.8rem;
+                    width: 2.4rem;
+                    height: 4rem;
+                }
+            }
+        }
+    }
 }
 
 /* Responsive *************************************************************************************************************************************************/
@@ -155,6 +202,16 @@
 	}
 }
 
+@media screen and (max-width: 920px) {
+    #token_wrapper {
+        .span {
+            &_1 {
+                @include fontSize(1.4rem);
+            }
+        }
+    }
+}
+
 @media screen and (max-width: 992px) {
 	#information_wrapper,
 	#chart_wrapper {
@@ -162,7 +219,29 @@
 	}
 }
 
+@media screen and (min-width: 700px) and (max-width: 1100px),
+screen and (max-width: 620px) {
+    #token_wrapper {
+        .span {
+            &_1 {
+                margin-bottom: 0.8rem;
+            }
+        }
+
+        .div {
+            &_1 {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    }
+}
+
 @media screen and (min-width: 700px) and (max-width: 992px) {
+    #token_wrapper {
+        margin: 1.6rem 0;
+    }
+
 	#information_wrapper {
 		.span {
 			&_1 {

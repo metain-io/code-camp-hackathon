@@ -7,7 +7,7 @@ type FormBuyNftContextState = {
     amountToken: string;
     selectableTokens: Array<any>;
     selectedTokenIndex: number;
-    selectedToken: { symbol: string; iconUrl: string };
+    selectedToken: { symbol: string; iconUrl: string } | null;
     handleAmountNftChanged: (value: string) => void;
     handleAmountTokenChanged: (value: string) => void;
     handleSelectedTokenIndexChanged: (index: number) => void;

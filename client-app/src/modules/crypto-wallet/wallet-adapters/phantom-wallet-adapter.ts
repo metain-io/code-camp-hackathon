@@ -1,10 +1,14 @@
 import bs58 from 'bs58';
 import nacl from 'tweetnacl';
-import CryptoWallet, { CryptoWalletEvent } from '../crypto-wallet';
+import * as web3 from '@solana/web3.js';
+import * as SPL from '@solana/spl-token';
+import CryptoWallet, { CryptoWalletEvent, SelectedToken, TokenConfig } from '../crypto-wallet';
+import logger from '@libs/logger';
 
 export default class PhantomWallet extends CryptoWallet {
     _provider: any;
     _walletAccount?: string;
+    _tokenConfig?: Array<TokenConfig>
 
     constructor() {
         super();
@@ -12,6 +16,20 @@ export default class PhantomWallet extends CryptoWallet {
         const provider = (window as any)?.phantom?.solana;
 
         this._provider = provider;
+        this._tokenConfig = [
+            {
+                label: 'USDT',
+                value: 'A7yGbWrtgTjXVdxky86CSEyfH6Jy388RYFWfZsH2D8hr',
+                icon: '/svg/icon-token-usdt.svg',
+                decimalNo: BigInt(Math.pow(10, 6))
+            },
+            {
+                label: 'USDC',
+                value: '3GUqiPovczNg1KoZg5FovwRZ4KPFb95UGZCCTPFb9snc',
+                icon: '/svg/icon-token-usdc.svg',
+                decimalNo: BigInt(Math.pow(10, 6))
+            },
+        ]
     }
 
     get walletAccount(): string | undefined {
@@ -28,6 +46,16 @@ export default class PhantomWallet extends CryptoWallet {
 
     get downloadUrl(): string | undefined {
         return 'https://phantom.app/download';
+    }
+
+    get tokenForSelect(): Array<SelectedToken> {
+        return this._tokenConfig?.map((item, idx) => {
+            return {
+                label: item.label,
+                value: item.value,
+                icon: item.icon
+            }
+        }) || [];
     }
 
     async connect(network: any): Promise<string> {
@@ -66,6 +94,34 @@ export default class PhantomWallet extends CryptoWallet {
         }
 
         return `${this._walletAccount}|${bs58.encode(signature)}`;
+    }
+
+    async getBalances(userWalletAddress: string): Promise<{ [symbol: string]: number | bigint; }> {
+        const tmpBalances: { [name: string]: number | bigint } = {};
+        try {
+            const connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');
+            const tokenAccounts = await connection.getTokenAccountsByOwner(new web3.PublicKey(userWalletAddress), {
+                programId: SPL.TOKEN_PROGRAM_ID,
+            });
+            const solAmount = await connection.getBalance(new web3.PublicKey(userWalletAddress));
+
+            tmpBalances['SOL'] = BigInt(solAmount) / BigInt(web3.LAMPORTS_PER_SOL);
+            tokenAccounts?.value?.forEach((tokenAccount) => {
+                const accountData = SPL.AccountLayout.decode(tokenAccount.account.data);
+
+                const relatedToken = this._tokenConfig?.find((item, index) => {
+                    return item.value == accountData.mint.toBase58();
+                });
+                if (relatedToken) {
+                    tmpBalances[relatedToken.label] = accountData.amount / relatedToken.decimalNo;
+                }
+            });
+            logger.debug('=== PhantomWallet - getBalances - BALANCE: ', tmpBalances);
+        } catch (error: any) {
+            logger.debug('=== PhantomWallet - getBalances - ERROR: ', error);
+            return {};
+        }
+        return tmpBalances;
     }
 
     eventChannelEmitter = (emit: any) => {

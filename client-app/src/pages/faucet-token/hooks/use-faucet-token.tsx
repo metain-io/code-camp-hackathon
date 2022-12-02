@@ -6,21 +6,11 @@ import * as SPL from '@solana/spl-token';
 import base58 from 'bs58';
 import { SelectBox_Component } from '../components/select-box';
 import { useNotify, useResponsive } from '@shared/hooks';
+import WalletService from '@crypto-wallet/services/crypto-wallet-service';
 
 const useFaucetToken = () => {
     const DECIMAL_NUMBER = BigInt(Math.pow(10, 6));
-    const TOKEN_CONFIG: Array<SelectBox_Component.Value> = [
-        {
-            label: 'USDT',
-            value: 'A7yGbWrtgTjXVdxky86CSEyfH6Jy388RYFWfZsH2D8hr',
-            icon: '/svg/icon-token-usdt.svg',
-        },
-        {
-            label: 'USDC',
-            value: '3GUqiPovczNg1KoZg5FovwRZ4KPFb95UGZCCTPFb9snc',
-            icon: '/svg/icon-token-usdc.svg',
-        },
-    ];
+    const TOKEN_CONFIG: Array<SelectBox_Component.Value> = WalletService._currentWallet?.tokenForSelect || [];
 
     const { showToast } = useNotify();
     const deviceType = useResponsive();
@@ -32,31 +22,12 @@ const useFaucetToken = () => {
     });
 
     const getBalances = async (tokenAddress: string) => {
-        try {
-            const connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');
-            const tokenAccounts = await connection.getTokenAccountsByOwner(new web3.PublicKey(walletAddress), {
-                programId: SPL.TOKEN_PROGRAM_ID,
-            });
-            const tmpBalances: { [name: string]: number | bigint } = {};
-            const solAmount = await connection.getBalance(new web3.PublicKey(walletAddress));
+        const tmpBalances = await WalletService._currentWallet?.getBalances(
+            walletAddress
+        ) || {};
 
-            tmpBalances['SOL'] = (BigInt(solAmount) / BigInt(web3.LAMPORTS_PER_SOL));
-            tokenAccounts?.value?.forEach((tokenAccount) => {
-                const accountData = SPL.AccountLayout.decode(tokenAccount.account.data);
-
-                const relatedToken = TOKEN_CONFIG.find((item, index) => {
-                    return item.value == accountData.mint.toBase58();
-                });
-                if (relatedToken) {
-                    tmpBalances[relatedToken.label] = accountData.amount / DECIMAL_NUMBER;
-                }
-            });
-            console.log('================== getBalances - BALANCE: ', tmpBalances);
-
-            setBalances(tmpBalances);
-        } catch (error: any) {
-            console.log('============ getBalances - ERROR: ', error);
-        }
+        setBalances(tmpBalances);
+        return tmpBalances;
     };
 
     const createKeyPairFromPrivateKey = (connection: web3.Connection, privateKey: string) => {

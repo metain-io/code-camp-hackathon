@@ -30,6 +30,8 @@
         "bn.js": "^5.2.1",
         "bootstrap": "^5.2.3",
         "bs58": "^5.0.0",
+        "chart.js": "^3.8.0",
+        "chartjs-chart-financial": "^0.1.1",
         "crypto-js": "^4.1.1",
         "eslint": "8.28.0",
         "eslint-config-next": "13.0.5",

@@ -46,6 +46,7 @@ const OtpDetailRoadmap = () => {
 
                     return (
                         <div
+                            key={`roadmap-node-${title}-${index}`}
                             className={[styles.item_1, className].join(' ')}
                             style={{ '--percent': `${percent}%` } as React.CSSProperties}
                         >

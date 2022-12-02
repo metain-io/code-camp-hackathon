@@ -18,6 +18,7 @@ const OtpDetailPartners = () => {
                                 const { imageUrl, name: partnerName } = value;
                                 return (
                                     <Image
+                                        key={`partners-${partnerName}-${index}`}
                                         className={[styles.image_1, styles[`image_${partnerName}`]].join(' ')}
                                         src={imageUrl}
                                         alt={`Metain Partner ${name} ${partnerName}`}

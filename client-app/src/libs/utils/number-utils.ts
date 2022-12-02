@@ -1,14 +1,4 @@
-export function formatNumber(number?: number, pointSymbol = ',', separatorSymbol = '.') {
-    if (!number) return '';
-
-    const strNumber = numberToFixedString(number);
-    const [integer, decimal] = strNumber.split('.');
-    let newInteger = integer.replace(/\B(?=(\d{3})+(?!\d))/g, separatorSymbol);
-
-    return decimal ? `${newInteger}${pointSymbol}${decimal}` : newInteger;
-}
-
-export function formatNumber2(
+export function formatNumber(
     number: number,
     numberOfFraction: number = 2,
     decimalSeparator: string = ',',

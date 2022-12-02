@@ -53,7 +53,7 @@ const Header = () => {
 };
 
 const Body = () => {
-    const { id, amountNft, amountToken, selectedToken } = useFormBuyNftContext();
+    const { id, amountNft, selectedToken } = useFormBuyNftContext();
 
     return (
         <div id={styles.confirmorder_wrapper}>

@@ -1,0 +1,61 @@
+{
+  "beta": {
+    "DOMAINS": {
+      "NFT_METADATA": {
+        "NAME": "hackathon.niatem-beta.com"
+      }
+    }
+  },
+  "prod": {
+    "DOMAINS": {
+      "NFT_METADATA": {
+        "NAME": "metadata.metain.app"
+      }
+    }
+  },
+  "common": {
+    "AWS_REGION_VAR": "ap-southeast-1",
+
+    "INSTITUTIONS": {
+      "PRINCIPLE": "hackathon"
+    },
+
+    "TAGS": {
+      "AUTHOR": "metain"
+    },
+
+    "SNS": {
+      "MONITORING": {
+        "NAME": "monitoring-resources",
+        "PROTOCOL": "email",
+        "EMAILS": ["hanh.pham@metain.io"]
+      }
+    },
+
+    "IAM_USERS": {
+      "DEPLOYMENT_NFT_METADATA": {
+        "NAME": "deployment-code-camp",
+        "ROLE_NAME": "deployment-code-camp"
+      }
+    },
+
+    "S3": {
+      "CODE_CAMP": {
+        "NAME": "code-camp",
+        "IS_WEB_APP": false,
+        "IS_ACCESS_VIA_CF": true
+      },
+      "DISTRIBUTION_LOGS": {
+        "NAME": "code-camp-distribution-logs",
+        "IS_WEB_APP": false,
+        "IS_ACCESS_VIA_CF": false
+      }
+    },
+
+    "CLOUDFRONT": {
+      "CODE_CAMP": {
+        "NAME": "code-camp"
+      }
+    }
+  }
+}

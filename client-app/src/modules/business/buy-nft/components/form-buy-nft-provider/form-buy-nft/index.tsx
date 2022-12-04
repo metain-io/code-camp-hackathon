@@ -4,6 +4,7 @@ import { formatNumber } from '@libs/utils';
 import { FormBuyNftProvider } from '..';
 import { useFormBuyNftContext } from '../form-buy-nft-context';
 import { ButtonPurchase } from './button-purchase';
+import { BuyNftHistoryToggler } from './buy-nft-history-toggler';
 import { PurchaseInput } from './puchase-Input';
 import styles from './styles.module.scss';
 
@@ -28,10 +29,17 @@ const Header = () => {
             <Image className={styles.image_1} src={'/image/vot/vot-1.png'} alt="" />
 
             <div className={styles.div_1}>
-                <span className={styles.span_1}>PURCHASE</span>
-                <Anchor href="/admin/vot/building/1" className={[styles.span_1].join(' ')}>
-                    {`${id}: ${name}`}
-                </Anchor>
+                <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+                        <span className={styles.span_1}>PURCHASE</span>
+                        <Anchor href="/admin/vot/building/1" className={[styles.span_1].join(' ')}>
+                            {`${id}: ${name}`}
+                        </Anchor>
+                    </div>
+                    <div>
+                        <BuyNftHistoryToggler />
+                    </div>
+                </div>
 
                 <div className={styles.div_2}>
                     <div className={styles.item_1}>

@@ -1,28 +1,31 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
 .table-wrapper {
     $heightPerRow: 42px;
 
-    max-height: 50vh;
+    max-height: 70vh;
 
-    border: 1px solid black;
     margin: 10px;
     overflow: auto;
 
     table {
         width: 100%;
-        border: 1px solid black;
+        border-bottom: 1px solid $colorNeutral3;
+        background: $colorNeutral1;
 
         thead {
             position: sticky;
             top: 0;
 
-            background-color: white;
-            outline: 1px solid black;
+            background: $colorPrimary1;
+            // outline: 1px solid black;
         }
 
         tr,
         th,
         td {
-            border: 1px solid black;
+            // border: 1px solid black;
             height: $heightPerRow;
         }
 
@@ -32,11 +35,15 @@
         }
 
         th {
+            padding: 4px 14px;
+
             text-align: center;
+            @include fontSize(1.6rem);
+            font-weight: 500;
             line-height: $heightPerRow;
-            font-weight: bold;
             white-space: nowrap;
-            padding: 4px;
+
+            color: $colorNeutral6;
         }
 
         th[data-name='date'] {
@@ -44,7 +51,7 @@
         }
 
         th[data-name^='amount'] {
-            width: 12rem;
+            width: 15rem;
         }
 
         td {

@@ -1,3 +1,16 @@
 .modal-dialog {
-    min-width: max(360px, 80vw);
+    min-width: 80vw;
+}
+
+@media screen and (max-width: 700px) {
+    .modal-dialog {
+        min-width: 100vw;
+        margin: 0 10px;
+
+        :global {
+            .modal-content {
+                width: calc(100vw - 20px);
+            }
+        }
+    }
 }

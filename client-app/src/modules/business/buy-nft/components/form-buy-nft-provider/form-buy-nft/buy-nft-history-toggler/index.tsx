@@ -7,16 +7,16 @@ const BuyNftHistoryToggler = () => {
     const [showHistory, setShowHistory] = React.useState(false);
 
     const handleShow = () => {
-        setShowHistory(() => true);
+        setShowHistory(true);
     };
 
     const handleHide = () => {
-        setShowHistory(() => false);
+        setShowHistory(false);
     };
 
     return (
         <>
-            <a href="#" onClick={handleShow}>
+            <a href="#" onClick={handleShow} style={{ color: 'white', textDecoration: 'underline' }}>
                 History
             </a>
 

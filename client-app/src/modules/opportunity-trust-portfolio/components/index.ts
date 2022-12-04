@@ -1,1 +1,1 @@
-export * from './opportunity-trust-portfoio-detail-provider';
+export * from './opportunity-trust-portfoio-detail';

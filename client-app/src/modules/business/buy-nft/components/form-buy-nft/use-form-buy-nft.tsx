@@ -1,4 +1,4 @@
-import { useOpportunityTrustPortfolioDetailContext } from '@opportunity-trust-portfolio/components/opportunity-trust-portfoio-detail-provider/opportunity-trust-portfolio-detail-context';
+import { useOpportunityTrustPortfolioDetailContext } from '@opportunity-trust-portfolio/components';
 import React from 'react';
 
 enum FormBuyNftStatus {

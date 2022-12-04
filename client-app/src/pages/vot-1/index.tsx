@@ -10,8 +10,8 @@ import {
     OtpDetailPartners,
     OtpDetailRoadmap,
     OtpDetailSummary,
+    useOpportunityTrustPortfolioDetailContext,
 } from '@opportunity-trust-portfolio/components';
-import { useOpportunityTrustPortfolioDetailContext } from '@opportunity-trust-portfolio/components/opportunity-trust-portfoio-detail-provider/opportunity-trust-portfolio-detail-context';
 import { ReactElement } from 'react';
 import styles from './styles.module.scss';
 

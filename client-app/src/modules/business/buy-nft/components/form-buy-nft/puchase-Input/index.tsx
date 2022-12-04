@@ -2,7 +2,7 @@ import Image from '@app/layouts/admin-layout/navigation/components/image';
 import { formatNumber } from '@libs/utils';
 import React, { FormEvent } from 'react';
 import { ChangeEvent } from 'react';
-import { useFormBuyNftContext } from '../../form-buy-nft-context';
+import { useFormBuyNftContext } from '../form-buy-nft-context';
 import styles from './styles.module.scss';
 
 const PurchaseInput = () => {

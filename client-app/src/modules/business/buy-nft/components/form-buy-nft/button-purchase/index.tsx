@@ -1,5 +1,5 @@
-import { useFormBuyNftContext } from '../../form-buy-nft-context';
-import { FormBuyNftStatus } from '../../use-form-buy-nft';
+import { useFormBuyNftContext } from '../form-buy-nft-context';
+import { FormBuyNftStatus } from '../use-form-buy-nft';
 import styles from './styles.module.scss';
 
 const ButtonPurchase = () => {

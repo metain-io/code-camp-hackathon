@@ -13,5 +13,3 @@ const FormBuyNftProvider = (props: FormBuyNftProviderProps) => {
 };
 
 export { FormBuyNftProvider };
-
-export * from './form-buy-nft';

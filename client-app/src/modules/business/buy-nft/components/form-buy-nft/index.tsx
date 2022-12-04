@@ -1,8 +1,8 @@
 import Anchor from '@app/layouts/admin-layout/navigation/components/anchor';
 import Image from '@app/layouts/admin-layout/navigation/components/image';
 import { formatNumber } from '@libs/utils';
-import { FormBuyNftProvider } from '..';
-import { useFormBuyNftContext } from '../form-buy-nft-context';
+import { FormBuyNftProvider } from './form-buy-nft-provider';
+import { useFormBuyNftContext } from './form-buy-nft-context';
 import { ButtonPurchase } from './button-purchase';
 import { BuyNftHistoryToggler } from './buy-nft-history-toggler';
 import { PurchaseInput } from './puchase-Input';

@@ -12,6 +12,7 @@
         "start:alpha": "node ./tools/scripts/start.js --e alpha",
         "start:beta": "node ./tools/scripts/start.js --e beta",
         "start:prod": "node ./tools/scripts/start.js --e prod",
+        "deploy-beta": "gulp deploy --env beta",
         "lint": "next lint"
     },
     "dependencies": {
@@ -32,9 +33,11 @@
         "bs58": "^5.0.0",
         "chart.js": "^3.8.0",
         "chartjs-chart-financial": "^0.1.1",
+        "child_process": "^1.0.2",
         "crypto-js": "^4.1.1",
         "eslint": "8.28.0",
         "eslint-config-next": "13.0.5",
+        "gulp": "^4.0.2",
         "lightgallery": "^2.7.0",
         "moment": "^2.29.4",
         "moment-timezone": "^0.5.39",
@@ -53,7 +56,8 @@
         "sass": "^1.56.1",
         "sweetalert2": "^11.4.17",
         "tweetnacl": "^1.0.3",
-        "typescript": "4.9.3"
+        "typescript": "4.9.3",
+        "yargs": "^17.6.2"
     },
     "devDependencies": {
         "@types/bn.js": "^5.1.1",

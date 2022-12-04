@@ -10,8 +10,7 @@ const PurchaseInput = () => {
         id,
         selectableTokens,
         selectedToken,
-        amountNft,
-        amountToken,
+        formData,
         handleAmountNftChanged,
         handleAmountTokenChanged,
         handleSelectedTokenIndexChanged,
@@ -63,12 +62,14 @@ const PurchaseInput = () => {
                         inputMode="numeric"
                         type={'number'}
                         placeholder="0"
-                        value={amountNft}
+                        value={formData.amountNft}
                         onBeforeInput={onBeforeInputAmountNft}
                         onChange={onInputAmountNftChanged}
                     />
 
-                    {amountNft && <span className={styles['formatted']}>{formatNumber(+amountNft)}</span>}
+                    {formData.amountNft && (
+                        <span className={styles['formatted']}>{formatNumber(+formData.amountNft)}</span>
+                    )}
                 </div>
             </div>
 
@@ -93,14 +94,14 @@ const PurchaseInput = () => {
                         inputMode="numeric"
                         type={'number'}
                         placeholder="0"
-                        value={amountToken}
+                        value={formData.amountToken}
                         onBeforeInput={onBeforeInputAmountToken}
                         onChange={onInputAmountTokenChanged}
                         style={{ textAlign: 'right' }}
                     />
-                    {amountToken && (
+                    {formData.amountToken && (
                         <span className={styles['formatted']} style={{ textAlign: 'right' }}>
-                            {formatNumber(+amountToken)}
+                            {formatNumber(+formData.amountToken)}
                         </span>
                     )}
                 </div>

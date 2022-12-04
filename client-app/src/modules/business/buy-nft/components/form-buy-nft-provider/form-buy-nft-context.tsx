@@ -1,26 +1,19 @@
 import React from 'react';
-
-export enum FormBuyNftStatus {
-    Idle,
-    Loading,
-    LoadFailed,
-    LoadFinished,
-    Processing,
-    ProcessFailed,
-    ProcessSucceeded,
-}
+import { FormBuyNftStatus } from './use-form-buy-nft';
 
 type FormBuyNftContextState = {
-    status: FormBuyNftStatus;
-    error: any;
-
     id: string;
     name: string;
 
-    amountNft: string;
-    amountToken: string;
+    status: FormBuyNftStatus;
+    error: any;
+    formData: {
+        amountNft: string;
+        amountToken: string;
+        selectedTokenIndex: number;
+    };
+
     selectableTokens: Array<any>;
-    selectedTokenIndex: number;
     selectedToken: { symbol: string; iconUrl: string } | null;
 
     handleAmountNftChanged: (value: string) => void;

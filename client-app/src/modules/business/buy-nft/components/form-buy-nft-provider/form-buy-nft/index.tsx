@@ -53,7 +53,7 @@ const Header = () => {
 };
 
 const Body = () => {
-    const { id, amountNft, selectedToken } = useFormBuyNftContext();
+    const { id, formData, selectedToken } = useFormBuyNftContext();
 
     return (
         <div id={styles.confirmorder_wrapper}>
@@ -70,7 +70,7 @@ const Body = () => {
             <div className={styles.div_2}>
                 <span className={styles.span_4}>Amount NFT</span>
                 <span className={styles.span_5}>
-                    {(amountNft && formatNumber(+amountNft)) || '- -'} {id} NFT
+                    {(formData.amountNft && formatNumber(+formData.amountNft)) || '- -'} {id} NFT
                 </span>
 
                 <span className={styles.span_4}>NFT Price</span>
@@ -82,7 +82,7 @@ const Body = () => {
                     <span className={[styles.span_4, styles.stressed].join(' ')}>Payment Total</span>
                     <span className={[styles.span_5, styles.stressed].join(' ')}>
                         {' '}
-                        {(amountNft && formatNumber(+amountNft * 10)) || '- -'} US$
+                        {(formData.amountNft && formatNumber(+formData.amountNft * 10)) || '- -'} US$
                     </span>
                 </>
             </div>

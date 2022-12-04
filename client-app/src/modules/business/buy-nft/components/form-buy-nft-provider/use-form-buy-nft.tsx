@@ -1,7 +1,7 @@
 import { useOpportunityTrustPortfolioDetailContext } from '@opportunity-trust-portfolio/components/opportunity-trust-portfoio-detail-provider/opportunity-trust-portfolio-detail-context';
 import React from 'react';
 
-export enum FormBuyNftStatus {
+enum FormBuyNftStatus {
     Idle,
     Initializing,
     InitializeFailed,
@@ -11,7 +11,7 @@ export enum FormBuyNftStatus {
     ProcessSucceeded,
 }
 
-export enum FormBuyNftAction {
+enum FormBuyNftAction {
     InitRequested = 'INIT_REQUESTED',
     InitFailed = 'INIT_FAILED',
     InitSucceeded = 'INIT_SUCCEEDED',
@@ -23,7 +23,7 @@ export enum FormBuyNftAction {
     PurchaseNftSucceeded = 'PURCHASE_NFT_SUCCEEDED',
 }
 
-export type FormBuyNftState = {
+type FormBuyNftState = {
     status: FormBuyNftStatus;
     error: any;
     formData: {
@@ -203,4 +203,5 @@ const useFormBuyNft = () => {
     };
 };
 
-export { useFormBuyNft };
+export { useFormBuyNft, FormBuyNftStatus, FormBuyNftAction };
+export type { FormBuyNftState };

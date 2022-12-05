@@ -245,7 +245,7 @@ const useFormBuyNft = () => {
             ]);
 
             const transaction = await program.methods
-                .buy(new anchor.BN(pda.idx), pda.stateBump, pda.escrowBump, new anchor.BN(1))
+                .buy(new anchor.BN(pda.idx), pda.stateBump, pda.escrowBump, new anchor.BN(state.formData.amountNft))
                 .accounts({
                     applicationState: pda.stateKey,
                     escrowNftWalletState: pda.escrowWalletKey,

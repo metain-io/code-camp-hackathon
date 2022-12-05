@@ -10,6 +10,12 @@
     margin-bottom: 2.4rem;
     background: linear-gradient(156.49deg, #1ea2ff -88.92%, #002393 67.76%);
 
+    .icon {
+        &_1 {
+            font-size: 25rem;
+        }
+    }
+
     .span {
         &_1 {
             margin-bottom: 2.4rem;
@@ -179,7 +185,7 @@
         &_2 {
             display: flex;
             justify-content: center;
-            flex: 0 0 30rem;
+            flex: 0 0 28rem;
             position: relative;
         }
 
@@ -214,7 +220,6 @@
             &_1 {
                 margin-bottom: 1.6rem;
                 @include fontSize(2.4rem);
-                white-space: nowrap;
             }
 
             &_2 {

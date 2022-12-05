@@ -22,24 +22,17 @@ const MainBanner = () => {
                     <li className={styles.tutorialStep}>
                         <h4 className={styles.tutorialStepHeader}>
                             <span className={styles.tutorialStepBullet}>2</span>
-                            Enter Solana Wallet
-                        </h4>
-                        <p className={styles.tutorialStepContent}>Enter your devnet Solana wallet to mint mock USDC to</p>
-                    </li>
-                    <li className={styles.tutorialStep}>
-                        <h4 className={styles.tutorialStepHeader}>
-                            <span className={styles.tutorialStepBullet}>3</span>
                             Request mint
                         </h4>
                         <p className={styles.tutorialStepContent}>Click the request button to mint to mock USDC to the requested Solana devnet address.</p>
                     </li>
                 </ul>
+            </div>
 
-                {/* <Link href={'/admin/vot/building/1'}>
-                    <span className={[styles.button_1, 'mButton mButton-cp6-bn1'].join(' ')}>
-                        XXXXXXXXXXXXXXXXXXXX AAA
-                    </span>
-                </Link> */}
+            <div className={styles.div_2}>
+                <span className={styles.span_1}>
+                    <i className={[styles.icon_1, 'fml fm-gas-pump'].join(' ')}></i>
+                </span>
             </div>
 
             {/* <div className={styles.div_4}>

@@ -176,10 +176,6 @@ const PortfolioTableWrapper = (props: any) => {
                         value: 'name',
                         label: 'Tokens',
                         customRender: (row) => {
-                            const { name, symbol } = row;
-
-                            const isMeiToken = symbol == 'MEI';
-
                             return (
                                 <>
                                     <div className={styles.table_div_1}>

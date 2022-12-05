@@ -7,6 +7,9 @@ import { ButtonPurchase } from './button-purchase';
 import { BuyNftHistoryToggler } from './buy-nft-history-toggler';
 import { PurchaseInput } from './puchase-Input';
 import styles from './styles.module.scss';
+import { useOpportunityTrustPortfolioDetailContext } from '@opportunity-trust-portfolio/components';
+import React from 'react';
+import CryptoWalletService from '@crypto-wallet/services/crypto-wallet-service';
 
 const FormBuyNft = () => {
     return (
@@ -22,7 +25,7 @@ const FormBuyNft = () => {
 };
 
 const Header = () => {
-    const { id, name } = useFormBuyNftContext();
+    const { id, name, saleInfo } = useOpportunityTrustPortfolioDetailContext();
 
     return (
         <div id={styles.header_wrapper}>
@@ -44,15 +47,21 @@ const Header = () => {
                 <div className={styles.div_2}>
                     <div className={styles.item_1}>
                         <span className={styles.span_2}>{id} NFT</span>
-                        <span className={styles.span_3}>- - US$/NFT</span>
+                        <span className={styles.span_3}>
+                            {(saleInfo?.nftPrice && formatNumber(saleInfo.nftPrice)) || '- -'} US$/NFT
+                        </span>
                     </div>
                     <div className={styles.item_1}>
                         <span className={styles.span_2}>TOTAL SUPPLY</span>
-                        <span className={styles.span_3}>- - NFT</span>
+                        <span className={styles.span_3}>
+                            {(saleInfo?.nftTotalSupply && formatNumber(saleInfo.nftTotalSupply)) || '- -'} NFT
+                        </span>
                     </div>
                     <div className={styles.item_1}>
                         <span className={styles.span_2}>SOLD</span>
-                        <span className={styles.span_3}>- - NFT</span>
+                        <span className={styles.span_3}>
+                            {(saleInfo?.nftSold && formatNumber(saleInfo.nftSold)) || '- -'} NFT
+                        </span>
                     </div>
                 </div>
             </div>
@@ -61,7 +70,8 @@ const Header = () => {
 };
 
 const Body = () => {
-    const { id, formData, selectedToken } = useFormBuyNftContext();
+    const { id, saleInfo } = useOpportunityTrustPortfolioDetailContext();
+    const { formData, selectedToken } = useFormBuyNftContext();
 
     return (
         <div id={styles.confirmorder_wrapper}>
@@ -71,9 +81,7 @@ const Body = () => {
 
             <div className={styles.div_3}>
                 <span className={styles.span_1}>Wallet Balance:</span>
-                <div className={styles.div_4}>
-                    <span className={styles.block_span_4}>- - {selectedToken?.symbol || '- -'}</span>
-                </div>
+                <TokenBalance />
             </div>
             <div className={styles.div_2}>
                 <span className={styles.span_4}>Amount NFT</span>
@@ -82,7 +90,9 @@ const Body = () => {
                 </span>
 
                 <span className={styles.span_4}>NFT Price</span>
-                <span className={styles.span_5}>- - US$</span>
+                <span className={styles.span_5}>
+                    {(saleInfo?.nftPrice && formatNumber(saleInfo.nftPrice)) || '- -'} US$
+                </span>
 
                 <>
                     <div className={styles.separator_2} />
@@ -108,6 +118,34 @@ const Body = () => {
 
             {/* <ModalInsufficientFund ref={modalInsufficientFundRef} requiredAmountUsd={totalAmountUsdPayment} /> */}
             {/* <BackdropSpinner active={isProcessing || fullPaymentEnabled === undefined} /> */}
+        </div>
+    );
+};
+
+const TokenBalance = () => {
+    const { selectedToken } = useFormBuyNftContext();
+    const [tokenBalance, setTokenBalance] = React.useState<any>();
+
+    React.useEffect(() => {
+        const getSelectedTokenBalance = async () => {
+            if (!selectedToken?.symbol || !CryptoWalletService.currentWallet?.walletAccount) {
+                return null;
+            }
+
+            const balances = await CryptoWalletService.currentWallet?.getBalances(
+                CryptoWalletService.currentWallet.walletAccount,
+            );
+            return balances[selectedToken?.symbol];
+        };
+
+        getSelectedTokenBalance().then((tokenBalance) => setTokenBalance(tokenBalance));
+    }, [selectedToken]);
+
+    return (
+        <div className={styles.div_4}>
+            <span className={styles.block_span_4}>
+                {tokenBalance?.toString() || ' - -'} {selectedToken?.symbol || '- -'}
+            </span>
         </div>
     );
 };

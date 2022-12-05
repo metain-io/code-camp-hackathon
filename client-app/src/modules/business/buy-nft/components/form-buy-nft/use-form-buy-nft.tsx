@@ -117,7 +117,6 @@ const formBuyNftReducer = (state: FormBuyNftState, action: any) => {
 };
 
 const useFormBuyNft = () => {
-    const { id, name } = useOpportunityTrustPortfolioDetailContext();
     const [state, dispatch] = React.useReducer(formBuyNftReducer, initialState);
 
     React.useEffect(() => {
@@ -187,9 +186,6 @@ const useFormBuyNft = () => {
     };
 
     return {
-        id,
-        name,
-
         ...state,
 
         selectableTokens,

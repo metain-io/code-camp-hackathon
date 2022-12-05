@@ -9,10 +9,10 @@ type OpportunityTrustPortfolioDetailProps = PropsWithChildren<{
 const OpportunityTrustPortfolioDetailProvider = (props: OpportunityTrustPortfolioDetailProps) => {
     const { id = 'VOT1', children } = props;
 
-    const { data } = useOpportunityTrustPortfolioDetail(id);
+    const detail = useOpportunityTrustPortfolioDetail(id);
 
     return (
-        <OpportunityTrustPortfolioDetailContext.Provider value={data}>
+        <OpportunityTrustPortfolioDetailContext.Provider value={detail}>
             {children}
         </OpportunityTrustPortfolioDetailContext.Provider>
     );

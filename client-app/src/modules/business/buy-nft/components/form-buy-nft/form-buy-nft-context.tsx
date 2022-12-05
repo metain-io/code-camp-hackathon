@@ -2,9 +2,6 @@ import React from 'react';
 import { FormBuyNftState } from './use-form-buy-nft';
 
 type FormBuyNftContextState = FormBuyNftState & {
-    id: string;
-    name: string;
-
     selectableTokens: Array<any>;
     selectedToken: { symbol: string; iconUrl: string } | null;
 

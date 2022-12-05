@@ -36,6 +36,12 @@ type OpportunityTrustPortfolioDetailContextState = {
         timeLabel: string;
     }>;
     mapUrl: string;
+    saleInfo?: {
+        nftTotalSupply: number;
+        nftTotalRemaining: number;
+        nftSold: number;
+        nftPrice: number;
+    };
 };
 
 const OpportunityTrustPortfolioDetailContext = React.createContext({} as OpportunityTrustPortfolioDetailContextState);

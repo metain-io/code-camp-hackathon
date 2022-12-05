@@ -1,0 +1,13 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/claim-dividends": "pages/claim-dividends.html",
+  "/dashboard": "pages/dashboard.html",
+  "/faucet-token": "pages/faucet-token.html",
+  "/": "pages/index.html",
+  "/login": "pages/login.html",
+  "/share-dividend": "pages/share-dividend.html",
+  "/vot-1": "pages/vot-1.html",
+  "/404": "pages/404.html"
+}

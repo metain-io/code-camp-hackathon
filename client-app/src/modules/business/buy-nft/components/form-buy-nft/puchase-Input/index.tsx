@@ -80,7 +80,7 @@ const PurchaseInput = () => {
                 <div className={[styles.input_block_label_currency, styles.flex_end].join(' ')}>
                     <Image src={selectedToken?.iconUrl} alt="" />
                     <select onChange={onSelectTokenChanged}>
-                        {selectableTokens.map((token, index) => {
+                        {selectableTokens.map((token: { symbol: string; iconUrl: string }, index: number) => {
                             return (
                                 <option key={`token-${index}`} value={index}>
                                     {token.symbol}

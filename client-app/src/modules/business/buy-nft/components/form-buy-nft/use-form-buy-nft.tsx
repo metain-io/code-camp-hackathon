@@ -1,41 +1,10 @@
-import { clusterApiUrl, Connection, Keypair, PublicKey, Signer } from '@solana/web3.js';
-import React from 'react';
-import * as anchor from '@project-serum/anchor';
 import CryptoWalletService from '@crypto-wallet/services/crypto-wallet-service';
+import * as anchor from '@project-serum/anchor';
 import { getOrCreateAssociatedTokenAccount, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { clusterApiUrl, Connection, Keypair, PublicKey } from '@solana/web3.js';
+import React from 'react';
 import { IDL } from '../../data/program-idls/offering-idl';
-
-enum FormBuyNftStatus {
-    Idle,
-    Initializing,
-    InitializeFailed,
-    InitializeSucceeded,
-    Processing,
-    ProcessFailed,
-    ProcessSucceeded,
-}
-
-enum FormBuyNftAction {
-    InitRequested = 'INIT_REQUESTED',
-    InitFailed = 'INIT_FAILED',
-    InitSucceeded = 'INIT_SUCCEEDED',
-    AmountNftChanged = 'AMOUNT_NFT_CHANGED',
-    AmountTokenChanged = 'AMOUNT_TOKEN_CHANGED',
-    SelectedTokenIndexChanged = 'SELECTED_TOKEN_INDEX_CHANGED',
-    PurchaseNftRequested = 'PURCHASE_NFT_REQUESTED',
-    PurchaseNftFailed = 'PURCHASE_NFT_FAILED',
-    PurchaseNftSucceeded = 'PURCHASE_NFT_SUCCEEDED',
-}
-
-type FormBuyNftState = {
-    status: FormBuyNftStatus;
-    error: any;
-    formData: {
-        selectedTokenIndex: number;
-        amountNft: string;
-        amountToken: string;
-    };
-};
+import { FormBuyNftAction, formBuyNftReducer, FormBuyNftState, FormBuyNftStatus } from './form-buy-nft-reducer';
 
 const selectableTokens = [
     // {
@@ -56,68 +25,6 @@ const initialState: FormBuyNftState = {
         amountNft: '',
         amountToken: '',
     },
-};
-
-const formBuyNftReducer = (state: FormBuyNftState, action: any) => {
-    const { type, payload } = action;
-
-    console.log(`handle ${type}`, payload);
-
-    const handlers: any = {
-        [FormBuyNftAction.InitRequested]: () => {
-            state.status = FormBuyNftStatus.Initializing;
-        },
-
-        [FormBuyNftAction.InitFailed]: (payload: any) => {
-            const { error } = payload;
-
-            state.status = FormBuyNftStatus.InitializeFailed;
-            state.error = error;
-        },
-
-        [FormBuyNftAction.InitSucceeded]: () => {
-            state.status = FormBuyNftStatus.InitializeSucceeded;
-        },
-
-        [FormBuyNftAction.AmountNftChanged]: (payload: any) => {
-            let { amountNft, amountToken } = payload;
-
-            state.formData.amountNft = amountNft;
-            state.formData.amountToken = amountToken;
-        },
-
-        [FormBuyNftAction.AmountTokenChanged]: (payload: any) => {
-            const { amountToken, amountNft } = payload;
-
-            state.formData.amountToken = amountToken;
-            state.formData.amountNft = amountNft;
-        },
-
-        [FormBuyNftAction.SelectedTokenIndexChanged]: (payload: any) => {
-            const { index } = payload;
-
-            state.formData.selectedTokenIndex = index;
-        },
-
-        [FormBuyNftAction.PurchaseNftRequested]: () => {
-            state.status = FormBuyNftStatus.Processing;
-        },
-
-        [FormBuyNftAction.PurchaseNftFailed]: (payload: any) => {
-            const { error } = payload;
-
-            state.status = FormBuyNftStatus.ProcessFailed;
-            state.error = error;
-        },
-
-        [FormBuyNftAction.PurchaseNftSucceeded]: () => {
-            state.status = FormBuyNftStatus.ProcessSucceeded;
-        },
-    };
-
-    handlers[type]?.(payload);
-
-    return { ...state };
 };
 
 const useFormBuyNft = () => {
@@ -297,5 +204,4 @@ const useFormBuyNft = () => {
     };
 };
 
-export { useFormBuyNft, FormBuyNftStatus, FormBuyNftAction };
-export type { FormBuyNftState };
+export { useFormBuyNft };

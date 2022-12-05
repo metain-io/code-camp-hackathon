@@ -68,4 +68,4 @@ const MainBanner = () => {
 
 MainBanner.displayName = 'MainBanner';
 
-export { MainBanner };
+export default MainBanner ;

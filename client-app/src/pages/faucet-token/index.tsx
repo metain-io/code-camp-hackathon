@@ -1,8 +1,8 @@
 import { AdminLayout } from '@app/layouts';
 import { ReactElement } from 'react';
-import { FaucetTokenBox } from './components/faucet-token-box';
-import { MainBanner } from './components/main-banner';
-import { useFaucetToken } from './hooks/use-faucet-token';
+import FaucetTokenBox from '../../modules/business/faucet-token/components/faucet-token-box';
+import MainBanner from '../../modules/business/faucet-token/components/main-banner';
+import { useFaucetToken } from '../../modules/business/faucet-token/hooks/use-faucet-token';
 import styles from './style.module.scss';
 
 const FaucetTokenPage = () => {

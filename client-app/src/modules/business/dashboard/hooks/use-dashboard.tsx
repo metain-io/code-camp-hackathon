@@ -19,11 +19,7 @@ const useDashboard = () => {
     const [userTokenList, setUserTokenList] = React.useState<Array<Table_Component.Row>>([]);
 
     const getBalances = async () => {
-        return (
-            (await WalletService._currentWallet?.getBalances(
-                walletAddress
-            )) || {}
-        );
+        return (await WalletService._currentWallet?.getBalances(walletAddress)) || {};
     };
 
     const getAndConvertBalance2TokenTableData = async () => {

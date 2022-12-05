@@ -1,13 +1,13 @@
 import React from 'react';
 import { AdminLayout } from '@app/layouts';
 import { ReactElement } from 'react';
-import ChartInfo from './components/chart-container';
-import Loyalty from './components/loyalty';
-import SelectBox, { SelectBox_Component } from './components/select-box';
+import ChartInfo from '../../modules/business/dashboard/components/chart-container';
+import Loyalty from '../../modules/business/dashboard/components/loyalty';
+import SelectBox, { SelectBox_Component } from '../../modules/business/dashboard/components/select-box';
 import styles from './style.module.scss';
-import Table from './components/table';
-import Image from './components/image';
-import { useDashboard } from './hooks/use-dashboard';
+import Table from '../../modules/business/dashboard/components/table';
+import Image from '../../modules/business/dashboard/components/image';
+import { useDashboard } from '../../modules/business/dashboard/hooks/use-dashboard';
 
 const PageDashboard = () => {
     const { getAndConvertBalance2TokenTableData, balances, userTokenList } = useDashboard();

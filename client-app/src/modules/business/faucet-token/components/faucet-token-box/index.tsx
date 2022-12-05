@@ -4,7 +4,7 @@ import Image from '../image';
 import Anchor from '../anchor';
 import BackdropSpinner from '../backdrop-spinner';
 import SelectBox, { SelectBox_Component } from '../select-box';
-import { useFaucetToken } from 'pages/faucet-token/hooks/use-faucet-token';
+import { useFaucetToken } from '@business/faucet-token/hooks/use-faucet-token';
 
 const FaucetTokenBox = () => {
     const { balances, TOKEN_CONFIG, getBalances } = useFaucetToken();
@@ -105,4 +105,4 @@ const PreOrderWidgetBoxBody = (props: any) => {
 
 FaucetTokenBox.displayName = 'FaucetTokenBox';
 
-export { FaucetTokenBox };
+export default FaucetTokenBox;

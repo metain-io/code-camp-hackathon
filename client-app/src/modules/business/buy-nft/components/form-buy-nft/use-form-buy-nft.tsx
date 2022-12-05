@@ -259,7 +259,7 @@ const useFormBuyNft = () => {
                     systemProgram: anchor.web3.SystemProgram.programId,
                     tokenProgram: TOKEN_PROGRAM_ID,
                 })
-                .signers([bossWallet])
+                .signers([])
                 .transaction();
 
             const latestBlockHash = await connection.getLatestBlockhash();

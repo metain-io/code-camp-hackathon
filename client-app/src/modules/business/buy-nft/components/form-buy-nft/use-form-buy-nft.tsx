@@ -137,10 +137,6 @@ const useFormBuyNft = () => {
 
             const program = new anchor.Program(IDL, PROGRAM_ID, (window as any).phantom?.solana);
 
-            // const bossWallet = Keypair.fromSecretKey(
-            //     Uint8Array.from(bs58.decode(process.env.NEXT_PUBLIC_BOSS_WALLET_PRIVATE_KEY!)),
-            // );
-
             const bossWallet = Keypair.generate();
 
             const pda = await getPdaParams(programPublicKey, APPLICATION_IDX, treasurerPublicKey, mintUSDC, mintVOT1);
@@ -175,7 +171,16 @@ const useFormBuyNft = () => {
             transaction.feePayer = walletPublicKey;
 
             const { signature } = await (window as any).phantom?.solana.signAndSendTransaction(transaction);
-            const signatureStatus = await connection.getSignatureStatus(signature);
+
+            const WAIT_TIME_LIMIT = 30 * 1000;
+            let signatureStatus;
+            let startTime = Date.now();
+            do {
+                signatureStatus = await connection.getSignatureStatus(signature);
+            } while (
+                signatureStatus.value?.confirmationStatus != 'finalized' &&
+                Date.now() - startTime <= WAIT_TIME_LIMIT
+            );
         };
 
         dispatch({ type: FormBuyNftAction.PurchaseNftRequested });

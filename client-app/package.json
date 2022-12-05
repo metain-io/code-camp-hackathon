@@ -16,6 +16,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@project-serum/anchor": "^0.25.0",
         "@reduxjs/toolkit": "^1.9.0",
         "@solana/spl-token": "^0.2.0",
         "@solana/wallet-adapter-base": "^0.9.19",

@@ -1,5 +1,9 @@
-import { useOpportunityTrustPortfolioDetailContext } from '@opportunity-trust-portfolio/components';
+import { clusterApiUrl, Connection, Keypair, PublicKey, Signer } from '@solana/web3.js';
 import React from 'react';
+import * as anchor from '@project-serum/anchor';
+import CryptoWalletService from '@crypto-wallet/services/crypto-wallet-service';
+import { getOrCreateAssociatedTokenAccount, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { IDL } from '../../data/program-idls/offering-idl';
 
 enum FormBuyNftStatus {
     Idle,
@@ -34,10 +38,10 @@ type FormBuyNftState = {
 };
 
 const selectableTokens = [
-    {
-        symbol: 'USDT',
-        iconUrl: '/svg/icon-token-usdt.svg',
-    },
+    // {
+    //     symbol: 'USDT',
+    //     iconUrl: '/svg/icon-token-usdt.svg',
+    // },
     {
         symbol: 'USDC',
         iconUrl: '/svg/icon-token-usdc.svg',
@@ -125,13 +129,13 @@ const useFormBuyNft = () => {
         setTimeout(() => {
             const random = Math.random() * 10;
 
-            if (random > 5) {
-                console.log('handlePurchaseNft succeeded');
-                dispatch({ type: FormBuyNftAction.InitSucceeded });
-            } else {
-                console.log('handlePurchaseNft failed');
-                dispatch({ type: FormBuyNftAction.InitFailed, payload: { error: 'Initialize Error' } });
-            }
+            // if (random > 5) {
+            //     console.log('handlePurchaseNft succeeded');
+            dispatch({ type: FormBuyNftAction.InitSucceeded });
+            // } else {
+            //     console.log('handlePurchaseNft failed');
+            //     dispatch({ type: FormBuyNftAction.InitFailed, payload: { error: 'Initialize Error' } });
+            // }
         }, 2000);
     }, []);
 
@@ -170,19 +174,113 @@ const useFormBuyNft = () => {
             console.log('handlePurchaseNft form initialize failed');
             return;
         }
+
+        const getConnection = () => {
+            const connection = new Connection(clusterApiUrl('devnet'));
+            return connection;
+        };
+
+        const getPdaParams = async (
+            programId: anchor.web3.PublicKey,
+            baseUid: number,
+            signer: anchor.web3.PublicKey,
+            mintUSD: anchor.web3.PublicKey,
+            mintNFT: anchor.web3.PublicKey,
+        ): Promise<any> => {
+            const uid = new anchor.BN(baseUid.toString());
+            const uidBuffer = Buffer.from(uid.toArray('le', 8));
+
+            let [statePubKey, stateBump] = anchor.web3.PublicKey.findProgramAddressSync(
+                [Buffer.from('state'), signer.toBuffer(), mintUSD.toBuffer(), mintNFT.toBuffer(), uidBuffer],
+                programId,
+            );
+            let [walletPubKey, walletBump] = anchor.web3.PublicKey.findProgramAddressSync(
+                [Buffer.from('wallet'), signer.toBuffer(), mintUSD.toBuffer(), mintNFT.toBuffer(), uidBuffer],
+                programId,
+            );
+
+            return {
+                stateBump,
+
+                idx: uid,
+                stateKey: statePubKey,
+                escrowBump: walletBump,
+                escrowWalletKey: walletPubKey,
+            };
+        };
+
+        const purchaseNft = async () => {
+            if (!CryptoWalletService?.currentWallet?.walletAccount) {
+                return;
+            }
+
+            const TREASURY_ADDRESS = '621i9tL4tRBgt2PRbHynqSdYxPEd3KvpVkKX3chge3mU';
+            const APPLICATION_IDX = 1670006191;
+            const PROGRAM_ID = 'EbgwApfZNUQxGEqG2uJV5wkBVTZomp1ccDu7BuFsDKdY';
+
+            const connection = getConnection();
+
+            const mintUSDT = new PublicKey('A7yGbWrtgTjXVdxky86CSEyfH6Jy388RYFWfZsH2D8hr');
+            const mintUSDC = new PublicKey('3GUqiPovczNg1KoZg5FovwRZ4KPFb95UGZCCTPFb9snc');
+            const mintVOT1 = new PublicKey('2nUTrUfTeucGLBqoW89rwiFZbwWAoGkYWhsLFWXUBM7h');
+
+            const treasurerPublicKey = new PublicKey(TREASURY_ADDRESS);
+            const walletPublicKey = new PublicKey(CryptoWalletService.currentWallet.walletAccount);
+            const programPublicKey = new PublicKey(PROGRAM_ID);
+
+            const program = new anchor.Program(IDL, PROGRAM_ID, (window as any).phantom?.solana);
+
+            // const bossWallet = Keypair.fromSecretKey(
+            //     Uint8Array.from(bs58.decode(process.env.NEXT_PUBLIC_BOSS_WALLET_PRIVATE_KEY!)),
+            // );
+
+            const bossWallet = Keypair.generate();
+
+            const pda = await getPdaParams(programPublicKey, APPLICATION_IDX, treasurerPublicKey, mintUSDC, mintVOT1);
+
+            const [buyerUsdWallet, treasurerUsdWallet, buyerNftWallet] = await Promise.all([
+                getOrCreateAssociatedTokenAccount(connection, bossWallet, mintUSDC, walletPublicKey),
+                getOrCreateAssociatedTokenAccount(connection, bossWallet, mintUSDC, treasurerPublicKey),
+                getOrCreateAssociatedTokenAccount(connection, bossWallet, mintVOT1, walletPublicKey),
+            ]);
+
+            const transaction = await program.methods
+                .buy(new anchor.BN(pda.idx), pda.stateBump, pda.escrowBump, new anchor.BN(1))
+                .accounts({
+                    applicationState: pda.stateKey,
+                    escrowNftWalletState: pda.escrowWalletKey,
+                    buyerUsdWallet: buyerUsdWallet.address,
+                    treasurerUsdWallet: treasurerUsdWallet.address,
+                    buyerNftWallet: buyerNftWallet.address,
+                    buyer: walletPublicKey,
+                    mintOfNft: mintVOT1,
+                    mintOfUsd: mintUSDC,
+                    treasurer: treasurerPublicKey,
+                    systemProgram: anchor.web3.SystemProgram.programId,
+                    tokenProgram: TOKEN_PROGRAM_ID,
+                })
+                .signers([bossWallet])
+                .transaction();
+
+            const latestBlockHash = await connection.getLatestBlockhash();
+
+            transaction.recentBlockhash = latestBlockHash.blockhash;
+            transaction.feePayer = walletPublicKey;
+
+            const { signature } = await (window as any).phantom?.solana.signAndSendTransaction(transaction);
+            const signatureStatus = await connection.getSignatureStatus(signature);
+        };
+
         dispatch({ type: FormBuyNftAction.PurchaseNftRequested });
 
-        setTimeout(() => {
-            const random = Math.random() * 10;
-
-            if (random > 5) {
-                console.log('handlePurchaseNft succeeded');
+        purchaseNft()
+            .then(() => {
                 dispatch({ type: FormBuyNftAction.PurchaseNftSucceeded });
-            } else {
-                console.log('handlePurchaseNft failed');
+            })
+            .catch((error) => {
+                console.log(error);
                 dispatch({ type: FormBuyNftAction.PurchaseNftFailed, payload: { error: 'Purchase Error' } });
-            }
-        }, 2000);
+            });
     };
 
     return {

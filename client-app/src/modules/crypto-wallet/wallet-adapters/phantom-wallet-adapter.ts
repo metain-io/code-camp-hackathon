@@ -4,15 +4,10 @@ import * as web3 from '@solana/web3.js';
 import * as SPL from '@solana/spl-token';
 import CryptoWallet, { CryptoWalletEvent, SelectedToken, TokenConfig } from '../crypto-wallet';
 import logger from '@libs/logger';
-<<<<<<< HEAD
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import * as anchor from "@project-serum/anchor";
-=======
 import * as anchor from '@project-serum/anchor';
 import { getOrCreateAssociatedTokenAccount, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { clusterApiUrl, Connection, Keypair, PublicKey } from '@solana/web3.js';
 import { IDL } from '../data/program-idls/offering-idl';
->>>>>>> dev
 
 export default class PhantomWallet extends CryptoWallet {
     _provider: any;
@@ -107,7 +102,6 @@ export default class PhantomWallet extends CryptoWallet {
         return `${this._walletAccount}|${bs58.encode(signature)}`;
     }
 
-<<<<<<< HEAD
     async getNftInfo() {
         const nftAddress = '2nUTrUfTeucGLBqoW89rwiFZbwWAoGkYWhsLFWXUBM7h';
 
@@ -148,9 +142,6 @@ export default class PhantomWallet extends CryptoWallet {
     }
 
     async getBalances(userWalletAddress: string): Promise<{ [symbol: string]: number | bigint; }> {
-=======
-    async getBalances(userWalletAddress: string): Promise<{ [symbol: string]: number | bigint }> {
->>>>>>> dev
         const tmpBalances: { [name: string]: number | bigint } = {};
         try {
             const connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');

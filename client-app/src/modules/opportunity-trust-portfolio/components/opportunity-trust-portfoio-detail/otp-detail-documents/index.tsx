@@ -6,27 +6,27 @@ import styles from './styles.module.scss';
 const OtpDetailDocuments = () => {
     const { status, data } = useOpportunityTrustPortfolioDetailContext();
 
-    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
-        return <></>;
-    }
+    const hideContent = status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded;
 
     return (
         <div className={styles['otp-detail-documents']}>
-            {data?.showcaseInfo.documents.map((doc: any) => {
-                const { name, href, disable } = doc;
+            {hideContent
+                ? '- -'
+                : data?.showcaseInfo.documents.map((doc: any) => {
+                      const { name, href, disable } = doc;
 
-                return (
-                    <Anchor
-                        key={`Document-${name}`}
-                        href={disable ? '' : href}
-                        className={styles['item']}
-                        isOpenNewTab={href != '#' && href != ''}
-                    >
-                        <i className={[styles['item_icon'], 'fms fm-file-plus'].join(' ')}></i>
-                        <span className={styles['item_label']}>{name}</span>
-                    </Anchor>
-                );
-            })}
+                      return (
+                          <Anchor
+                              key={`Document-${name}`}
+                              href={disable ? '' : href}
+                              className={styles['item']}
+                              isOpenNewTab={href != '#' && href != ''}
+                          >
+                              <i className={[styles['item_icon'], 'fms fm-file-plus'].join(' ')}></i>
+                              <span className={styles['item_label']}>{name}</span>
+                          </Anchor>
+                      );
+                  })}
         </div>
     );
 };

@@ -84,8 +84,8 @@ const formBuyNftReducer = (state: FormBuyNftState, action: any) => {
 
         [FormBuyNftAction.PurchaseNftSucceeded]: () => {
             state.status = FormBuyNftStatus.ProcessSucceeded;
-            state.formData.amountNft = '';
-            state.formData.amountToken = '';
+            // state.formData.amountNft = '';
+            // state.formData.amountToken = '';
         },
     };
 

@@ -5,13 +5,11 @@ import styles from './styles.module.scss';
 const OtpDetailDescription = () => {
     const { status, data } = useOpportunityTrustPortfolioDetailContext();
 
-    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
-        return <></>;
-    }
+    const hideContent = status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded;
 
     return (
         <div className={styles['otp-detail-description']}>
-            <span className={styles.span_2}>{data?.showcaseInfo.description}</span>
+            <span className={styles.span_2}>{hideContent ? '- -' : data?.showcaseInfo.description}</span>
         </div>
     );
 };

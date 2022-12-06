@@ -24,11 +24,8 @@ const FormBuyNft = () => {
 };
 
 const Header = () => {
-    const { status, data } = useOpportunityTrustPortfolioDetailContext();
+    const { data } = useOpportunityTrustPortfolioDetailContext();
 
-    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
-        return <></>;
-    }
     return (
         <div id={styles.header_wrapper}>
             <Image className={styles.image_1} src={'/image/vot/vot-1.png'} alt="" />
@@ -73,12 +70,8 @@ const Header = () => {
 };
 
 const Body = () => {
-    const { status, data } = useOpportunityTrustPortfolioDetailContext();
-    const { formData, selectedToken } = useFormBuyNftContext();
-
-    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
-        return <></>;
-    }
+    const { data } = useOpportunityTrustPortfolioDetailContext();
+    const { formData } = useFormBuyNftContext();
 
     return (
         <div id={styles.confirmorder_wrapper}>
@@ -122,9 +115,6 @@ const Body = () => {
                     Term and Conditions
                 </a>
             </span>
-
-            {/* <ModalInsufficientFund ref={modalInsufficientFundRef} requiredAmountUsd={totalAmountUsdPayment} /> */}
-            {/* <BackdropSpinner active={isProcessing || fullPaymentEnabled === undefined} /> */}
         </div>
     );
 };

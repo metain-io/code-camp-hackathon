@@ -53,10 +53,6 @@ const PurchaseInput = () => {
         handleAmountTokenChanged(value);
     };
 
-    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
-        return <></>;
-    }
-
     return (
         <div id={styles.preorder_input}>
             <div className={styles.input_block}>

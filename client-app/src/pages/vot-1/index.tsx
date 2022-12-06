@@ -87,15 +87,13 @@ export default PageOpportunityTrustPortfolio;
 const Breadcrumb = () => {
     const { status, data } = useOpportunityTrustPortfolioDetailContext();
 
-    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
-        return <></>;
-    }
+    const hideContent = status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded;
 
     return (
         <div className="mBreadcrumb-style-4 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div className="div_1">
                 <span className="span_1">
-                    {data?.showcaseInfo.id}: {data?.showcaseInfo.name}
+                    {hideContent ? '- -' : data?.showcaseInfo.id}: {hideContent ? '- -' : data?.showcaseInfo.name}
                 </span>
                 <span className="mTag span_2" data-status="successfull">
                     Total Return: Est 15-25% APY
@@ -108,15 +106,13 @@ const Breadcrumb = () => {
 const OtpInfoHeading = () => {
     const { status, data } = useOpportunityTrustPortfolioDetailContext();
 
-    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
-        return <></>;
-    }
+    const hideContent = status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded;
 
     return (
         <div className={styles.div_1}>
-            <span className={styles.span_1}>{data?.showcaseInfo.name}</span>
-            <span className={styles.span_2}>{data?.showcaseInfo.type}</span>
-            <span className={styles.span_3}>{data?.showcaseInfo.address}</span>
+            <span className={styles.span_1}>{hideContent ? '- -' : data?.showcaseInfo.name}</span>
+            <span className={styles.span_2}>{hideContent ? '- -' : data?.showcaseInfo.type}</span>
+            <span className={styles.span_3}>{hideContent ? '- -' : data?.showcaseInfo.address}</span>
         </div>
     );
 };
@@ -124,19 +120,19 @@ const OtpInfoHeading = () => {
 const SectionHighlightProptiesHeader = () => {
     const { status, data } = useOpportunityTrustPortfolioDetailContext();
 
-    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
-        return <></>;
-    }
+    const hideContent = status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded;
 
     return (
         <div id={styles['section-highlight-properties-header']}>
             <span className={styles.span_1}>
                 <span className={[styles.span_0].join(' ')}>Property Highlights</span>
                 <span className={[styles.span_3, 'mButton mButton-cp6-bp1'].join(' ')}>
-                    {data?.showcaseInfo.operateStatus}
+                    {hideContent ? '- -' : data?.showcaseInfo.operateStatus}
                 </span>
             </span>
-            <span className={styles.span_4}>Holding Times: {data?.showcaseInfo.holdingTimes}</span>
+            <span className={styles.span_4}>
+                Holding Times: {hideContent ? '- -' : data?.showcaseInfo.holdingTimes}
+            </span>
         </div>
     );
 };

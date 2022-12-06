@@ -5,32 +5,25 @@ import { OpportunityTrustPortfolioDetailStatus } from '../opportunity-trust-port
 import styles from './styles.module.scss';
 
 const OtpDetailSummary = () => {
-    // const { name, type, address, price, valuationDate, expectedNetRentalYield, expectedPropertyValueAppreciation } =
-    //     useOpportunityTrustPortfolioDetailContext();
+    const { data } = useOpportunityTrustPortfolioDetailContext();
 
-    const { status, data } = useOpportunityTrustPortfolioDetailContext();
-
-    const { name, type, address, price, valuationDate, expectedNetRentalYield, expectedPropertyValueAppreciation } =
+    const { price, valuationDate, expectedNetRentalYield, expectedPropertyValueAppreciation } =
         data?.showcaseInfo || {};
-
-    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
-        return <></>;
-    }
 
     return (
         <div className={styles['otp-detail-summary']}>
             <div className={styles.div_2}>
                 <div className={styles.div_3}>
                     <span className={styles.span_4}>Target Raise</span>
-                    <span className={styles.span_5}>{price && formatNumber(price)} US$</span>
+                    <span className={styles.span_5}>{(price && formatNumber(price)) || '- -'} US$</span>
                     <span className={styles.span_6}>Valuation at {moment(valuationDate).format('DD MMMM YYYY')}</span>
                 </div>
                 <div className={[styles.div_3, styles.border_left].join(' ')}>
-                    <span className={styles.span_7}>{expectedNetRentalYield}%</span>
+                    <span className={styles.span_7}>{expectedNetRentalYield || '- -'}%</span>
                     <span className={styles.span_8}>Expected net rental yield</span>
                 </div>
                 <div className={styles.div_3}>
-                    <span className={styles.span_7}>{expectedPropertyValueAppreciation}%</span>
+                    <span className={styles.span_7}>{expectedPropertyValueAppreciation || '- -'}%</span>
                     <span className={styles.span_8}>Expected property value appreciation</span>
                 </div>
             </div>

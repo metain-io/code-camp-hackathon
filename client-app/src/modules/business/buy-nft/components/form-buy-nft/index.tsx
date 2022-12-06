@@ -1,29 +1,25 @@
 import Anchor from '@app/layouts/admin-layout/navigation/components/anchor';
 import Image from '@app/layouts/admin-layout/navigation/components/image';
 import { formatNumber } from '@libs/utils';
-import { FormBuyNftProvider } from './form-buy-nft-provider';
-import { useFormBuyNftContext } from './form-buy-nft-context';
-import { ButtonPurchase } from './button-purchase';
-import { BuyNftHistoryToggler } from './buy-nft-history-toggler';
-import { PurchaseInput } from './puchase-Input';
-import styles from './styles.module.scss';
 import {
     OpportunityTrustPortfolioDetailStatus,
     useOpportunityTrustPortfolioDetailContext,
 } from '@opportunity-trust-portfolio/components';
 import React from 'react';
-import CryptoWalletService from '@crypto-wallet/services/crypto-wallet-service';
+import { ButtonPurchase } from './button-purchase';
+import { BuyNftHistoryToggler } from './buy-nft-history-toggler';
+import { useFormBuyNftContext } from './form-buy-nft-context';
+import { PurchaseInput } from './puchase-Input';
+import styles from './styles.module.scss';
 
 const FormBuyNft = () => {
     return (
-        <FormBuyNftProvider>
-            <div id={styles.preorder_container}>
-                <div className={styles.inner_content}>
-                    <Header />
-                    <Body />
-                </div>
+        <div id={styles.preorder_container}>
+            <div className={styles.inner_content}>
+                <Header />
+                <Body />
             </div>
-        </FormBuyNftProvider>
+        </div>
     );
 };
 
@@ -97,7 +93,7 @@ const Body = () => {
             <div className={styles.div_2}>
                 <span className={styles.span_4}>Amount NFT</span>
                 <span className={styles.span_5}>
-                    {(formData.amountNft && formatNumber(+formData.amountNft)) || '- -'} {data?.showcaseInfo.id} NFT
+                    {(formData.amountNft && formatNumber(+formData.amountNft)) || '0'} {data?.showcaseInfo.id} NFT
                 </span>
 
                 <span className={styles.span_4}>NFT Price</span>
@@ -111,7 +107,7 @@ const Body = () => {
                     <span className={[styles.span_4, styles.stressed].join(' ')}>Payment Total</span>
                     <span className={[styles.span_5, styles.stressed].join(' ')}>
                         {' '}
-                        {(formData.amountNft && formatNumber(+formData.amountNft * 10)) || '- -'} US$
+                        {(formData.amountNft && formatNumber(+formData.amountNft * 10)) || '0'} US$
                     </span>
                 </>
             </div>
@@ -134,28 +130,12 @@ const Body = () => {
 };
 
 const TokenBalance = () => {
-    const { selectedToken } = useFormBuyNftContext();
-    const [tokenBalance, setTokenBalance] = React.useState<any>();
-
-    React.useEffect(() => {
-        const getSelectedTokenBalance = async () => {
-            if (!selectedToken?.symbol || !CryptoWalletService.currentWallet?.walletAccount) {
-                return null;
-            }
-
-            const balances = await CryptoWalletService.currentWallet?.getBalances(
-                CryptoWalletService.currentWallet.walletAccount,
-            );
-            return balances[selectedToken?.symbol];
-        };
-
-        getSelectedTokenBalance().then((tokenBalance) => setTokenBalance(tokenBalance));
-    }, [selectedToken]);
+    const { selectedToken, selectedTokenBalance } = useFormBuyNftContext();
 
     return (
         <div className={styles.div_4}>
             <span className={styles.block_span_4}>
-                {tokenBalance?.toString() || ' - -'} {selectedToken?.symbol || '- -'}
+                {selectedTokenBalance?.toString() || ' - -'} {selectedToken?.symbol || '- -'}
             </span>
         </div>
     );

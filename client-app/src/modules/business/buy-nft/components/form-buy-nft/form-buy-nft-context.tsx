@@ -4,6 +4,7 @@ import { FormBuyNftState } from './form-buy-nft-reducer';
 type FormBuyNftContextState = FormBuyNftState & {
     selectableTokens: Array<any>;
     selectedToken: { symbol: string; iconUrl: string } | null;
+    selectedTokenBalance?: number;
 
     handleAmountNftChanged: (value: string) => void;
     handleAmountTokenChanged: (value: string) => void;

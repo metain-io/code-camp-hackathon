@@ -1,4 +1,3 @@
-import { OpportunityTrustPortfolioDetailProvider } from '@opportunity-trust-portfolio/components';
 import { PropsWithChildren } from 'react';
 import { FormBuyNftContext } from './form-buy-nft-context';
 import { useFormBuyNft } from './use-form-buy-nft';
@@ -10,11 +9,7 @@ const FormBuyNftProvider = (props: FormBuyNftProviderProps) => {
 
     const value = useFormBuyNft();
 
-    return (
-        <OpportunityTrustPortfolioDetailProvider id={id}>
-            <FormBuyNftContext.Provider value={value}>{children}</FormBuyNftContext.Provider>
-        </OpportunityTrustPortfolioDetailProvider>
-    );
+    return <FormBuyNftContext.Provider value={value}>{children}</FormBuyNftContext.Provider>;
 };
 
 export { FormBuyNftProvider };

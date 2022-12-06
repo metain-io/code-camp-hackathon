@@ -8,10 +8,10 @@ import { IDL } from '../../data/program-idls/offering-idl';
 import { FormBuyNftAction, formBuyNftReducer, FormBuyNftState, FormBuyNftStatus } from './form-buy-nft-reducer';
 
 const selectableTokens = [
-    // {
-    //     symbol: 'USDT',
-    //     iconUrl: '/svg/icon-token-usdt.svg',
-    // },
+    {
+        symbol: 'USDT',
+        iconUrl: '/svg/icon-token-usdt.svg',
+    },
     {
         symbol: 'USDC',
         iconUrl: '/svg/icon-token-usdc.svg',
@@ -30,22 +30,47 @@ const initialState: FormBuyNftState = {
 
 const useFormBuyNft = () => {
     const [state, dispatch] = React.useReducer(formBuyNftReducer, initialState);
+    const { handleReloadData } = useOpportunityTrustPortfolioDetailContext();
+    const [selectedTokenBalance, setSelectedTokenBalance] = React.useState<any>();
+
+    const getSelectedTokenBalance = async () => {
+        const selectedToken: { symbol: string; iconUrl: string } | null =
+            (state.formData.selectedTokenIndex >= 0 && selectableTokens[state.formData.selectedTokenIndex]) || null;
+
+        if (!selectedToken?.symbol || !CryptoWalletService.currentWallet?.walletAccount) {
+            return null;
+        }
+
+        const balances = await CryptoWalletService.currentWallet?.getBalances(
+            CryptoWalletService.currentWallet.walletAccount,
+        );
+        return balances[selectedToken?.symbol];
+    };
 
     React.useEffect(() => {
         dispatch({ type: FormBuyNftAction.InitRequested });
 
-        setTimeout(() => {
-            const random = Math.random() * 10;
+        const init = async () => {};
 
-            // if (random > 5) {
-            //     console.log('handlePurchaseNft succeeded');
-            dispatch({ type: FormBuyNftAction.InitSucceeded });
-            // } else {
-            //     console.log('handlePurchaseNft failed');
-            //     dispatch({ type: FormBuyNftAction.InitFailed, payload: { error: 'Initialize Error' } });
-            // }
-        }, 2000);
+        init()
+            .then(() => {
+                dispatch({ type: FormBuyNftAction.InitSucceeded });
+            })
+            .catch((error) => {
+                dispatch({ type: FormBuyNftAction.InitFailed, payload: { error } });
+            });
     }, []);
+
+    React.useEffect(() => {
+        if (state.status == FormBuyNftStatus.ProcessSucceeded) {
+            getSelectedTokenBalance().then((tokenBalance) => setSelectedTokenBalance(tokenBalance));
+            handleReloadData();
+        }
+    }, [state.status]);
+
+    React.useEffect(() => {
+        getSelectedTokenBalance().then((tokenBalance) => setSelectedTokenBalance(tokenBalance));
+    }, [state.formData.selectedTokenIndex]);
 
     const handleAmountNftChanged = (value: string) => {
         if (!value || isNaN(+value)) {
@@ -202,6 +227,7 @@ const useFormBuyNft = () => {
         selectableTokens,
         selectedToken:
             state.formData.selectedTokenIndex >= 0 ? selectableTokens[state.formData.selectedTokenIndex] : null,
+        selectedTokenBalance,
 
         handleAmountNftChanged,
         handleAmountTokenChanged,

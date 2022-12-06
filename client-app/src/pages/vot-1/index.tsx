@@ -1,5 +1,6 @@
 import { AdminLayout } from '@app/layouts';
 import { FormBuyNft } from '@business/buy-nft/components';
+import { FormBuyNftProvider } from '@business/buy-nft/components/form-buy-nft/form-buy-nft-provider';
 import {
     OpportunityTrustPortfolioDetailProvider,
     OpportunityTrustPortfolioDetailStatus,
@@ -18,10 +19,9 @@ import styles from './styles.module.scss';
 
 const PageOpportunityTrustPortfolio = () => {
     return (
-        <OpportunityTrustPortfolioDetailProvider>
-            <div id={styles.row} className="row">
+        <div id={styles.row} className="row">
+            <OpportunityTrustPortfolioDetailProvider>
                 <Breadcrumb />
-
                 <div id={styles.column_1}>
                     <div id={styles.block_1} className="mBackground-style-1">
                         <OtpInfoHeading />
@@ -64,12 +64,16 @@ const PageOpportunityTrustPortfolio = () => {
                         </section>
                     </div>
                 </div>
+            </OpportunityTrustPortfolioDetailProvider>
 
-                <div id={styles.column_2}>
-                    <FormBuyNft />
-                </div>
+            <div id={styles.column_2}>
+                <OpportunityTrustPortfolioDetailProvider>
+                    <FormBuyNftProvider>
+                        <FormBuyNft />
+                    </FormBuyNftProvider>
+                </OpportunityTrustPortfolioDetailProvider>
             </div>
-        </OpportunityTrustPortfolioDetailProvider>
+        </div>
     );
 };
 

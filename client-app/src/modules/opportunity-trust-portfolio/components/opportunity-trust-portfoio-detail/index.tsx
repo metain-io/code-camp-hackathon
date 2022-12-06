@@ -1,5 +1,7 @@
 export * from './opportunity-trust-portfolio-detail-provider';
 export * from './opportunity-trust-portfolio-detail-context';
+export * from './opportunity-trust-portfolio-detail-reducer';
+export * from './use-opportunity-trust-portfolio-detail';
 export * from './otp-detail-summary';
 export * from './otp-detail-gallery';
 export * from './otp-detail-partners';

@@ -6,7 +6,7 @@ export type SelectedToken = {
     label: string;
     value: string;
     icon: string | undefined;
-}
+};
 
 export enum CryptoWalletEvent {
     WalletConnect = 'WALLET_CONNECT',
@@ -24,9 +24,8 @@ export default abstract class CryptoWallet {
     abstract connect(network: any): Promise<string>;
     abstract disconnect(): Promise<void>;
     abstract signMessage(message: string): Promise<string>;
-    abstract getBalances(
-        userWalletAddress: string
-    ): Promise<{ [symbol: string]: number | bigint }>;
+    abstract getBalances(userWalletAddress: string): Promise<{ [symbol: string]: number | bigint }>;
     abstract getNftInfo(): Promise<any>;
     abstract eventChannelEmitter(emit: any): any;
+    abstract purchaseNft(amount: number): Promise<void>;
 }

@@ -1,13 +1,17 @@
 import Image from '@app/layouts/admin-layout/navigation/components/image';
 import { formatNumber } from '@libs/utils';
+import {
+    OpportunityTrustPortfolioDetailStatus,
+    useOpportunityTrustPortfolioDetailContext,
+} from '@opportunity-trust-portfolio/components';
 import React, { FormEvent } from 'react';
 import { ChangeEvent } from 'react';
 import { useFormBuyNftContext } from '../form-buy-nft-context';
 import styles from './styles.module.scss';
 
 const PurchaseInput = () => {
+    const { status, data } = useOpportunityTrustPortfolioDetailContext();
     const {
-        id,
         selectableTokens,
         selectedToken,
         formData,
@@ -55,7 +59,7 @@ const PurchaseInput = () => {
                 <p className={styles.input_block_label}>YOU BUY</p>
                 <div className={styles.input_block_label_currency}>
                     <Image src="/svg/icon-vot-nft.svg" alt="" />
-                    <span>{id} NFT</span>
+                    <span>{data?.showcaseInfo.id} NFT</span>
                 </div>
                 <div>
                     <input
@@ -80,7 +84,7 @@ const PurchaseInput = () => {
                 <div className={[styles.input_block_label_currency, styles.flex_end].join(' ')}>
                     <Image src={selectedToken?.iconUrl} alt="" />
                     <select onChange={onSelectTokenChanged}>
-                        {selectableTokens.map((token, index) => {
+                        {selectableTokens.map((token: { symbol: string; iconUrl: string }, index: number) => {
                             return (
                                 <option key={`token-${index}`} value={index}>
                                     {token.symbol}

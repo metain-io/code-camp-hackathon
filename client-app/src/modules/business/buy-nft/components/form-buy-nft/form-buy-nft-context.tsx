@@ -1,12 +1,10 @@
 import React from 'react';
-import { FormBuyNftState } from './use-form-buy-nft';
+import { FormBuyNftState } from './form-buy-nft-reducer';
 
 type FormBuyNftContextState = FormBuyNftState & {
-    id: string;
-    name: string;
-
     selectableTokens: Array<any>;
     selectedToken: { symbol: string; iconUrl: string } | null;
+    selectedTokenBalance?: number;
 
     handleAmountNftChanged: (value: string) => void;
     handleAmountTokenChanged: (value: string) => void;

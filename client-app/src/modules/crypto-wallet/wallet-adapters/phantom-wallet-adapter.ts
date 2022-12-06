@@ -4,13 +4,20 @@ import * as web3 from '@solana/web3.js';
 import * as SPL from '@solana/spl-token';
 import CryptoWallet, { CryptoWalletEvent, SelectedToken, TokenConfig } from '../crypto-wallet';
 import logger from '@libs/logger';
+<<<<<<< HEAD
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import * as anchor from "@project-serum/anchor";
+=======
+import * as anchor from '@project-serum/anchor';
+import { getOrCreateAssociatedTokenAccount, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { clusterApiUrl, Connection, Keypair, PublicKey } from '@solana/web3.js';
+import { IDL } from '../data/program-idls/offering-idl';
+>>>>>>> dev
 
 export default class PhantomWallet extends CryptoWallet {
     _provider: any;
     _walletAccount?: string;
-    _tokenConfig?: Array<TokenConfig>
+    _tokenConfig?: Array<TokenConfig>;
 
     constructor() {
         super();
@@ -23,15 +30,15 @@ export default class PhantomWallet extends CryptoWallet {
                 label: 'USDT',
                 value: 'A7yGbWrtgTjXVdxky86CSEyfH6Jy388RYFWfZsH2D8hr',
                 icon: '/svg/icon-token-usdt.svg',
-                decimalNo: BigInt(Math.pow(10, 6))
+                decimalNo: BigInt(Math.pow(10, 6)),
             },
             {
                 label: 'USDC',
                 value: '3GUqiPovczNg1KoZg5FovwRZ4KPFb95UGZCCTPFb9snc',
                 icon: '/svg/icon-token-usdc.svg',
-                decimalNo: BigInt(Math.pow(10, 6))
+                decimalNo: BigInt(Math.pow(10, 6)),
             },
-        ]
+        ];
     }
 
     get walletAccount(): string | undefined {
@@ -51,13 +58,15 @@ export default class PhantomWallet extends CryptoWallet {
     }
 
     get tokenForSelect(): Array<SelectedToken> {
-        return this._tokenConfig?.map((item, idx) => {
-            return {
-                label: item.label,
-                value: item.value,
-                icon: item.icon
-            }
-        }) || [];
+        return (
+            this._tokenConfig?.map((item, idx) => {
+                return {
+                    label: item.label,
+                    value: item.value,
+                    icon: item.icon,
+                };
+            }) || []
+        );
     }
 
     async connect(network: any): Promise<string> {
@@ -98,6 +107,7 @@ export default class PhantomWallet extends CryptoWallet {
         return `${this._walletAccount}|${bs58.encode(signature)}`;
     }
 
+<<<<<<< HEAD
     async getNftInfo() {
         const nftAddress = '2nUTrUfTeucGLBqoW89rwiFZbwWAoGkYWhsLFWXUBM7h';
 
@@ -138,6 +148,9 @@ export default class PhantomWallet extends CryptoWallet {
     }
 
     async getBalances(userWalletAddress: string): Promise<{ [symbol: string]: number | bigint; }> {
+=======
+    async getBalances(userWalletAddress: string): Promise<{ [symbol: string]: number | bigint }> {
+>>>>>>> dev
         const tmpBalances: { [name: string]: number | bigint } = {};
         try {
             const connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');
@@ -188,4 +201,108 @@ export default class PhantomWallet extends CryptoWallet {
             this._provider.off('disconnect', handleDisconnect);
         };
     };
+
+    async purchaseNft(amount: number): Promise<void> {
+        if (!this._walletAccount || !this._provider) {
+            throw new Error('AAAA');
+        }
+
+        const getConnection = () => {
+            const connection = new Connection(clusterApiUrl('devnet'));
+            return connection;
+        };
+
+        const getPdaParams = async (
+            programId: anchor.web3.PublicKey,
+            baseUid: number,
+            signer: anchor.web3.PublicKey,
+            mintUSD: anchor.web3.PublicKey,
+            mintNFT: anchor.web3.PublicKey,
+        ): Promise<any> => {
+            const uid = new anchor.BN(baseUid.toString());
+            const uidBuffer = Buffer.from(uid.toArray('le', 8));
+
+            let [statePubKey, stateBump] = anchor.web3.PublicKey.findProgramAddressSync(
+                [Buffer.from('state'), signer.toBuffer(), mintUSD.toBuffer(), mintNFT.toBuffer(), uidBuffer],
+                programId,
+            );
+            let [walletPubKey, walletBump] = anchor.web3.PublicKey.findProgramAddressSync(
+                [Buffer.from('wallet'), signer.toBuffer(), mintUSD.toBuffer(), mintNFT.toBuffer(), uidBuffer],
+                programId,
+            );
+
+            return {
+                stateBump,
+
+                idx: uid,
+                stateKey: statePubKey,
+                escrowBump: walletBump,
+                escrowWalletKey: walletPubKey,
+            };
+        };
+
+        const TREASURY_ADDRESS = '621i9tL4tRBgt2PRbHynqSdYxPEd3KvpVkKX3chge3mU';
+        const APPLICATION_IDX = 1670006191;
+        const PROGRAM_ID = 'EbgwApfZNUQxGEqG2uJV5wkBVTZomp1ccDu7BuFsDKdY';
+
+        const connection = getConnection();
+
+        // const mintUSDT = new PublicKey('A7yGbWrtgTjXVdxky86CSEyfH6Jy388RYFWfZsH2D8hr');
+        const mintUSDC = new PublicKey('3GUqiPovczNg1KoZg5FovwRZ4KPFb95UGZCCTPFb9snc');
+        const mintVOT1 = new PublicKey('2nUTrUfTeucGLBqoW89rwiFZbwWAoGkYWhsLFWXUBM7h');
+
+        const treasurerPublicKey = new PublicKey(TREASURY_ADDRESS);
+        const walletPublicKey = new PublicKey(this._walletAccount);
+        const programPublicKey = new PublicKey(PROGRAM_ID);
+
+        const program = new anchor.Program(IDL, PROGRAM_ID, this._provider);
+
+        const payer = Keypair.generate();
+
+        const pda = await getPdaParams(programPublicKey, APPLICATION_IDX, treasurerPublicKey, mintUSDC, mintVOT1);
+
+        const [buyerUsdWallet, treasurerUsdWallet, buyerNftWallet] = await Promise.all([
+            getOrCreateAssociatedTokenAccount(connection, payer, mintUSDC, walletPublicKey),
+            getOrCreateAssociatedTokenAccount(connection, payer, mintUSDC, treasurerPublicKey),
+            getOrCreateAssociatedTokenAccount(connection, payer, mintVOT1, walletPublicKey),
+        ]);
+
+        const transaction = await program.methods
+            .buy(new anchor.BN(pda.idx), pda.stateBump, pda.escrowBump, new anchor.BN(amount))
+            .accounts({
+                applicationState: pda.stateKey,
+                escrowNftWalletState: pda.escrowWalletKey,
+                buyerUsdWallet: buyerUsdWallet.address,
+                treasurerUsdWallet: treasurerUsdWallet.address,
+                buyerNftWallet: buyerNftWallet.address,
+                buyer: walletPublicKey,
+                mintOfNft: mintVOT1,
+                mintOfUsd: mintUSDC,
+                treasurer: treasurerPublicKey,
+                systemProgram: anchor.web3.SystemProgram.programId,
+                tokenProgram: TOKEN_PROGRAM_ID,
+            })
+            .signers([])
+            .transaction();
+
+        const latestBlockHash = await connection.getLatestBlockhash();
+
+        transaction.recentBlockhash = latestBlockHash.blockhash;
+        transaction.feePayer = walletPublicKey;
+
+        const { signature } = await this._provider.signAndSendTransaction(transaction);
+        await waitTransactionFinalized(connection, signature);
+    }
 }
+
+const waitTransactionFinalized = async (connection: any, signature: any, timeoutLimit = 30 * 1000) => {
+    let signatureStatus;
+    let startTime = Date.now();
+    do {
+        signatureStatus = await connection.getSignatureStatus(signature);
+
+        if (Date.now() - startTime > timeoutLimit) {
+            throw new Error('Timeout');
+        }
+    } while (signatureStatus.value?.confirmationStatus != 'finalized');
+};

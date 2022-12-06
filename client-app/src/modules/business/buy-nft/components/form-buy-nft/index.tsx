@@ -1,28 +1,30 @@
 import Anchor from '@app/layouts/admin-layout/navigation/components/anchor';
 import Image from '@app/layouts/admin-layout/navigation/components/image';
 import { formatNumber } from '@libs/utils';
-import { FormBuyNftProvider } from './form-buy-nft-provider';
-import { useFormBuyNftContext } from './form-buy-nft-context';
+import {
+    OpportunityTrustPortfolioDetailStatus,
+    useOpportunityTrustPortfolioDetailContext,
+} from '@opportunity-trust-portfolio/components';
+import React from 'react';
 import { ButtonPurchase } from './button-purchase';
 import { BuyNftHistoryToggler } from './buy-nft-history-toggler';
+import { useFormBuyNftContext } from './form-buy-nft-context';
 import { PurchaseInput } from './puchase-Input';
 import styles from './styles.module.scss';
 
 const FormBuyNft = () => {
     return (
-        <FormBuyNftProvider>
-            <div id={styles.preorder_container}>
-                <div className={styles.inner_content}>
-                    <Header />
-                    <Body />
-                </div>
+        <div id={styles.preorder_container}>
+            <div className={styles.inner_content}>
+                <Header />
+                <Body />
             </div>
-        </FormBuyNftProvider>
+        </div>
     );
 };
 
 const Header = () => {
-    const { id, name } = useFormBuyNftContext();
+    const { data } = useOpportunityTrustPortfolioDetailContext();
 
     return (
         <div id={styles.header_wrapper}>
@@ -33,7 +35,7 @@ const Header = () => {
                     <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
                         <span className={styles.span_1}>PURCHASE</span>
                         <Anchor href="/admin/vot/building/1" className={[styles.span_1].join(' ')}>
-                            {`${id}: ${name}`}
+                            {`${data?.showcaseInfo.id}: ${data?.showcaseInfo.name}`}
                         </Anchor>
                     </div>
                     <div>
@@ -43,16 +45,23 @@ const Header = () => {
 
                 <div className={styles.div_2}>
                     <div className={styles.item_1}>
-                        <span className={styles.span_2}>{id} NFT</span>
-                        <span className={styles.span_3}>- - US$/NFT</span>
+                        <span className={styles.span_2}>{data?.showcaseInfo.id} NFT</span>
+                        <span className={styles.span_3}>
+                            {(data?.saleInfo?.nftPrice && formatNumber(data?.saleInfo.nftPrice)) || '- -'} US$/NFT
+                        </span>
                     </div>
                     <div className={styles.item_1}>
                         <span className={styles.span_2}>TOTAL SUPPLY</span>
-                        <span className={styles.span_3}>- - NFT</span>
+                        <span className={styles.span_3}>
+                            {(data?.saleInfo?.nftTotalSupply && formatNumber(data?.saleInfo.nftTotalSupply)) || '- -'}{' '}
+                            NFT
+                        </span>
                     </div>
                     <div className={styles.item_1}>
                         <span className={styles.span_2}>SOLD</span>
-                        <span className={styles.span_3}>- - NFT</span>
+                        <span className={styles.span_3}>
+                            {(data?.saleInfo?.nftSold && formatNumber(data?.saleInfo.nftSold)) || '- -'} NFT
+                        </span>
                     </div>
                 </div>
             </div>
@@ -61,7 +70,8 @@ const Header = () => {
 };
 
 const Body = () => {
-    const { id, formData, selectedToken } = useFormBuyNftContext();
+    const { data } = useOpportunityTrustPortfolioDetailContext();
+    const { formData } = useFormBuyNftContext();
 
     return (
         <div id={styles.confirmorder_wrapper}>
@@ -71,18 +81,18 @@ const Body = () => {
 
             <div className={styles.div_3}>
                 <span className={styles.span_1}>Wallet Balance:</span>
-                <div className={styles.div_4}>
-                    <span className={styles.block_span_4}>- - {selectedToken?.symbol || '- -'}</span>
-                </div>
+                <TokenBalance />
             </div>
             <div className={styles.div_2}>
                 <span className={styles.span_4}>Amount NFT</span>
                 <span className={styles.span_5}>
-                    {(formData.amountNft && formatNumber(+formData.amountNft)) || '- -'} {id} NFT
+                    {(formData.amountNft && formatNumber(+formData.amountNft)) || '0'} {data?.showcaseInfo.id} NFT
                 </span>
 
                 <span className={styles.span_4}>NFT Price</span>
-                <span className={styles.span_5}>- - US$</span>
+                <span className={styles.span_5}>
+                    {(data?.saleInfo.nftPrice && formatNumber(data?.saleInfo.nftPrice)) || '- -'} US$
+                </span>
 
                 <>
                     <div className={styles.separator_2} />
@@ -90,7 +100,7 @@ const Body = () => {
                     <span className={[styles.span_4, styles.stressed].join(' ')}>Payment Total</span>
                     <span className={[styles.span_5, styles.stressed].join(' ')}>
                         {' '}
-                        {(formData.amountNft && formatNumber(+formData.amountNft * 10)) || '- -'} US$
+                        {(formData.amountNft && formatNumber(+formData.amountNft * 10)) || '0'} US$
                     </span>
                 </>
             </div>
@@ -105,9 +115,18 @@ const Body = () => {
                     Term and Conditions
                 </a>
             </span>
+        </div>
+    );
+};
 
-            {/* <ModalInsufficientFund ref={modalInsufficientFundRef} requiredAmountUsd={totalAmountUsdPayment} /> */}
-            {/* <BackdropSpinner active={isProcessing || fullPaymentEnabled === undefined} /> */}
+const TokenBalance = () => {
+    const { selectedToken, selectedTokenBalance } = useFormBuyNftContext();
+
+    return (
+        <div className={styles.div_4}>
+            <span className={styles.block_span_4}>
+                {selectedTokenBalance?.toString() || ' - -'} {selectedToken?.symbol || '- -'}
+            </span>
         </div>
     );
 };

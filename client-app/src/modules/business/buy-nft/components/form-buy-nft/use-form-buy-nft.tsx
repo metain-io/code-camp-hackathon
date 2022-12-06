@@ -8,10 +8,10 @@ import { IDL } from '../../data/program-idls/offering-idl';
 import { FormBuyNftAction, formBuyNftReducer, FormBuyNftState, FormBuyNftStatus } from './form-buy-nft-reducer';
 
 const selectableTokens = [
-    {
-        symbol: 'USDT',
-        iconUrl: '/svg/icon-token-usdt.svg',
-    },
+    // {
+    //     symbol: 'USDT',
+    //     iconUrl: '/svg/icon-token-usdt.svg',
+    // },
     {
         symbol: 'USDC',
         iconUrl: '/svg/icon-token-usdc.svg',

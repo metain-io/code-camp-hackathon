@@ -1,18 +1,28 @@
 import { formatNumber } from '@libs/utils';
 import moment from 'moment';
 import { useOpportunityTrustPortfolioDetailContext } from '../opportunity-trust-portfolio-detail-context';
+import { OpportunityTrustPortfolioDetailStatus } from '../opportunity-trust-portfolio-detail-reducer';
 import styles from './styles.module.scss';
 
 const OtpDetailSummary = () => {
+    // const { name, type, address, price, valuationDate, expectedNetRentalYield, expectedPropertyValueAppreciation } =
+    //     useOpportunityTrustPortfolioDetailContext();
+
+    const { status, data } = useOpportunityTrustPortfolioDetailContext();
+
     const { name, type, address, price, valuationDate, expectedNetRentalYield, expectedPropertyValueAppreciation } =
-        useOpportunityTrustPortfolioDetailContext();
+        data?.showcaseInfo || {};
+
+    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
+        return <></>;
+    }
 
     return (
         <div className={styles['otp-detail-summary']}>
             <div className={styles.div_2}>
                 <div className={styles.div_3}>
                     <span className={styles.span_4}>Target Raise</span>
-                    <span className={styles.span_5}>{formatNumber(price)} US$</span>
+                    <span className={styles.span_5}>{price && formatNumber(price)} US$</span>
                     <span className={styles.span_6}>Valuation at {moment(valuationDate).format('DD MMMM YYYY')}</span>
                 </div>
                 <div className={[styles.div_3, styles.border_left].join(' ')}>

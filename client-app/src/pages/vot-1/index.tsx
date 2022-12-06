@@ -2,6 +2,7 @@ import { AdminLayout } from '@app/layouts';
 import { FormBuyNft } from '@business/buy-nft/components';
 import {
     OpportunityTrustPortfolioDetailProvider,
+    OpportunityTrustPortfolioDetailStatus,
     OtpDetailDescription,
     OtpDetailDocuments,
     OtpDetailGallery,
@@ -80,13 +81,17 @@ export default PageOpportunityTrustPortfolio;
 
 // ------------------
 const Breadcrumb = () => {
-    const { id, name } = useOpportunityTrustPortfolioDetailContext();
+    const { status, data } = useOpportunityTrustPortfolioDetailContext();
+
+    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
+        return <></>;
+    }
 
     return (
         <div className="mBreadcrumb-style-4 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div className="div_1">
                 <span className="span_1">
-                    {id}: {name}
+                    {data?.showcaseInfo.id}: {data?.showcaseInfo.name}
                 </span>
                 <span className="mTag span_2" data-status="successfull">
                     Total Return: Est 15-25% APY
@@ -97,27 +102,37 @@ const Breadcrumb = () => {
 };
 
 const OtpInfoHeading = () => {
-    const { name, type, address } = useOpportunityTrustPortfolioDetailContext();
+    const { status, data } = useOpportunityTrustPortfolioDetailContext();
+
+    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
+        return <></>;
+    }
 
     return (
         <div className={styles.div_1}>
-            <span className={styles.span_1}>{name}</span>
-            <span className={styles.span_2}>{type}</span>
-            <span className={styles.span_3}>{address}</span>
+            <span className={styles.span_1}>{data?.showcaseInfo.name}</span>
+            <span className={styles.span_2}>{data?.showcaseInfo.type}</span>
+            <span className={styles.span_3}>{data?.showcaseInfo.address}</span>
         </div>
     );
 };
 
 const SectionHighlightProptiesHeader = () => {
-    const { operateStatus, holdingTimes } = useOpportunityTrustPortfolioDetailContext();
+    const { status, data } = useOpportunityTrustPortfolioDetailContext();
+
+    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
+        return <></>;
+    }
 
     return (
         <div id={styles['section-highlight-properties-header']}>
             <span className={styles.span_1}>
                 <span className={[styles.span_0].join(' ')}>Property Highlights</span>
-                <span className={[styles.span_3, 'mButton mButton-cp6-bp1'].join(' ')}>{operateStatus}</span>
+                <span className={[styles.span_3, 'mButton mButton-cp6-bp1'].join(' ')}>
+                    {data?.showcaseInfo.operateStatus}
+                </span>
             </span>
-            <span className={styles.span_4}>Holding Times: {holdingTimes}</span>
+            <span className={styles.span_4}>Holding Times: {data?.showcaseInfo.holdingTimes}</span>
         </div>
     );
 };

@@ -1,13 +1,18 @@
 import Anchor from '@app/layouts/admin-layout/navigation/components/anchor';
 import { useOpportunityTrustPortfolioDetailContext } from '../opportunity-trust-portfolio-detail-context';
+import { OpportunityTrustPortfolioDetailStatus } from '../opportunity-trust-portfolio-detail-reducer';
 import styles from './styles.module.scss';
 
 const OtpDetailDocuments = () => {
-    const { documents } = useOpportunityTrustPortfolioDetailContext();
+    const { status, data } = useOpportunityTrustPortfolioDetailContext();
+
+    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
+        return <></>;
+    }
 
     return (
         <div className={styles['otp-detail-documents']}>
-            {documents.map((doc: any) => {
+            {data?.showcaseInfo.documents.map((doc: any) => {
                 const { name, href, disable } = doc;
 
                 return (

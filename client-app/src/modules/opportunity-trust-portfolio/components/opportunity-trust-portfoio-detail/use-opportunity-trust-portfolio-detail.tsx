@@ -1,56 +1,74 @@
+import { OpportunityTrustPortfolioService } from '@opportunity-trust-portfolio/services/opportunity-trust-portfolio-service';
 import React from 'react';
-import portfolios from '../../data/portfolios.json';
-import { Connection, clusterApiUrl, PublicKey } from '@solana/web3.js';
-const VOT1_NFT_MINT_ADDRESS = '2nUTrUfTeucGLBqoW89rwiFZbwWAoGkYWhsLFWXUBM7h';
-const VOT1_POOL_ADDRESS = 'GY2s1kHZezBdCDg2BZakRJAxjage45MkCmAfTs9PaGkD';
+import {
+    OpportunityTrustPortfolioDetailAction,
+    opportunityTrustPortfolioDetailReducer,
+    OpportunityTrustPortfolioDetailState,
+    OpportunityTrustPortfolioDetailStatus,
+} from './opportunity-trust-portfolio-detail-reducer';
+
+const initialState: OpportunityTrustPortfolioDetailState = {
+    status: OpportunityTrustPortfolioDetailStatus.Idle,
+    error: null,
+    data: undefined,
+};
 
 const useOpportunityTrustPortfolioDetail = (id: string) => {
-    const data = (portfolios as { [key: string]: any })[id];
-    const [saleInfo, setSaleInfo] = React.useState<any>();
+    const [state, dispatch] = React.useReducer(opportunityTrustPortfolioDetailReducer, initialState);
+
+    const loadData = async () => {
+        const [showcaseInfo, saleInfo] = await Promise.all([
+            OpportunityTrustPortfolioService.getOtpShowcaseInfo(id),
+            OpportunityTrustPortfolioService.getOtpSaleInfo(id),
+        ]);
+
+        return [showcaseInfo, saleInfo];
+    };
 
     React.useEffect(() => {
-        const getConnection = () => {
-            return new Connection(clusterApiUrl('devnet'));
-        };
+        dispatch({ type: OpportunityTrustPortfolioDetailAction.InitRequested });
 
-        const getNftTotalSupply = async () => {
-            const connection = getConnection();
-            const response = await connection.getTokenSupply(new PublicKey(VOT1_NFT_MINT_ADDRESS));
-            const { value } = response;
+        loadData()
+            .then((result) => {
+                const [showcaseInfo, saleInfo] = result;
 
-            console.log('getNftTotalSupply', value.uiAmount);
-            return value.uiAmount;
-        };
-
-        const getNftRemaining = async () => {
-            const connection = getConnection();
-            const response = await connection.getTokenAccountBalance(new PublicKey(VOT1_POOL_ADDRESS));
-
-            const { value } = response;
-
-            console.log('getNftRemain', value.uiAmount);
-            return value.uiAmount;
-        };
-
-        Promise.all([getNftTotalSupply(), getNftRemaining()]).then((responses) => {
-            const [nftTotalSupply, nftRemaining] = responses;
-
-            if (!nftTotalSupply || !nftRemaining) {
-                return;
-            }
-
-            setSaleInfo({
-                nftTotalSupply,
-                nftRemaining,
-                nftSold: nftTotalSupply - nftRemaining,
-                nftPrice: 10,
+                dispatch({
+                    type: OpportunityTrustPortfolioDetailAction.InitSucceeded,
+                    payload: { data: { showcaseInfo, saleInfo } },
+                });
+            })
+            .catch((error) => {
+                dispatch({
+                    type: OpportunityTrustPortfolioDetailAction.InitFailed,
+                    payload: { error },
+                });
             });
-        });
     }, []);
 
+    const handleReloadData = () => {
+        dispatch({ type: OpportunityTrustPortfolioDetailAction.ReloadRequested });
+
+        loadData()
+            .then((result) => {
+                const [showcaseInfo, saleInfo] = result;
+
+                dispatch({
+                    type: OpportunityTrustPortfolioDetailAction.ReloadSucceeded,
+                    payload: { data: { showcaseInfo, saleInfo } },
+                });
+            })
+            .catch((error) => {
+                dispatch({
+                    type: OpportunityTrustPortfolioDetailAction.ReloadFailed,
+                    payload: { error },
+                });
+            });
+    };
+
     return {
-        ...data,
-        saleInfo,
+        ...state,
+
+        handleReloadData,
     };
 };
 

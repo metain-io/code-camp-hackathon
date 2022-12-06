@@ -1,15 +1,21 @@
 import moment from 'moment';
 import { useOpportunityTrustPortfolioDetailContext } from '../opportunity-trust-portfolio-detail-context';
+import { OpportunityTrustPortfolioDetailStatus } from '../opportunity-trust-portfolio-detail-reducer';
 import styles from './styles.module.scss';
 
 const OtpDetailRoadmap = () => {
-    const { roadmap } = useOpportunityTrustPortfolioDetailContext();
+    const { status, data } = useOpportunityTrustPortfolioDetailContext();
+
+    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
+        return <></>;
+    }
+
     const currentDate = moment();
 
     return (
         <div className={styles['otp-detail-roadmap']}>
             <div className={styles.div_1}>
-                {roadmap.map((value: any, index: number) => {
+                {data?.showcaseInfo.roadmap.map((value: any, index: number) => {
                     const { title, timeLabel } = value;
 
                     let className = '';
@@ -29,16 +35,19 @@ const OtpDetailRoadmap = () => {
                     }
 
                     if (className === styles.passed) {
-                        if (roadmap[index + 1] === undefined) {
+                        if (data?.showcaseInfo.roadmap[index + 1] === undefined) {
                             className = styles.newest;
                         } else if (
                             currentDate >= moment(value.startDate) &&
-                            currentDate < moment(roadmap[index + 1].startDate)
+                            currentDate < moment(data?.showcaseInfo.roadmap[index + 1].startDate)
                         ) {
                             className = styles.current;
 
                             const passedDay = currentDate.diff(moment(value.startDate), 'days');
-                            const remainDay = moment(roadmap[index + 1].startDate).diff(currentDate, 'days');
+                            const remainDay = moment(data?.showcaseInfo.roadmap[index + 1].startDate).diff(
+                                currentDate,
+                                'days',
+                            );
 
                             percent = (passedDay / (remainDay + passedDay)) * 100;
                         }

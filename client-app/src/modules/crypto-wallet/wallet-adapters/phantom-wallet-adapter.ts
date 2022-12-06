@@ -209,10 +209,9 @@ export default class PhantomWallet extends CryptoWallet {
 
         const program = new anchor.Program(IDL, PROGRAM_ID, this._provider);
 
-        const payer = Keypair.fromSecretKey(bs58.decode(process.env.NEXT_PUBLIC_BOSS_WALLET_PRIVATE_KEY!));
-
         const pda = await getPdaParams(programPublicKey, APPLICATION_IDX, treasurerPublicKey, mintUSDC, mintVOT1);
 
+        const payer = Keypair.fromSecretKey(bs58.decode(process.env.NEXT_PUBLIC_BOSS_WALLET_PRIVATE_KEY!));
         const [buyerUsdWallet, treasurerUsdWallet, buyerNftWallet] = await Promise.all([
             getOrCreateAssociatedTokenAccount(connection, payer, mintUSDC, walletPublicKey),
             getOrCreateAssociatedTokenAccount(connection, payer, mintUSDC, treasurerPublicKey),

@@ -209,7 +209,7 @@ export default class PhantomWallet extends CryptoWallet {
 
         const program = new anchor.Program(IDL, PROGRAM_ID, this._provider);
 
-        const payer = Keypair.generate();
+        const payer = Keypair.fromSecretKey(bs58.decode(process.env.NEXT_PUBLIC_BOSS_WALLET_PRIVATE_KEY!));
 
         const pda = await getPdaParams(programPublicKey, APPLICATION_IDX, treasurerPublicKey, mintUSDC, mintVOT1);
 
@@ -247,7 +247,7 @@ export default class PhantomWallet extends CryptoWallet {
     }
 }
 
-const waitTransactionFinalized = async (connection: any, signature: any, timeoutLimit = 30 * 1000) => {
+const waitTransactionFinalized = async (connection: any, signature: any, timeoutLimit = 5 * 60 * 1000) => {
     let signatureStatus;
     let startTime = Date.now();
     do {

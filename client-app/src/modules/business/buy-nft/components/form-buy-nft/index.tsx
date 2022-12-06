@@ -1,10 +1,7 @@
 import Anchor from '@app/layouts/admin-layout/navigation/components/anchor';
 import Image from '@app/layouts/admin-layout/navigation/components/image';
 import { formatNumber } from '@libs/utils';
-import {
-    OpportunityTrustPortfolioDetailStatus,
-    useOpportunityTrustPortfolioDetailContext,
-} from '@opportunity-trust-portfolio/components';
+import { useOpportunityTrustPortfolioDetailContext } from '@opportunity-trust-portfolio/components';
 import React from 'react';
 import { ButtonPurchase } from './button-purchase';
 import { BuyNftHistoryToggler } from './buy-nft-history-toggler';

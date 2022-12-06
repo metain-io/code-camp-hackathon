@@ -56,10 +56,10 @@ type OpportunityTrustPortfolioDetailState = {
             mapUrl: string;
         };
         saleInfo: {
-            totalSupply: number;
-            remaining: number;
-            sold: number;
-            price: number;
+            nftTotalSupply: number;
+            nftRemaining: number;
+            nftSold: number;
+            nftPrice: number;
         };
     };
 };

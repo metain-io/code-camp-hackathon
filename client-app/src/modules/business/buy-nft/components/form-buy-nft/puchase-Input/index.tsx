@@ -1,13 +1,17 @@
 import Image from '@app/layouts/admin-layout/navigation/components/image';
 import { formatNumber } from '@libs/utils';
+import {
+    OpportunityTrustPortfolioDetailStatus,
+    useOpportunityTrustPortfolioDetailContext,
+} from '@opportunity-trust-portfolio/components';
 import React, { FormEvent } from 'react';
 import { ChangeEvent } from 'react';
 import { useFormBuyNftContext } from '../form-buy-nft-context';
 import styles from './styles.module.scss';
 
 const PurchaseInput = () => {
+    const { status, data } = useOpportunityTrustPortfolioDetailContext();
     const {
-        id,
         selectableTokens,
         selectedToken,
         formData,
@@ -49,13 +53,17 @@ const PurchaseInput = () => {
         handleAmountTokenChanged(value);
     };
 
+    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
+        return <></>;
+    }
+
     return (
         <div id={styles.preorder_input}>
             <div className={styles.input_block}>
                 <p className={styles.input_block_label}>YOU BUY</p>
                 <div className={styles.input_block_label_currency}>
                     <Image src="/svg/icon-vot-nft.svg" alt="" />
-                    <span>{id} NFT</span>
+                    <span>{data?.showcaseInfo.id} NFT</span>
                 </div>
                 <div>
                     <input

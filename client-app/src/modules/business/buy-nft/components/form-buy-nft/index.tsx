@@ -7,7 +7,10 @@ import { ButtonPurchase } from './button-purchase';
 import { BuyNftHistoryToggler } from './buy-nft-history-toggler';
 import { PurchaseInput } from './puchase-Input';
 import styles from './styles.module.scss';
-import { useOpportunityTrustPortfolioDetailContext } from '@opportunity-trust-portfolio/components';
+import {
+    OpportunityTrustPortfolioDetailStatus,
+    useOpportunityTrustPortfolioDetailContext,
+} from '@opportunity-trust-portfolio/components';
 import React from 'react';
 import CryptoWalletService from '@crypto-wallet/services/crypto-wallet-service';
 
@@ -25,8 +28,11 @@ const FormBuyNft = () => {
 };
 
 const Header = () => {
-    const { id, name, saleInfo } = useOpportunityTrustPortfolioDetailContext();
+    const { status, data } = useOpportunityTrustPortfolioDetailContext();
 
+    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
+        return <></>;
+    }
     return (
         <div id={styles.header_wrapper}>
             <Image className={styles.image_1} src={'/image/vot/vot-1.png'} alt="" />
@@ -36,7 +42,7 @@ const Header = () => {
                     <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
                         <span className={styles.span_1}>PURCHASE</span>
                         <Anchor href="/admin/vot/building/1" className={[styles.span_1].join(' ')}>
-                            {`${id}: ${name}`}
+                            {`${data?.showcaseInfo.id}: ${data?.showcaseInfo.name}`}
                         </Anchor>
                     </div>
                     <div>
@@ -46,21 +52,22 @@ const Header = () => {
 
                 <div className={styles.div_2}>
                     <div className={styles.item_1}>
-                        <span className={styles.span_2}>{id} NFT</span>
+                        <span className={styles.span_2}>{data?.showcaseInfo.id} NFT</span>
                         <span className={styles.span_3}>
-                            {(saleInfo?.nftPrice && formatNumber(saleInfo.nftPrice)) || '- -'} US$/NFT
+                            {(data?.saleInfo?.nftPrice && formatNumber(data?.saleInfo.nftPrice)) || '- -'} US$/NFT
                         </span>
                     </div>
                     <div className={styles.item_1}>
                         <span className={styles.span_2}>TOTAL SUPPLY</span>
                         <span className={styles.span_3}>
-                            {(saleInfo?.nftTotalSupply && formatNumber(saleInfo.nftTotalSupply)) || '- -'} NFT
+                            {(data?.saleInfo?.nftTotalSupply && formatNumber(data?.saleInfo.nftTotalSupply)) || '- -'}{' '}
+                            NFT
                         </span>
                     </div>
                     <div className={styles.item_1}>
                         <span className={styles.span_2}>SOLD</span>
                         <span className={styles.span_3}>
-                            {(saleInfo?.nftSold && formatNumber(saleInfo.nftSold)) || '- -'} NFT
+                            {(data?.saleInfo?.nftSold && formatNumber(data?.saleInfo.nftSold)) || '- -'} NFT
                         </span>
                     </div>
                 </div>
@@ -70,8 +77,12 @@ const Header = () => {
 };
 
 const Body = () => {
-    const { id, saleInfo } = useOpportunityTrustPortfolioDetailContext();
+    const { status, data } = useOpportunityTrustPortfolioDetailContext();
     const { formData, selectedToken } = useFormBuyNftContext();
+
+    if (status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
+        return <></>;
+    }
 
     return (
         <div id={styles.confirmorder_wrapper}>
@@ -86,12 +97,12 @@ const Body = () => {
             <div className={styles.div_2}>
                 <span className={styles.span_4}>Amount NFT</span>
                 <span className={styles.span_5}>
-                    {(formData.amountNft && formatNumber(+formData.amountNft)) || '- -'} {id} NFT
+                    {(formData.amountNft && formatNumber(+formData.amountNft)) || '- -'} {data?.showcaseInfo.id} NFT
                 </span>
 
                 <span className={styles.span_4}>NFT Price</span>
                 <span className={styles.span_5}>
-                    {(saleInfo?.nftPrice && formatNumber(saleInfo.nftPrice)) || '- -'} US$
+                    {(data?.saleInfo.nftPrice && formatNumber(data?.saleInfo.nftPrice)) || '- -'} US$
                 </span>
 
                 <>

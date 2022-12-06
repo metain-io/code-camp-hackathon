@@ -25,7 +25,6 @@ export default abstract class CryptoWallet {
     abstract disconnect(): Promise<void>;
     abstract signMessage(message: string): Promise<string>;
     abstract getBalances(userWalletAddress: string): Promise<{ [symbol: string]: number | bigint }>;
-    abstract getNftInfo(): Promise<any>;
     abstract eventChannelEmitter(emit: any): any;
     abstract purchaseNft(amount: number): Promise<void>;
 }

@@ -92,19 +92,19 @@ const ChartWrapper = (props: any) => {
     const TOKEN_CONFIG: Array<SelectBox_Component.Value> = [
         {
             label: 'USDT',
-            value: 'A7yGbWrtgTjXVdxky86CSEyfH6Jy388RYFWfZsH2D8hr',
+            value: process.env.NEXT_PUBLIC_MINT_USDT_ADDRESS || '',
             icon: '/svg/icon-token-usdt.svg',
         },
         {
             label: 'USDC',
-            value: '3GUqiPovczNg1KoZg5FovwRZ4KPFb95UGZCCTPFb9snc',
+            value: process.env.NEXT_PUBLIC_MINT_USDC_ADDRESS || '',
             icon: '/svg/icon-token-usdc.svg',
         },
     ];
     const NFT_CONFIG: Array<SelectBox_Component.Value> = [
         {
             label: 'NFT',
-            value: 'A7yGbWrtgTjXVdxky86CSEyfH6Jy388RYFWfZsH2D8hr',
+            value: process.env.NEXT_PUBLIC_MINT_NFT_ADDRESS || '',
             icon: '/svg/icon-metain-nft.svg',
         },
     ];

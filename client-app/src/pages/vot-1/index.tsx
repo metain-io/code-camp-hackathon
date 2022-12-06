@@ -20,10 +20,6 @@ import styles from './styles.module.scss';
 import WalletService from '@crypto-wallet/services/crypto-wallet-service';
 
 const PageOpportunityTrustPortfolio = () => {
-    React.useEffect(() => {
-        WalletService._currentWallet?.getNftInfo();
-    }, [])
-
     return (
         <div id={styles.row} className="row">
             <OpportunityTrustPortfolioDetailProvider>

@@ -23,13 +23,13 @@ export default class PhantomWallet extends CryptoWallet {
         this._tokenConfig = [
             {
                 label: 'USDT',
-                value: 'A7yGbWrtgTjXVdxky86CSEyfH6Jy388RYFWfZsH2D8hr',
+                value: process.env.NEXT_PUBLIC_MINT_USDT_ADDRESS || '',
                 icon: '/svg/icon-token-usdt.svg',
                 decimalNo: BigInt(Math.pow(10, 6)),
             },
             {
                 label: 'USDC',
-                value: '3GUqiPovczNg1KoZg5FovwRZ4KPFb95UGZCCTPFb9snc',
+                value: process.env.NEXT_PUBLIC_MINT_USDC_ADDRESS || '',
                 icon: '/svg/icon-token-usdc.svg',
                 decimalNo: BigInt(Math.pow(10, 6)),
             },
@@ -100,45 +100,6 @@ export default class PhantomWallet extends CryptoWallet {
         }
 
         return `${this._walletAccount}|${bs58.encode(signature)}`;
-    }
-
-    async getNftInfo() {
-        const nftAddress = '2nUTrUfTeucGLBqoW89rwiFZbwWAoGkYWhsLFWXUBM7h';
-
-        try {
-            const connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');
-
-            const APPLICATION_IDX = 1670006191;
-            const uid = new anchor.BN(APPLICATION_IDX.toString());
-
-            const uidBuffer: any = uid.toArray("le", 8);
-            let [escrowWalletPubKey, walletBump] = web3.PublicKey.findProgramAddressSync(
-                [
-                    Buffer.from('wallet'),
-                    new web3.PublicKey('621i9tL4tRBgt2PRbHynqSdYxPEd3KvpVkKX3chge3mU').toBuffer(),
-                    new web3.PublicKey('3GUqiPovczNg1KoZg5FovwRZ4KPFb95UGZCCTPFb9snc').toBuffer(),
-                    new web3.PublicKey(nftAddress).toBuffer(),
-                    uidBuffer,
-                ],
-                new web3.PublicKey('EbgwApfZNUQxGEqG2uJV5wkBVTZomp1ccDu7BuFsDKdY'),
-            );
-            const nftRemainSupply = await connection.getTokenAccountBalance(escrowWalletPubKey);
-
-            const mintInfo = await SPL.getMint(connection, new web3.PublicKey(nftAddress))
-            // mintInfo.supply
-            // minInfo.mintAuthority.toBase58()
-
-            logger.debug('=== PhantomWallet - getNftInfo - RS: ', {
-                mintInfo,
-                mintInfoSupply: mintInfo.supply,
-                remainingSupply: nftRemainSupply?.value.amount,
-                walletPubKeyString: escrowWalletPubKey.toBase58(), 
-                walletBump
-            });
-        } catch (error: any) {
-            logger.debug('=== PhantomWallet - getNftInfo - ERROR: ', error);
-            return {};
-        }
     }
 
     async getBalances(userWalletAddress: string): Promise<{ [symbol: string]: number | bigint; }> {
@@ -232,15 +193,15 @@ export default class PhantomWallet extends CryptoWallet {
             };
         };
 
-        const TREASURY_ADDRESS = '621i9tL4tRBgt2PRbHynqSdYxPEd3KvpVkKX3chge3mU';
-        const APPLICATION_IDX = 1670006191;
-        const PROGRAM_ID = 'EbgwApfZNUQxGEqG2uJV5wkBVTZomp1ccDu7BuFsDKdY';
+        const TREASURY_ADDRESS = process.env.NEXT_PUBLIC_TREASURY_ADDRESS || '';
+        const APPLICATION_IDX = parseInt(process.env.NEXT_PUBLIC_TREASURY_ADDRESS || '0');
+        const PROGRAM_ID = process.env.NEXT_PUBLIC_MINT_TRADE_PROGRAM_ADDRESS || '';
 
         const connection = getConnection();
 
-        // const mintUSDT = new PublicKey('A7yGbWrtgTjXVdxky86CSEyfH6Jy388RYFWfZsH2D8hr');
-        const mintUSDC = new PublicKey('3GUqiPovczNg1KoZg5FovwRZ4KPFb95UGZCCTPFb9snc');
-        const mintVOT1 = new PublicKey('2nUTrUfTeucGLBqoW89rwiFZbwWAoGkYWhsLFWXUBM7h');
+        // const mintUSDT = new PublicKey(process.env.NEXT_PUBLIC_MINT_USDT_ADDRESS || '');
+        const mintUSDC = new PublicKey(process.env.NEXT_PUBLIC_MINT_USDC_ADDRESS || '');
+        const mintVOT1 = new PublicKey(process.env.NEXT_PUBLIC_MINT_NFT_ADDRESS || '');
 
         const treasurerPublicKey = new PublicKey(TREASURY_ADDRESS);
         const walletPublicKey = new PublicKey(this._walletAccount);

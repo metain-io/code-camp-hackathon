@@ -4,6 +4,8 @@ import * as web3 from '@solana/web3.js';
 import * as SPL from '@solana/spl-token';
 import CryptoWallet, { CryptoWalletEvent, SelectedToken, TokenConfig } from '../crypto-wallet';
 import logger from '@libs/logger';
+import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import * as anchor from "@project-serum/anchor";
 
 export default class PhantomWallet extends CryptoWallet {
     _provider: any;
@@ -94,6 +96,45 @@ export default class PhantomWallet extends CryptoWallet {
         }
 
         return `${this._walletAccount}|${bs58.encode(signature)}`;
+    }
+
+    async getNftInfo() {
+        const nftAddress = '2nUTrUfTeucGLBqoW89rwiFZbwWAoGkYWhsLFWXUBM7h';
+
+        try {
+            const connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');
+
+            const APPLICATION_IDX = 1670006191;
+            const uid = new anchor.BN(APPLICATION_IDX.toString());
+
+            const uidBuffer: any = uid.toArray("le", 8);
+            let [escrowWalletPubKey, walletBump] = web3.PublicKey.findProgramAddressSync(
+                [
+                    Buffer.from('wallet'),
+                    new web3.PublicKey('621i9tL4tRBgt2PRbHynqSdYxPEd3KvpVkKX3chge3mU').toBuffer(),
+                    new web3.PublicKey('3GUqiPovczNg1KoZg5FovwRZ4KPFb95UGZCCTPFb9snc').toBuffer(),
+                    new web3.PublicKey(nftAddress).toBuffer(),
+                    uidBuffer,
+                ],
+                new web3.PublicKey('EbgwApfZNUQxGEqG2uJV5wkBVTZomp1ccDu7BuFsDKdY'),
+            );
+            const nftRemainSupply = await connection.getTokenAccountBalance(escrowWalletPubKey);
+
+            const mintInfo = await SPL.getMint(connection, new web3.PublicKey(nftAddress))
+            // mintInfo.supply
+            // minInfo.mintAuthority.toBase58()
+
+            logger.debug('=== PhantomWallet - getNftInfo - RS: ', {
+                mintInfo,
+                mintInfoSupply: mintInfo.supply,
+                remainingSupply: nftRemainSupply?.value.amount,
+                walletPubKeyString: escrowWalletPubKey.toBase58(), 
+                walletBump
+            });
+        } catch (error: any) {
+            logger.debug('=== PhantomWallet - getNftInfo - ERROR: ', error);
+            return {};
+        }
     }
 
     async getBalances(userWalletAddress: string): Promise<{ [symbol: string]: number | bigint; }> {

@@ -67,7 +67,7 @@ const useFormBuyNft = () => {
 
             showToast({ status: 'success', message: 'Purchase Success' });
         } else if (state.status == FormBuyNftStatus.ProcessFailed) {
-            showToast({ status: 'error', message: state.error });
+            showToast({ status: 'error', message: state.error?.message || state.error?.toString() });
         }
     }, [state.status]);
 
@@ -130,7 +130,7 @@ const useFormBuyNft = () => {
                 dispatch({ type: FormBuyNftAction.PurchaseNftSucceeded });
             })
             .catch((error) => {
-                dispatch({ type: FormBuyNftAction.PurchaseNftFailed, payload: { error: error.toString() } });
+                dispatch({ type: FormBuyNftAction.PurchaseNftFailed, payload: { error: error } });
             });
     };
 

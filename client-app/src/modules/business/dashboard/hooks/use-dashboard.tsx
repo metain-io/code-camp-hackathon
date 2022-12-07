@@ -1,15 +1,11 @@
-import React from 'react';
-import * as web3 from '@solana/web3.js';
-import * as SPL from '@solana/spl-token';
-import { SelectBox_Component } from '../components/select-box';
-import { useSelector } from 'react-redux';
+import { getExchangeRateList } from '@api/metain/entry-points/oracle';
 import { selectLoginWalletAddress } from '@auth/redux/login/slice';
-import { Table_Component } from '../components/table/type';
-import CryptoJS from 'crypto-js';
 import WalletService from '@crypto-wallet/services/crypto-wallet-service';
 import logger from '@libs/logger';
-import axios from '@api/metain/axios-client';
-import MetainApi from '@api/metain';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { SelectBox_Component } from '../components/select-box';
+import { Table_Component } from '../components/table/type';
 
 export type ExchangeRateItem = {
     max_usdt_rate: number;
@@ -32,7 +28,7 @@ const useDashboard = () => {
     };
 
     const getAndConvertBalance2TokenTableData = async () => {
-        const [tmpBalances, exchangeRateList] = await Promise.all([getBalances(), MetainApi.oracle.getExchangeRateList()]);
+        const [tmpBalances, exchangeRateList] = await Promise.all([getBalances(), getExchangeRateList()]);
         const entries = Object.entries(tmpBalances);
         const tokenTableData: Array<Table_Component.Row> = [];
 

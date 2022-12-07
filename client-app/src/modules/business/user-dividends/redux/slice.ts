@@ -30,7 +30,10 @@ export const userDividendSlice = createSlice({
             state.status = UserDividendStatus.Loading;
         },
         initFailed: (state, action: PayloadAction<any>) => {
+            const { error } = action.payload;
+
             state.status = UserDividendStatus.LoadingFailed;
+            state.error = error;
         },
         initSucceeded: (state, action: PayloadAction<any>) => {
             const { data } = action.payload;

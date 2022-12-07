@@ -28,7 +28,7 @@ const initialState: FormBuyNftState = {
 
 const useFormBuyNft = () => {
     const [state, dispatch] = React.useReducer(formBuyNftReducer, initialState);
-    const { handleReloadData } = useOpportunityTrustPortfolioDetailContext();
+    const { data: otpDetailData, handleReloadData } = useOpportunityTrustPortfolioDetailContext();
     const [selectedTokenBalance, setSelectedTokenBalance] = React.useState<any>();
     const { showToast } = useNotify();
 
@@ -81,7 +81,7 @@ const useFormBuyNft = () => {
             return;
         }
 
-        const n = Math.floor(+value);
+        let n = Math.floor(+value);
         dispatch({
             type: FormBuyNftAction.AmountNftChanged,
             payload: { amountNft: n.toString(), amountToken: (n * 10).toString() },

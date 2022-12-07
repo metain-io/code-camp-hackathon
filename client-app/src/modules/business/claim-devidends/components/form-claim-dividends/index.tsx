@@ -1,10 +1,11 @@
 import { MouseEvent } from 'react';
-import { ClaimDividendsHistoryToggler } from './claim-dividends-history-toggler';
+import { useFormClaimDividends } from './use-form-claim-dividends';
 import styles from './styles.module.scss';
-import { useClaimDividends } from './use-claim-dividends';
+import { UserDividendStatus } from '@business/claim-devidends/redux/user-dividend/slice';
 
 const FormClaimDividends = () => {
-    const { amountNft, amountDividends, handleClaimDividends } = useClaimDividends();
+    const { status, userTotalUsdClaimableDividend, userTotalUsdClaimedDividend, handleClaimDividends } =
+        useFormClaimDividends();
 
     const onButtonClaimDividendsClicked = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -14,31 +15,30 @@ const FormClaimDividends = () => {
     return (
         <>
             <form className={[styles['form'], 'mBackground-style-1'].join(' ')}>
-                {/* <div className={styles['form-header']}>
-                    <label className={styles['form-title']}>Claim dividends to invest more NFT for future life!!</label>
-
-                    <div>
-                        <ClaimDividendsHistoryToggler />
-                    </div>
-                </div> */}
-
                 <div className={styles['form-body']}>
                     <div>
                         <p>Available (Claimable)</p>
-                        <p>{amountNft} US$</p>
+                        <p>{status == UserDividendStatus.Loading ? '- -' : userTotalUsdClaimableDividend} US$</p>
                     </div>
 
                     <div>
                         <p>Value (Claimed)</p>
-                        <p>{amountDividends} US$</p>
+                        <p>{status == UserDividendStatus.Loading ? '- -' : userTotalUsdClaimedDividend} US$</p>
                     </div>
 
                     <div>
                         <button
                             className={[styles['button-claim-dividends'], 'mButton', 'mButton-cp5-bn1'].join(' ')}
                             onClick={onButtonClaimDividendsClicked}
+                            disabled={
+                                status == UserDividendStatus.Loading || status == UserDividendStatus.ClaimingDividend
+                            }
                         >
-                            Claim
+                            {status == UserDividendStatus.Loading
+                                ? 'Loading...'
+                                : status == UserDividendStatus.ClaimingDividend
+                                ? 'Processing...'
+                                : 'Claim'}
                         </button>
                     </div>
                 </div>

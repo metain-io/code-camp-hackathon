@@ -176,7 +176,13 @@ export default class PhantomWallet extends CryptoWallet {
 
     async purchaseNft(amount: number): Promise<void> {
         if (!this._walletAccount || !this._provider) {
-            throw new Error('AAAA');
+            throw new Error('wallet account is not present');
+        }
+
+        const balances = await this.getBalances();
+
+        if (balances?.['USDC'] < amount) {
+            throw new Error('balance not enough');
         }
 
         const getConnection = () => {

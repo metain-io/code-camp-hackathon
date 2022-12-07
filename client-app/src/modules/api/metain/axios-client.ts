@@ -2,6 +2,7 @@ import AuthService from '@auth/services/auth';
 import logger from '@libs/logger';
 import { resolvePromise } from '@libs/utils';
 import Axios, { AxiosInstance } from 'axios';
+import CryptoJS from 'crypto-js';
 
 const BASE_URL = process.env.NEXT_PUBLIC_METAIN_API_BASE_URL;
 
@@ -74,13 +75,25 @@ axios.interceptors.response.use(
     }
 };
 
+(axios as any).generateRequestKey = (...args: any) => {
+    let key = '';
+
+    for (let arg of args) {
+        key += JSON.stringify(arg);
+    }
+
+    return CryptoJS.MD5(key).toString(CryptoJS.enc.Base64);
+};
+
 const transformResponse = (response: any) => {
     response = response?.data || response;
 
-    try {
-        response = JSON.parse(response);
-    } catch (jsonParseResponseError) {
-        logger.error('jsonParseResponseError', jsonParseResponseError);
+    if (typeof response == 'string') {
+        try {
+            response = JSON.parse(response);
+        } catch (jsonParseResponseError) {
+            logger.error('jsonParseResponseError', jsonParseResponseError);
+        }
     }
 
     return response;
@@ -110,4 +123,7 @@ const delay = (time: number) => {
     });
 };
 
-export default axios as AxiosInstance & { executeRequest: (key: string, request: () => Promise<any>) => Promise<any> };
+export default axios as AxiosInstance & {
+    executeRequest: (key: string, request: () => Promise<any>) => Promise<any>;
+    generateRequestKey: (...args: any) => string;
+};

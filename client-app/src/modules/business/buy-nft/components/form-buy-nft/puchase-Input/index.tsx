@@ -61,7 +61,7 @@ const PurchaseInput = () => {
                     <Image src="/svg/icon-vot-nft.svg" alt="" />
                     <span>{data?.showcaseInfo.id} NFT</span>
                 </div>
-                <div>
+                <div style={{ position: 'relative' }}>
                     <input
                         inputMode="numeric"
                         type={'number'}
@@ -71,7 +71,7 @@ const PurchaseInput = () => {
                         onChange={onInputAmountNftChanged}
                     />
 
-                    {formData.amountNft && (
+                    {formData.amountNft && !isNaN(+formData.amountNft) && (
                         <span className={styles['formatted']}>{formatNumber(+formData.amountNft)}</span>
                     )}
                 </div>
@@ -93,7 +93,7 @@ const PurchaseInput = () => {
                         })}
                     </select>
                 </div>
-                <div>
+                <div style={{ position: 'relative' }}>
                     <input
                         inputMode="numeric"
                         type={'number'}
@@ -103,8 +103,8 @@ const PurchaseInput = () => {
                         onChange={onInputAmountTokenChanged}
                         style={{ textAlign: 'right' }}
                     />
-                    {formData.amountToken && (
-                        <span className={styles['formatted']} style={{ textAlign: 'right' }}>
+                    {formData.amountToken && !isNaN(+formData.amountToken) && (
+                        <span className={styles['formatted']} style={{ textAlign: 'right', right: 0 }}>
                             {formatNumber(+formData.amountToken)}
                         </span>
                     )}

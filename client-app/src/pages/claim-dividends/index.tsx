@@ -1,5 +1,5 @@
 import { AdminLayout } from '@app/layouts';
-import { FormClaimDividends, TableClaimDividendsHistory } from '@business/claim-devidends/components';
+import { FormClaimDividends, TableUserDividends } from '@business/user-dividends/components';
 import { ReactElement } from 'react';
 import styles from './styles.module.scss';
 
@@ -15,7 +15,7 @@ const PageClaimDividends = () => {
             <h2 className={styles['title']}>Claim Dividends History</h2>
 
             <div className={styles['table-claim-dividends-history-placeholder']}>
-                <TableClaimDividendsHistory />
+                <TableUserDividends />
             </div>
         </div>
     );

@@ -2,13 +2,13 @@ import {
     selectUserDividendData,
     selectUserDividendStatus,
     userDividendActions,
-} from '@business/claim-devidends/redux/user-dividend/slice';
+} from '@business/user-dividends/redux/slice';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const useClaimDividendsHistory = () => {
+const useTableUserDividends = () => {
     const dispatch = useDispatch();
-    const claimDividendsHistory = useSelector(selectUserDividendData);
+    const userDividensData = useSelector(selectUserDividendData);
     const status = useSelector(selectUserDividendStatus);
 
     React.useEffect(() => {
@@ -17,8 +17,8 @@ const useClaimDividendsHistory = () => {
 
     return {
         status,
-        claimDividendsHistory,
+        userDividensData,
     };
 };
 
-export { useClaimDividendsHistory };
+export { useTableUserDividends };

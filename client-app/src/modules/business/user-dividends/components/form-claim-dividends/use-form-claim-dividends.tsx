@@ -1,10 +1,9 @@
-import { getShareDividend, getUserDividend } from '@api/metain/entry-points/hackathon';
 import {
     selectUserDividendStatus,
     selectUserTotalUsdClaimableDividend,
     selectUserTotalUsdClaimedDividend,
     userDividendActions,
-} from '@business/claim-devidends/redux/user-dividend/slice';
+} from '@business/user-dividends/redux/slice';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 

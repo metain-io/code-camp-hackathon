@@ -1,7 +1,7 @@
 import { MouseEvent } from 'react';
 import { useFormClaimDividends } from './use-form-claim-dividends';
 import styles from './styles.module.scss';
-import { UserDividendStatus } from '@business/claim-devidends/redux/user-dividend/slice';
+import { UserDividendStatus } from '@business/user-dividends/redux/slice';
 
 const FormClaimDividends = () => {
     const { status, userTotalUsdClaimableDividend, userTotalUsdClaimedDividend, handleClaimDividends } =

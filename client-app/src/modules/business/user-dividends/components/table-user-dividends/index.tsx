@@ -1,10 +1,10 @@
-import { UserDividendStatus } from '@business/claim-devidends/redux/user-dividend/slice';
+import { UserDividendStatus } from '@business/user-dividends/redux/slice';
 import moment from 'moment';
 import styles from './styles.module.scss';
-import { useClaimDividendsHistory } from './use-table-claim-dividends-history';
+import { useTableUserDividends } from './use-table-user-dividends';
 
-const TableClaimDividendsHistory = () => {
-    const { status, claimDividendsHistory } = useClaimDividendsHistory();
+const TableUserDividends = () => {
+    const { status, userDividensData } = useTableUserDividends();
 
     return (
         <div className={styles['table-wrapper']}>
@@ -21,8 +21,8 @@ const TableClaimDividendsHistory = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {claimDividendsHistory?.length > 0 ? (
-                        claimDividendsHistory.map(({ id, project, dateFrom, dateTo, nft, dividend, status }: any) => (
+                    {status != UserDividendStatus.Loading && userDividensData?.length > 0 ? (
+                        userDividensData.map(({ id, project, dateFrom, dateTo, nft, dividend, status }: any) => (
                             <tr key={id}>
                                 <td data-name="id">#{id}</td>
                                 <td data-name="project">{project}</td>
@@ -48,4 +48,4 @@ const TableClaimDividendsHistory = () => {
     );
 };
 
-export { TableClaimDividendsHistory };
+export { TableUserDividends };

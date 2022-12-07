@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import { appSaga } from './saga';
 
 import { loginReducers } from '@auth/redux/login/slice';
-import { userDividendReducers } from '@business/claim-devidends/redux/user-dividend/slice';
+import { userDividendReducers } from '@business/user-dividends/redux/slice';
 
 const sagaMiddleware = createSagaMiddleware();
 

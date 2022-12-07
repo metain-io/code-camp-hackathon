@@ -22,15 +22,15 @@ export default class PhantomWallet extends CryptoWallet {
         this._provider = provider;
         this._tokenConfig = [
             {
-                label: 'USDT',
-                value: process.env.NEXT_PUBLIC_MINT_USDT_ADDRESS || '',
-                icon: '/svg/icon-token-usdt.svg',
-                decimalNo: BigInt(Math.pow(10, 6)),
-            },
-            {
                 label: 'USDC',
                 value: process.env.NEXT_PUBLIC_MINT_USDC_ADDRESS || '',
                 icon: '/svg/icon-token-usdc.svg',
+                decimalNo: BigInt(Math.pow(10, 6)),
+            },
+            {
+                label: 'USDT',
+                value: process.env.NEXT_PUBLIC_MINT_USDT_ADDRESS || '',
+                icon: '/svg/icon-token-usdt.svg',
                 decimalNo: BigInt(Math.pow(10, 6)),
             },
         ];
@@ -102,14 +102,34 @@ export default class PhantomWallet extends CryptoWallet {
         return `${this._walletAccount}|${bs58.encode(signature)}`;
     }
 
-    async getBalances(userWalletAddress: string): Promise<{ [symbol: string]: number | bigint }> {
+    async getNftBalance(): Promise<any> {
+        let tmpBalances: { [nftAddress: string]: number | bigint } = {};
+        console.log('=============== getNftBalance - associatedNftAccount - INIT ')
+        try {
+            const connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');
+            const payer = web3.Keypair.generate();
+            const nftPublicKey = new web3.PublicKey(process.env.NEXT_PUBLIC_MINT_NFT_ADDRESS || '');
+            const walletPublicKey = new web3.PublicKey(this.walletAccount || '');
+
+            const associatedNftAccount = await SPL.getOrCreateAssociatedTokenAccount(connection, payer, nftPublicKey, walletPublicKey);
+
+            tmpBalances = {[nftPublicKey.toBase58()]: associatedNftAccount.amount};
+            logger.debug('=== PhantomWallet - getNftBalance - RS: : ', tmpBalances)
+        } catch (error: any) {
+            logger.debug('=== PhantomWallet - getNftBalance - ERROR: ', error);
+            throw(Error('Some thing went wrong when get NFT balance'));
+        }
+        return tmpBalances;
+    }
+
+    async getBalances(): Promise<{ [symbol: string]: number | bigint; }> {
         const tmpBalances: { [name: string]: number | bigint } = {};
         try {
             const connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');
-            const tokenAccounts = await connection.getTokenAccountsByOwner(new web3.PublicKey(userWalletAddress), {
+            const tokenAccounts = await connection.getTokenAccountsByOwner(new web3.PublicKey(this._walletAccount || ''), {
                 programId: SPL.TOKEN_PROGRAM_ID,
             });
-            const solAmount = await connection.getBalance(new web3.PublicKey(userWalletAddress));
+            const solAmount = await connection.getBalance(new web3.PublicKey(this._walletAccount || ''));
 
             tmpBalances['SOL'] = BigInt(solAmount) / BigInt(web3.LAMPORTS_PER_SOL);
             tokenAccounts?.value?.forEach((tokenAccount) => {
@@ -125,7 +145,7 @@ export default class PhantomWallet extends CryptoWallet {
             logger.debug('=== PhantomWallet - getBalances - BALANCE: ', tmpBalances);
         } catch (error: any) {
             logger.debug('=== PhantomWallet - getBalances - ERROR: ', error);
-            return {};
+            throw(Error('Some thing went wrong when get Token balance'));
         }
         return tmpBalances;
     }
@@ -159,7 +179,7 @@ export default class PhantomWallet extends CryptoWallet {
             throw new Error('wallet account is not present');
         }
 
-        const balances = await this.getBalances(this._walletAccount);
+        const balances = await this.getBalances();
 
         if (balances?.['USDC'] < amount) {
             throw new Error('balance not enough');

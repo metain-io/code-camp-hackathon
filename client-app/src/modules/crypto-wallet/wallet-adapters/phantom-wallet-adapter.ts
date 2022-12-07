@@ -102,7 +102,7 @@ export default class PhantomWallet extends CryptoWallet {
         return `${this._walletAccount}|${bs58.encode(signature)}`;
     }
 
-    async getBalances(userWalletAddress: string): Promise<{ [symbol: string]: number | bigint; }> {
+    async getBalances(userWalletAddress: string): Promise<{ [symbol: string]: number | bigint }> {
         const tmpBalances: { [name: string]: number | bigint } = {};
         try {
             const connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');
@@ -156,7 +156,13 @@ export default class PhantomWallet extends CryptoWallet {
 
     async purchaseNft(amount: number): Promise<void> {
         if (!this._walletAccount || !this._provider) {
-            throw new Error('AAAA');
+            throw new Error('wallet account is not present');
+        }
+
+        const balances = await this.getBalances(this._walletAccount);
+
+        if (balances?.['USDC'] < amount) {
+            throw new Error('balance not enough');
         }
 
         const getConnection = () => {

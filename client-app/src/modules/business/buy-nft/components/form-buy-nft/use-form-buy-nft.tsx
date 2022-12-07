@@ -1,5 +1,8 @@
 import CryptoWalletService from '@crypto-wallet/services/crypto-wallet-service';
-import { useOpportunityTrustPortfolioDetailContext } from '@opportunity-trust-portfolio/components';
+import {
+    OpportunityTrustPortfolioDetailStatus,
+    useOpportunityTrustPortfolioDetailContext,
+} from '@opportunity-trust-portfolio/components';
 import { useNotify } from '@shared/hooks';
 
 import React from 'react';
@@ -28,7 +31,11 @@ const initialState: FormBuyNftState = {
 
 const useFormBuyNft = () => {
     const [state, dispatch] = React.useReducer(formBuyNftReducer, initialState);
-    const { data: otpDetailData, handleReloadData } = useOpportunityTrustPortfolioDetailContext();
+    const {
+        status: otpDetailStatus,
+        data: otpDetailData,
+        handleReloadData,
+    } = useOpportunityTrustPortfolioDetailContext();
     const [selectedTokenBalance, setSelectedTokenBalance] = React.useState<any>();
     const { showToast } = useNotify();
 
@@ -76,12 +83,18 @@ const useFormBuyNft = () => {
     }, [state.formData.selectedTokenIndex]);
 
     const handleAmountNftChanged = (value: string) => {
+        if (otpDetailStatus != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
+            return;
+        }
+
         if (!value || isNaN(+value)) {
             dispatch({ type: FormBuyNftAction.AmountNftChanged, payload: { amountNft: value, amountToken: '' } });
             return;
         }
 
         let n = Math.floor(+value);
+        n = n > otpDetailData!.saleInfo.nftRemaining ? otpDetailData!.saleInfo.nftRemaining : n;
+
         dispatch({
             type: FormBuyNftAction.AmountNftChanged,
             payload: { amountNft: n.toString(), amountToken: (n * 10).toString() },
@@ -89,12 +102,18 @@ const useFormBuyNft = () => {
     };
 
     const handleAmountTokenChanged = (value: string) => {
+        if (otpDetailStatus != OpportunityTrustPortfolioDetailStatus.LoadSucceeded) {
+            return;
+        }
+
         if (!value || isNaN(+value)) {
             dispatch({ type: FormBuyNftAction.AmountTokenChanged, payload: { amountToken: value, amountNft: value } });
             return;
         }
 
-        const n = Math.floor(+value / 10);
+        let n = Math.floor(+value / 10);
+        n = n > otpDetailData!.saleInfo.nftRemaining ? otpDetailData!.saleInfo.nftRemaining : n;
+
         dispatch({
             type: FormBuyNftAction.AmountTokenChanged,
             payload: { amountToken: value, amountNft: n.toString() },

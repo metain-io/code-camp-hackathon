@@ -194,7 +194,7 @@ export default class PhantomWallet extends CryptoWallet {
         };
 
         const TREASURY_ADDRESS = process.env.NEXT_PUBLIC_TREASURY_ADDRESS || '';
-        const APPLICATION_IDX = parseInt(process.env.NEXT_PUBLIC_TREASURY_ADDRESS || '0');
+        const APPLICATION_IDX = parseInt(process.env.NEXT_PUBLIC_APPLICATION_IDX || '0');
         const PROGRAM_ID = process.env.NEXT_PUBLIC_MINT_TRADE_PROGRAM_ADDRESS || '';
 
         const connection = getConnection();

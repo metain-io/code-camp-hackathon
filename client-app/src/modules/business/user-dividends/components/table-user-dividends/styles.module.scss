@@ -44,14 +44,35 @@
             white-space: nowrap;
 
             color: $colorNeutral6;
+            text-transform: capitalize;
         }
 
-        th[data-name='date'] {
+        th[data-name='id'] {
             width: 10rem;
         }
 
-        th[data-name^='amount'] {
-            width: 15rem;
+        th[data-name='project'] {
+            width: 10rem;
+        }
+
+        th[data-name='from'] {
+            width: 10rem;
+        }
+
+        th[data-name='to'] {
+            width: 10rem;
+        }
+
+        th[data-name='amount-nft'] {
+            width: 10rem;
+        }
+
+        th[data-name='amount-dividend'] {
+            width: 10rem;
+        }
+
+        th[data-name='status'] {
+            width: 10rem;
         }
 
         td {
@@ -60,8 +81,48 @@
             line-height: $heightPerRow;
         }
 
-        td[data-name^='amount'] {
+        td[data-name='id'] {
+            width: 10rem;
+        }
+
+        td[data-name='project'] {
+            width: 10rem;
+            text-align: center;
+        }
+
+        td[data-name='from'] {
+            width: 10rem;
             text-align: right;
+        }
+
+        td[data-name='to'] {
+            width: 10rem;
+            text-align: right;
+        }
+
+        td[data-name='amount-nft'] {
+            width: 10rem;
+            text-align: right;
+        }
+
+        td[data-name='amount-dividend'] {
+            width: 10rem;
+            text-align: right;
+        }
+
+        td[data-name='status'] {
+            width: 10rem;
+            text-align: center;
+            text-transform: capitalize;
+            font-weight: 500;
+
+            &[data-value='available'] {
+                color: $colorGreen7;
+            }
+
+            &[data-value='claimed'] {
+                color: $colorNeutral7;
+            }
         }
     }
 }

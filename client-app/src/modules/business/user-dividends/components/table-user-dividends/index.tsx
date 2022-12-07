@@ -30,7 +30,9 @@ const TableUserDividends = () => {
                                 <td data-name="to">{dateTo && moment(dateTo).format('DD - MM - YYYY')}</td>
                                 <td data-name="amount-nft">{nft}</td>
                                 <td data-name="amount-dividend">{dividend} US$</td>
-                                <td data-name="status">{status}</td>
+                                <td data-name="status" data-value={status}>
+                                    {status}
+                                </td>
                             </tr>
                         ))
                     ) : status == UserDividendStatus.Loading ? (

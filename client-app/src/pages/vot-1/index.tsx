@@ -1,3 +1,4 @@
+import React from 'react';
 import { AdminLayout } from '@app/layouts';
 import { FormBuyNft } from '@business/buy-nft/components';
 import { FormBuyNftProvider } from '@business/buy-nft/components/form-buy-nft/form-buy-nft-provider';
@@ -16,6 +17,7 @@ import {
 } from '@opportunity-trust-portfolio/components';
 import { ReactElement } from 'react';
 import styles from './styles.module.scss';
+import WalletService from '@crypto-wallet/services/crypto-wallet-service';
 
 const PageOpportunityTrustPortfolio = () => {
     return (

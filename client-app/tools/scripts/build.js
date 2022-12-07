@@ -26,7 +26,8 @@ function main() {
         Fs.copyFileSync(srcEnvFilePath, dstEnvFilePath);
 
         ChildProcess.execSync('npx next build', { stdio: 'inherit' });
-        ChildProcess.execSync(`npx next export -o ${DISTRIBUTION_DIR}/${environment}`, {
+        // ChildProcess.execSync(`npx next export -o ${DISTRIBUTION_DIR}/${environment}`, {
+        ChildProcess.execSync(`npx next export -o ${DISTRIBUTION_DIR}`, {
             stdio: 'inherit',
         });
 

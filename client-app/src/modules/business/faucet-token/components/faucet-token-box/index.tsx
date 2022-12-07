@@ -61,7 +61,7 @@ const PreOrderWidgetBoxHeader = (props: any) => {
                         </div>
                     </div>
                     <div className={styles.item_1}>
-                        <span className={styles.span_2}>Address</span>
+                        <span className={styles.span_2}>Token Address</span>
                         <span className={styles.span_3}>{selectToken.value}</span>
                     </div>
                 </div>

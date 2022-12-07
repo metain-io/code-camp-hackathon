@@ -47,7 +47,7 @@ export const userDividendSlice = createSlice({
             state.status = UserDividendStatus.ClaimDividendFailed;
             state.error = error;
         },
-        claimDividendSucceeded: (state, payload: PayloadAction<any>) => {
+        claimDividendSucceeded: (state) => {
             state.status = UserDividendStatus.ClaimDividendSucceeded;
         },
     },

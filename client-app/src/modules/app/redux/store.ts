@@ -3,12 +3,14 @@ import createSagaMiddleware from 'redux-saga';
 import { appSaga } from './saga';
 
 import { loginReducers } from '@auth/redux/login/slice';
+import { accountReducers } from 'modules/account/redux/slice';
 
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
     reducer: {
         login: loginReducers,
+        account: accountReducers
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

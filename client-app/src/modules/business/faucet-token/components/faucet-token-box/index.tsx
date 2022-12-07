@@ -15,9 +15,9 @@ const FaucetTokenBox = () => {
     const [disableRequestBtn, setDisableRequestToken] = React.useState(false);
 
     React.useEffect(() => {
-        getBalances(selectToken.value);
+        getBalances();
         intervalRef.current = setInterval(() => {
-            getBalances(selectToken.value);
+            getBalances();
         }, 10 * 1000)
 
         return () => {

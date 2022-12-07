@@ -1,12 +1,13 @@
 import React from 'react';
-import { selectLoginWalletAddress } from '@auth/redux/login/slice';
-import { useSelector } from 'react-redux';
-import * as web3 from '@solana/web3.js';
-import * as SPL from '@solana/spl-token';
 import base58 from 'bs58';
-import { SelectBox_Component } from '../components/select-box';
-import { useNotify, useResponsive } from '@shared/hooks';
+import * as SPL from '@solana/spl-token';
+import * as web3 from '@solana/web3.js';
+import { selectLoginWalletAddress } from '@auth/redux/login/slice';
 import WalletService from '@crypto-wallet/services/crypto-wallet-service';
+import { useNotify, useResponsive } from '@shared/hooks';
+import { useDispatch, useSelector } from 'react-redux';
+import { SelectBox_Component } from '../components/select-box';
+import { accountActions } from 'modules/account/redux/slice';
 
 const useFaucetToken = () => {
     const DECIMAL_NUMBER = BigInt(Math.pow(10, 6));
@@ -15,16 +16,20 @@ const useFaucetToken = () => {
     const { showToast } = useNotify();
     const deviceType = useResponsive();
     const walletAddress = useSelector(selectLoginWalletAddress);
+    const dispatch = useDispatch();
 
     const [balances, setBalances] = React.useState<{ [name: string]: number | bigint }>({
         [TOKEN_CONFIG[0].label]: 0,
         [TOKEN_CONFIG[1].label]: 0,
     });
 
-    const getBalances = async (tokenAddress: string) => {
-        const tmpBalances = await WalletService._currentWallet?.getBalances(
-            walletAddress
-        ) || {};
+    React.useEffect(() => {
+        dispatch(accountActions.getTokenBalanceRequested());
+        dispatch(accountActions.getNftBalanceRequested());
+    }, [])
+
+    const getBalances = async () => {
+        const tmpBalances = await WalletService._currentWallet?.getBalances() || {};
 
         setBalances(tmpBalances);
         return tmpBalances;

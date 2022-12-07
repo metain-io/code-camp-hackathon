@@ -10,7 +10,7 @@ import Image from '../../modules/business/dashboard/components/image';
 import { useDashboard } from '../../modules/business/dashboard/hooks/use-dashboard';
 
 const PageDashboard = () => {
-    const { getAndConvertBalance2TokenTableData, balances, userTokenList } = useDashboard();
+    const { getAndConvertBalance2TokenTableData, balances, userTokenList, dashboardData, nftBalances } = useDashboard();
 
     React.useEffect(() => {
         getAndConvertBalance2TokenTableData();
@@ -18,8 +18,8 @@ const PageDashboard = () => {
 
     return (
         <div id={styles.dashboard_wrapper} className={['page-container'].join(' ')}>
-            <InformationWrapper />
-            <ChartWrapper balances={balances}/>
+            <InformationWrapper dashboardData={dashboardData}/>
+            <ChartWrapper balances={balances} nftBalances={nftBalances}/>
             <PortfolioTableWrapper userTokenList={userTokenList}/>
         </div>
     );
@@ -51,7 +51,8 @@ const ChartDOM = (
     );
 };
 
-const InformationWrapper = () => {
+const InformationWrapper = (props: any) => {
+    const { dashboardData } = props;
     const InfoDOM = (value: number, name: string, icon: string) => {
         return (
             <div className={[styles.div_3, 'mBlock'].join(' ')}>
@@ -69,7 +70,7 @@ const InformationWrapper = () => {
             </div>
             {ChartDOM(
                 {
-                    value: 0,
+                    value: dashboardData.totalNFTValue,
                     data: [], //Array.from({ length: 30 }, () => Math.floor(Math.random() * 20)),
                     change_percentage_24h: 0,
                     isLoading: false,
@@ -80,25 +81,25 @@ const InformationWrapper = () => {
                 <></>,
             )}
             <div className={styles.div_2}>
-                {InfoDOM(0, 'Total income', 'fml fm-arrow-square-down')}
-                {InfoDOM(0, "Yesterday's PNL", 'fml fm-trend-up')}
+                {InfoDOM(dashboardData.totalIncome, 'Total income', 'fml fm-arrow-square-down')}
+                {InfoDOM(dashboardData.yesterdayPNL, "Yesterday's PNL", 'fml fm-trend-up')}
             </div>
         </div>
     );
 };
 
 const ChartWrapper = (props: any) => {
-    const { balances } = props;
+    const { balances, nftBalances } = props;
     const TOKEN_CONFIG: Array<SelectBox_Component.Value> = [
-        {
-            label: 'USDT',
-            value: process.env.NEXT_PUBLIC_MINT_USDT_ADDRESS || '',
-            icon: '/svg/icon-token-usdt.svg',
-        },
         {
             label: 'USDC',
             value: process.env.NEXT_PUBLIC_MINT_USDC_ADDRESS || '',
             icon: '/svg/icon-token-usdc.svg',
+        },
+        {
+            label: 'USDT',
+            value: process.env.NEXT_PUBLIC_MINT_USDT_ADDRESS || '',
+            icon: '/svg/icon-token-usdt.svg',
         },
     ];
     const NFT_CONFIG: Array<SelectBox_Component.Value> = [
@@ -135,13 +136,15 @@ const ChartWrapper = (props: any) => {
             )}
             {ChartDOM(
                 {
-                    value: 0,
+                    value:
+                        BigInt(nftBalances?.[selectNFT.value]?.amount || 0) *
+                        BigInt(nftBalances?.[selectNFT.value]?.price || 0),
                     data: [], //Array.from({length: 30}, () => Math.floor(Math.random() * 20)),
                     change_percentage_24h: 0,
                     isLoading: false,
                 },
                 'NFT portfolio',
-                '0',
+                nftBalances?.[selectNFT.value]?.amount?.toString() || 0,
                 'NFT',
                 <SelectBox
                     className={styles.selectbox_1}

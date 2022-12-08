@@ -58,48 +58,60 @@ const FormShareDividend = () => {
     };
 
     return (
-        <div>
-            <form className={styles['form']}>
-                <div>
-                    <label>Demo date:</label>
-                    <input readOnly value={currentDemoDate} />
-
-                    <input value={newDemoDate} type="date" onChange={(e) => setNewDemoDate(e.target.value)} />
-                    <button type="button" onClick={setDemoDate}>
-                        Set Demo Date
-                    </button>
+        <div id={styles.dividend_container}>
+            <div className={styles.div_1}>
+                <span className={styles.span_1}>Demo date</span>
+                <input className={[styles.input_1, 'form-control'].join(' ')} value={currentDemoDate} disabled />
+            </div>
+            <div className={styles.div_2}>
+                <input
+                    type="date"
+                    className={[styles.input_2, 'form-control'].join(' ')}
+                    value={newDemoDate}
+                    onChange={(e) => setNewDemoDate(e.target.value)}
+                />
+                <button type="button" className={styles.button_1} onClick={setDemoDate}>
+                    Set Demo Date
+                </button>
+            </div>
+            <span className={styles.span_2}>Dividend for 1 NFT / day</span>
+            <div className={styles.div_3}>
+                <div className={styles.div_4}>
+                    <span className={styles.span_1}>From</span>
+                    <input
+                        type="date"
+                        className={[styles.input_3, 'form-control'].join(' ')}
+                        value={dividendFromDate}
+                        onChange={(e) => setDividendFromDate(e.target.value)}
+                    />
                 </div>
-
-                <hr />
-
-                <div className={styles['form-group']}>
-                    <label>Dividend for 1 NFT / day</label>
-                    <div>
-                        <label>From</label>
-                        <input
-                            type="date"
-                            value={dividendFromDate}
-                            onChange={(e) => setDividendFromDate(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <label>To</label>
-                        <input type="date" value={dividendToDate} onChange={(e) => setDividendToDate(e.target.value)} />
-                    </div>
-                    <div>
-                        <label>Amount</label>
-                        <input
-                            type="number"
-                            value={dividendAmount}
-                            onChange={(e) => setDividendAmount(e.target.value)}
-                        />
-                    </div>
-
-                    <button onClick={onButtonShareDividendClicked}>Share Dividend</button>
-
-                    <button onClick={onButtonResetClicked}>Reset Demo</button>
+                <div className={styles.div_4}>
+                    <span className={styles.span_1}>To</span>
+                    <input
+                        type="date"
+                        className={[styles.input_3, 'form-control'].join(' ')}
+                        value={dividendToDate}
+                        onChange={(e) => setDividendToDate(e.target.value)}
+                    />
                 </div>
-            </form>
+                <div className={styles.div_5}>
+                    <span className={styles.span_1}>Amount</span>
+                    <input
+                        type="number"
+                        className={[styles.input_1, 'form-control'].join(' ')}
+                        value={dividendAmount}
+                        onChange={(e) => setDividendAmount(e.target.value)}
+                    />
+                </div>
+            </div>
+
+            <button type="button" className={styles.button_1} onClick={onButtonShareDividendClicked}>
+                Share Dividend
+            </button>
+
+            <button type="button" className={styles.button_1} onClick={onButtonResetClicked}>
+                Reset Demo
+            </button>
         </div>
     );
 };

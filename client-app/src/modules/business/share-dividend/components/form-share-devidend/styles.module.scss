@@ -123,5 +123,9 @@
 
     > button {
         width: 100% !important;
+
+        &:not(:last-of-type) {
+            margin-bottom: 16px;
+        }
     }
 }

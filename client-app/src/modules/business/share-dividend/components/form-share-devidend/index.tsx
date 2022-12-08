@@ -31,11 +31,13 @@ const FormShareDividend = () => {
     // };
 
     const onButtonShareDividendClicked = async (e: MouseEvent<HTMLButtonElement>) => {
+        const dividendValue = parseFloat(dividendAmount);
+
         e.preventDefault();
         const result = await axios.post('https://api.niatem-beta.com/hackathon/share-dividend', {
             from: moment(dividendFromDate, 'YYYY-MM-DD').valueOf(),
             to: moment(dividendToDate, 'YYYY-MM-DD').valueOf(),
-            value: dividendAmount,
+            value: dividendValue,
         });
         console.log(result);
     };

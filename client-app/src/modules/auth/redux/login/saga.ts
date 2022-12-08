@@ -8,6 +8,7 @@ import logger from '@libs/logger';
 import CryptoWallet, { CryptoWalletEvent } from '@crypto-wallet/crypto-wallet';
 import PhantomWallet from '@crypto-wallet/wallet-adapters/phantom-wallet-adapter';
 import WalletService from '@crypto-wallet/services/crypto-wallet-service';
+import bs58 from 'bs58';
 
 function createCryptoWalletEventChannel(cryptoWallet: CryptoWallet) {
     return eventChannel(cryptoWallet.eventChannelEmitter);
@@ -115,7 +116,12 @@ function* init(): any {
         return;
     }
 
-    if (walletAccount.toLowerCase() != username.split('-')[3].toLowerCase()) {
+    // base58 is been lowercase when process in Cognito AWS
+    // => So change to hex encode
+    const bytes = bs58.decode(walletAccount)
+    const walletAccountInHex = Buffer.from(bytes).toString('hex')
+
+    if (walletAccountInHex.toLowerCase() != username.split('-')[3].toLowerCase()) {
         yield put(
             loginActions.initFinished({
                 status: LoginStatus.NotLogged,
@@ -158,7 +164,12 @@ function* handleLoginWithPhantomWallet(): any {
         return;
     }
 
-    const username = `w-sol-t-${walletAccount}`;
+    // base58 is been lowercase when process in Cognito AWS
+    // => So change to hex encode
+    const bytes = bs58.decode(walletAccount)
+    const walletAccountInHex = Buffer.from(bytes).toString('hex')
+
+    const username = `w-sol-t-${walletAccountInHex}`;
     const password = 'MetainDummyPassword' + Date.now().toString();
 
     const [registerUserResult, registerUserError] = yield call(

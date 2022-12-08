@@ -1,4 +1,5 @@
-import { getUserDividend } from '@api/metain/entry-points/hackathon';
+import { claimDividend, getUserDividend } from '@api/metain/entry-points/hackathon';
+import logger from '@libs/logger';
 import { resolveGenerator } from '@libs/utils';
 import { call, delay, put, takeLatest } from 'redux-saga/effects';
 import { userDividendActions } from './slice';
@@ -17,14 +18,14 @@ function* handleInitRequested(): any {
 }
 
 function* handleClaimDividendRequested(): any {
-    const random = Math.random() * 10;
+    const [response, error] = yield resolveGenerator(yield call(claimDividend));
 
-    yield delay(2000);
-
-    if (random > 5) {
+    logger.info('saga/handleClaimDividendRequested', { response, error });
+    if (error) {
+        yield put(userDividendActions.claimDividendFailed({ error: 'Something went wrong.' }));
+    }
+    if (response) {
         yield put(userDividendActions.claimDividendSucceeded());
-    } else {
-        yield put(userDividendActions.claimDividendFailed({ error: 'Something went wrong' }));
     }
 }
 

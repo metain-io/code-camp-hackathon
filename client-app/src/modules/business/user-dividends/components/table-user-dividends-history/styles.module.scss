@@ -1,0 +1,128 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+.table-dividend-history-wrapper {
+    $heightPerRow: 42px;
+
+    max-height: 50vh;
+
+    margin: 10px;
+    overflow: auto;
+
+    table {
+        width: 100%;
+        border-bottom: 1px solid $colorNeutral3;
+        background: $colorNeutral1;
+
+        thead {
+            position: sticky;
+            top: 0;
+
+            background: $colorPrimary1;
+            // outline: 1px solid black;
+        }
+
+        tr,
+        th,
+        td {
+            // border: 1px solid black;
+            height: $heightPerRow;
+        }
+
+        tr[data-type='empty-row'] {
+            line-height: $heightPerRow;
+            text-align: center;
+        }
+
+        th {
+            padding: 4px 14px;
+
+            text-align: center;
+            @include fontSize(1.6rem);
+            font-weight: 500;
+            line-height: $heightPerRow;
+            white-space: nowrap;
+
+            color: $colorNeutral6;
+            text-transform: capitalize;
+        }
+
+        th[data-name='id'] {
+            width: 10rem;
+        }
+
+        th[data-name='project'] {
+            width: 10rem;
+        }
+
+        th[data-name='from'] {
+            width: 10rem;
+        }
+
+        th[data-name='to'] {
+            width: 10rem;
+        }
+
+        th[data-name='amount-nft'] {
+            width: 10rem;
+        }
+
+        th[data-name='amount-dividend'] {
+            width: 10rem;
+        }
+
+        th[data-name='status'] {
+            width: 10rem;
+        }
+
+        td {
+            padding: 8px;
+            white-space: nowrap;
+            line-height: $heightPerRow;
+        }
+
+        td[data-name='id'] {
+            width: 10rem;
+        }
+
+        td[data-name='project'] {
+            width: 10rem;
+            text-align: center;
+        }
+
+        td[data-name='from'] {
+            width: 10rem;
+            text-align: right;
+        }
+
+        td[data-name='to'] {
+            width: 10rem;
+            text-align: right;
+        }
+
+        td[data-name='amount-nft'] {
+            width: 10rem;
+            text-align: right;
+        }
+
+        td[data-name='amount-dividend'] {
+            width: 10rem;
+            text-align: right;
+        }
+
+        td[data-name='status'] {
+            width: 10rem;
+            text-align: center;
+            text-transform: capitalize;
+            font-weight: 500;
+
+            &[data-value='available'] {
+                color: $colorGreen7;
+            }
+
+            &[data-value='claimed'] {
+                color: $colorNeutral7;
+            }
+        }
+    }
+}

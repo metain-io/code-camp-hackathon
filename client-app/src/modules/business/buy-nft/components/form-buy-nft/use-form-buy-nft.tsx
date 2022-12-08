@@ -47,9 +47,7 @@ const useFormBuyNft = () => {
             return null;
         }
 
-        const balances = await CryptoWalletService.currentWallet?.getBalances(
-            CryptoWalletService.currentWallet.walletAccount,
-        );
+        const balances = await CryptoWalletService.currentWallet?.getBalances();
         return balances[selectedToken?.symbol];
     };
 

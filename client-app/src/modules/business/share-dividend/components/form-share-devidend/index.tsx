@@ -14,7 +14,7 @@ const FormShareDividend = () => {
 
     const init = async () => {
         const result = await axios.get('https://api.niatem-beta.com/hackathon/get-offset-times');
-        const dt = moment((result as any).body.counter).format('YYYY-MM-DD');
+        const dt = moment((result as any).body).format('YYYY-MM-DD');
         setNewDemoDate(dt);
         setCurrentDemoDate(dt);
     };
@@ -23,12 +23,12 @@ const FormShareDividend = () => {
         init();
     }, []);
 
-    const { handleAmountDevidendChanged, amountDevidend, handleShareDividend, handleNextDay, handleReset } =
-        useShareDividend();
+    // const { handleAmountDevidendChanged, amountDevidend, handleShareDividend, handleNextDay, handleReset } =
+    //     useShareDividend();
 
-    const onInputAmountDividendChanged = (e: ChangeEvent<HTMLInputElement>) => {
-        handleAmountDevidendChanged(e.target.value);
-    };
+    // const onInputAmountDividendChanged = (e: ChangeEvent<HTMLInputElement>) => {
+    //     handleAmountDevidendChanged(e.target.value);
+    // };
 
     const onButtonShareDividendClicked = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -40,14 +40,10 @@ const FormShareDividend = () => {
         console.log(result);
     };
 
-    const onButtonNextDayClicked = (e: MouseEvent<HTMLButtonElement>) => {
+    const onButtonResetClicked = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        handleNextDay();
-    };
-
-    const onButtonResetClicked = (e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        handleReset();
+        const result = await axios.post('https://api.niatem-beta.com/hackathon/reset-offset-timestamp');
+        console.log(result);
     };
 
     const setDemoDate = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -98,6 +94,8 @@ const FormShareDividend = () => {
                     </div>
 
                     <button onClick={onButtonShareDividendClicked}>Share Dividend</button>
+
+                    <button onClick={onButtonResetClicked}>Reset Demo</button>
                 </div>
             </form>
         </div>

@@ -1,3 +1,4 @@
+import { UserDividendHistoryItem } from '@api/metain/entry-points/hackathon';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export enum UserDividendStatus {
@@ -13,7 +14,7 @@ export enum UserDividendStatus {
 type LoginState = {
     status: UserDividendStatus;
     error: any;
-    data?: Array<any>;
+    data?: Array<UserDividendHistoryItem>;
 };
 
 const initialState: LoginState = {

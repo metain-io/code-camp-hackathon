@@ -114,7 +114,7 @@ export default class PhantomWallet extends CryptoWallet {
             const associatedNftAccount = await SPL.getOrCreateAssociatedTokenAccount(connection, payer, nftPublicKey, walletPublicKey);
 
             tmpBalances = {[nftPublicKey.toBase58()]: associatedNftAccount.amount};
-            logger.debug('=== PhantomWallet - getNftBalance - RS: : ', tmpBalances)
+            logger.debug('=== PhantomWallet - getNftBalance - RS: : ', {tmpBalances, associatedNftAccount, XXX: walletPublicKey.toBase58()})
         } catch (error: any) {
             logger.debug('=== PhantomWallet - getNftBalance - ERROR: ', error);
             throw(Error('Some thing went wrong when get NFT balance'));

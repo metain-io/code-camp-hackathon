@@ -19,6 +19,8 @@ export type UserDividendInDetailByYear = {
     status: string,
 }
 
+const SOL_DECIMAL = Math.pow(10, 6);
+
 const useTableUserDividends = () => {
     const dispatch = useDispatch();
     const userDividensData: Array<UserDividendHistoryItem> = useSelector(selectUserDividendData);
@@ -143,9 +145,9 @@ const useTableUserDividends = () => {
             item.dividenId = tmpUserDividend?.dividenId || '';
             item.id = tmpUserDividend?.id || '';
             item.project = tmpUserDividend?.project || '';
-            item.dividend = tmpUserDividend?.dividend || 0;
+            item.dividend = (tmpUserDividend?.dividend || 0) / SOL_DECIMAL;
             item.nft = tmpUserDividend?.nft || 0;
-            item.dividendPerNFT = tmpUserDividend?.dividendPerNFT || 0;
+            item.dividendPerNFT = (tmpUserDividend?.dividendPerNFT || 0) / SOL_DECIMAL;
             item.status = tmpUserDividend?.status || 'unknown';
         })
         // console.log('================== convertUserDividenData2TableData: ', {tmpUserDividendData, dividendHistoryArray, minDate, maxDate})
@@ -232,6 +234,7 @@ const useTableUserDividends = () => {
             tmpData.forEach((item, idx) => {
                 if (moment(item.dateFrom).month() === month) {
                     userDividendItem.dividend += item.dividend || 0;
+                    userDividendItem.project = item.project;
                     userDividendItem.nftMin > item.nft && (userDividendItem.nftMin = item.nft);
                     userDividendItem.nftMax < item.nft && (userDividendItem.nftMax = item.nft);
                     userDividendItem.dividendPerNFTMin > item.dividendPerNFT && (userDividendItem.dividendPerNFTMin = item.dividendPerNFT);

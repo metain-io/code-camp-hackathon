@@ -42,6 +42,12 @@ const Navigation = () => {
                         url: 'claim-dividends',
                         className: '',
                     },
+                    {
+                        name: 'Wallet',
+                        icon: 'fms fm-wallet',
+                        url: 'wallet',
+                        className: '',
+                    },
                 ],
             },
             {

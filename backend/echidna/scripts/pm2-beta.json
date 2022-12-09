@@ -1,0 +1,58 @@
+{
+  "apps": [
+    {
+      "name": "master",
+      "script": "./build/index.js",
+      "cwd": "/home/echidna",
+      "args": "",
+      "instances": 1,
+      "exec_mode": "cluster",
+      "watch": false,
+      "env": {
+        "APP": "master",
+        "ENV": "beta",
+        "AWS_PROFILE_NAME": "echidna",
+        "AWS_REGION_NAME": "ap-southeast-1"
+      },
+      "env_beta": {
+        "APP": "master",
+        "ENV": "beta",
+        "AWS_PROFILE_NAME": "echidna",
+        "AWS_REGION_NAME": "ap-southeast-1"
+      },
+      "env_prod": {
+        "APP": "master",
+        "ENV": "prod",
+        "AWS_PROFILE_NAME": "echidna",
+        "AWS_REGION_NAME": "ap-southeast-1"
+      }
+    },
+    {
+      "name": "slave",
+      "script": "./build/index.js",
+      "cwd": "/home/echidna",
+      "args": "",
+      "instances": 7,
+      "exec_mode": "cluster",
+      "watch": false,
+      "env": {
+        "APP": "slave",
+        "ENV": "beta",
+        "AWS_PROFILE_NAME": "echidna",
+        "AWS_REGION_NAME": "ap-southeast-1"
+      },
+      "env_beta": {
+        "APP": "slave",
+        "ENV": "beta",
+        "AWS_PROFILE_NAME": "echidna",
+        "AWS_REGION_NAME": "ap-southeast-1"
+      },
+      "env_prod": {
+        "APP": "slave",
+        "ENV": "prod",
+        "AWS_PROFILE_NAME": "echidna",
+        "AWS_REGION_NAME": "ap-southeast-1"
+      }
+    }
+  ]
+}

@@ -50,6 +50,7 @@
             color: $colorNeutral7;
             @include fontSize(1.2rem);
             font-weight: 700;
+            word-break: break-all;
         }
     }
 
@@ -364,6 +365,7 @@
             font-weight: 500;
             border-radius: 0.8rem;
             text-transform: uppercase;
+            font-size: 1.4rem;
         }
     }
 

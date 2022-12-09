@@ -1,14 +1,12 @@
-import React from 'react';
-import { AdminLayout } from '@app/layouts';
-import { ReactElement } from 'react';
-import ChartInfo from '@business/wallet/components/chart-container';
-import Loyalty from '@business/wallet/components/loyalty';
-import SelectBox, { SelectBox_Component } from '@business/wallet/components/select-box';
+import React, { ReactElement } from 'react';
 import styles from './style.module.scss';
-import Table from '@business/wallet/components/table';
-import Image from '@business/wallet/components/image';
-import { useWallet } from '@business/wallet/hooks/use-wallet';
+import { AdminLayout } from '@app/layouts';
+import ChartInfo from '@business/wallet/components/chart-container';
 import CheckBox from '@business/wallet/components/check-box';
+import Image from '@business/wallet/components/image';
+import Loyalty from '@business/wallet/components/loyalty';
+import Table from '@business/wallet/components/table';
+import { useWallet } from '@business/wallet/hooks/use-wallet';
 
 const PageWallet = () => {
     const { getAndConvertBalance2TokenTableData, balances, userTokenList, userNFTList, dashboardData, nftBalances } = useWallet();
@@ -109,7 +107,7 @@ const PortfolioTableWrapper = (props: any) => {
                         className={styles.checkbox_1}
                         textArray={['NFT', 'Portfolio']}
                         value={specificTab === 'token'}
-                        width="38rem"
+                        width="24rem"
                         // @ts-ignore
                         C_onChange={(value) => {
                             const nextValue = value ? 'token' : 'nft';

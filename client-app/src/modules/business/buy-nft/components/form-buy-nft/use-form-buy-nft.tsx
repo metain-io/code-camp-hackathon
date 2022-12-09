@@ -143,6 +143,10 @@ const useFormBuyNft = () => {
                 throw new Error('Amount is empty');
             }
 
+            if (state.formData.amountToken > selectedTokenBalance) {
+                throw new Error('Token balance is not enough');
+            }
+
             await CryptoWalletService.currentWallet.purchaseNft(+state.formData.amountNft);
         };
 

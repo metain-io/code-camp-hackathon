@@ -1,0 +1,74 @@
+@import "@app/styles/_variable.scss";
+@import "@app/styles/_mixin.scss";
+
+.chartinfo_container {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.header_wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin-bottom: 0.8rem;
+	width: 100%;
+
+	.span {
+		&_1 {
+			color: $colorNeutral6;
+			@include fontSize(1.4rem);
+		}
+
+		&_2 {
+			margin-left: 0.8rem;
+			height: 2.4rem;
+		}
+	}
+
+	.div {
+		&_1 {
+			display: flex;
+			justify-content: flex-end;
+			flex: 1 0 auto;
+		}
+	}
+}
+
+.body_wrapper {
+	margin: 1.8rem 0 0.8rem 0;
+	width: 100%;
+
+	canvas {
+		max-height: 10rem !important;
+	}
+
+	.image {
+		&_1 {
+			justify-content: center;
+			max-height: 10rem;
+			min-height: 100px;
+		}
+	}
+}
+
+.footer_wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+
+	.span {
+		&_1 {
+			flex: 0 0 auto;
+			margin-right: 0.8rem;
+			color: $colorNeutral9;
+			font-weight: 700;
+		}
+
+		&_2 {
+			color: $colorNeutral6;
+		}
+	}
+}
+
+/* Responsive *************************************************************************************************************************************************/

@@ -38,7 +38,7 @@
             padding: 4px 14px;
 
             text-align: center;
-            @include fontSize(1.6rem);
+            @include fontSize(1.2rem);
             font-weight: 500;
             line-height: $heightPerRow;
             white-space: nowrap;
@@ -79,6 +79,8 @@
             padding: 8px;
             white-space: nowrap;
             line-height: $heightPerRow;
+            font-size: 1.4rem;
+            text-align: center;
         }
 
         td[data-name='id'] {
@@ -92,22 +94,22 @@
 
         td[data-name='from'] {
             width: 10rem;
-            text-align: right;
+            // text-align: right;
         }
 
         td[data-name='to'] {
             width: 10rem;
-            text-align: right;
+            // text-align: right;
         }
 
         td[data-name='amount-nft'] {
             width: 10rem;
-            text-align: right;
+            // text-align: right;
         }
 
         td[data-name='amount-dividend'] {
             width: 10rem;
-            text-align: right;
+            // text-align: right;
         }
 
         td[data-name='status'] {

@@ -1,0 +1,5 @@
+module.exports = {
+  MAX_BLOCKS_PER_SCAN: 1000,
+  MAX_CONFIRM_RETRIES: 10,
+  SUPPORTED_CURRENCIES: ["USDT", "USDC", "BUSD", "DAI"]
+};

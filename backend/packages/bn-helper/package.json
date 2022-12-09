@@ -1,0 +1,9 @@
+{
+  "name": "@metain/bn-helper",
+  "version": "1.0.0",
+  "main": "dist/metain-bn-helper.cjs.js",
+  "module": "dist/metain-bn-helper.esm.js",
+  "dependencies": {
+    "bn.js": "^5.2.1"
+  }
+}

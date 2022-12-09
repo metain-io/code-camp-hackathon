@@ -1,0 +1,104 @@
+@import '@app/styles/_variable.scss';
+@import '@app/styles/_mixin.scss';
+
+.button {
+    &_1 {
+        @include fontSize(1.6rem);
+        background-color: transparent;
+        border-width: 0;
+        color: $colorPrimary5;
+        margin-left: 0.5rem;
+
+        justify-content: flex-start;
+
+        :global {
+            .fml {
+                margin-right: 0.5rem;
+            }
+        }
+    }
+}
+
+.table-wrapper {
+    $heightPerRow: 42px;
+
+    max-height: 50vh;
+
+    margin: 10px;
+    overflow: auto;
+
+    table {
+        width: 100%;
+        border-bottom: 1px solid $colorNeutral3;
+        background: $colorNeutral1;
+
+        thead {
+            position: sticky;
+            top: 0;
+
+            background: $colorPrimary1;
+            // outline: 1px solid black;
+        }
+
+        tr,
+        th,
+        td {
+            // border: 1px solid black;
+            height: $heightPerRow;
+        }
+
+        tr[data-type='empty-row'] {
+            line-height: $heightPerRow;
+            text-align: center;
+        }
+
+        th {
+            padding: 4px 14px;
+
+            text-align: center;
+            @include fontSize(1.6rem);
+            font-weight: 500;
+            line-height: $heightPerRow;
+            white-space: nowrap;
+
+            color: $colorNeutral6;
+            text-transform: capitalize;
+        }
+
+        th[data-name='date'] {
+            width: 10rem;
+        }
+
+        th[data-name='nft-owned'] {
+        }
+
+        th[data-name='claimed-dividend'] {
+        }
+
+        th[data-name='claimabled-dividend'] {
+        }
+
+        td {
+            padding: 8px;
+            white-space: nowrap;
+            line-height: $heightPerRow;
+        }
+
+        td[data-name='date'] {
+            width: 10rem;
+            text-align: center;
+        }
+
+        td[data-name='nft-owned'] {
+            text-align: right;
+        }
+
+        td[data-name='claimed-dividend'] {
+            text-align: right;
+        }
+
+        td[data-name='claimable-dividend'] {
+            text-align: right;
+        }
+    }
+}

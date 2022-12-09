@@ -37,7 +37,7 @@ export const loginSlice = createSlice({
         initFinished: (state, action: PayloadAction<any>) => {
             const { status, username, walletAddress } = action.payload;
 
-            logger.info('auth/login/init-finished');
+            logger.info('auth/login/init-finished: ', { status, username, walletAddress });
 
             state.status = status;
             state.username = username;

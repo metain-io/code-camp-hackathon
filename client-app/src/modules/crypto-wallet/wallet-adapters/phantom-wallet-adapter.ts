@@ -9,6 +9,32 @@ import { getOrCreateAssociatedTokenAccount, TOKEN_PROGRAM_ID } from '@solana/spl
 import { clusterApiUrl, Connection, Keypair, PublicKey } from '@solana/web3.js';
 import { IDL } from '../data/program-idls/offering-idl';
 
+export function waitForPhantomInjection(resolve: any, count: number) {
+    logger.info('============ waitForPhantomInjection: ', {count, phantom: (window as any)?.phantom})
+    if (resolve) {
+        if (count > 50) {
+            resolve();
+            return;
+        }
+
+        if (!(window as any)?.phantom) {
+            setTimeout(() => waitForPhantomInjection(resolve, count + 1), 100);
+        } else {
+            resolve();
+        }
+
+        return;
+    }
+
+    return new Promise((promiseResolve) => {
+        if (!(window as any)?.phantom) {
+            setTimeout(() => waitForPhantomInjection(promiseResolve, 1), 100);
+        } else {
+            promiseResolve({});
+        }
+    });
+}
+
 export default class PhantomWallet extends CryptoWallet {
     _provider: any;
     _walletAccount?: string;

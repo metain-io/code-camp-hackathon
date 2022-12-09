@@ -149,6 +149,7 @@ const useTableUserDividends = () => {
             item.nft = tmpUserDividend?.nft || 0;
             item.dividendPerNFT = Number(BigInt(tmpUserDividend?.dividendPerNFT || 0) * BigInt(100) / SOL_DECIMAL) / 100;
             item.status = tmpUserDividend?.status || 'unknown';
+            // item.status = tmpUserDividend?.status.includes('#') ? tmpUserDividend?.status.split('#')[0] : tmpUserDividend?.status || 'unknown';
         })
         // console.log('================== convertUserDividenData2TableData: ', {tmpUserDividendData, dividendHistoryArray, minDate, maxDate})
         setDividendDataInDetail(dividendHistoryArray);

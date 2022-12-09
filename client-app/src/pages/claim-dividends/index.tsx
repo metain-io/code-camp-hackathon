@@ -20,7 +20,7 @@ const PageClaimDividends = () => {
 
             <br />
 
-            <h2 className={styles['title']}>Claim Dividends History - In detail</h2>
+            <h2 className={styles['title']}>User Dividends History - In detail</h2>
 
             <div className={styles['table-claim-dividends-history-placeholder']}>
                 <TableUserDividendHistory />

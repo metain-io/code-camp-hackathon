@@ -10,7 +10,7 @@ export type UserDividendHistoryItem = {
     project: string;
     dividend: number;
     nft: number;
-    dividendEachNFT: number;
+    dividendPerNFT: number;
     status: string;
 };
 
@@ -22,7 +22,7 @@ export async function getUserDividend() {
         project:"VOT01",
         dividend:20,
         nft:10,
-        dividendEachNFT:2,
+        dividendPerNFT:2,
         status:"claimed",
     */
     const uri = `${BASE_URI}/get-user-dividend`;
@@ -40,9 +40,9 @@ export async function getUserDividend() {
     //     id:"1",
     //     dateTo:1668124801000,
     //     project:"VOT01",
-    //     dividend:10,
-    //     nft:10,
-    //     dividendEachNFT:2,
+    //     dividend:17,
+    //     nft:7,
+    //     dividendPerNFT:4,
     //     status:"claimed",
     // },{
     //     dateFrom:1668124801000,
@@ -50,9 +50,9 @@ export async function getUserDividend() {
     //     id:"2",
     //     dateTo:1669124801000,
     //     project:"VOT01",
-    //     dividend:22,
+    //     dividend:220,
     //     nft:10,
-    //     dividendEachNFT:2,
+    //     dividendPerNFT:8,
     //     status:"claimed",
     // },{
     //     dateFrom:1669124801000,
@@ -60,9 +60,9 @@ export async function getUserDividend() {
     //     id:"3",
     //     dateTo:1671124801000,
     //     project:"VOT01",
-    //     dividend:24,
-    //     nft:10,
-    //     dividendEachNFT:2,
+    //     dividend:551,
+    //     nft:33,
+    //     dividendPerNFT:12,
     //     status:"available",
     // }]
 

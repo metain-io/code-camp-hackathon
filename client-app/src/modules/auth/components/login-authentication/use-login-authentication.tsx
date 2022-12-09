@@ -3,7 +3,15 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-const PROTECTED_ROUTES = ['/', '/claim-dividends', '/dashboard', '/faucet-token', '/share-dividends', '/vot-1'];
+const PROTECTED_ROUTES = [
+    '/',
+    '/claim-dividends',
+    '/dashboard',
+    '/faucet-token',
+    '/wallet',
+    '/share-dividends',
+    '/vot-1',
+];
 
 const AUTH_ROUTES = ['/login'];
 

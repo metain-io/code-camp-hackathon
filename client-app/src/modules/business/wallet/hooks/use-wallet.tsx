@@ -16,6 +16,13 @@ export type ExchangeRateItem = {
 
 const useWallet = () => {
     const TOKEN_CONFIG: Array<SelectBox_Component.Value> = WalletService._currentWallet?.tokenForSelect || [];
+    const NFT_CONFIG: Array<SelectBox_Component.Value> = [
+        {
+            label: 'VOT 1',
+            value: process.env.NEXT_PUBLIC_MINT_NFT_ADDRESS || '',
+            icon: '/svg/icon-metain-nft.svg',
+        },
+    ];
     const walletAddress = useSelector(selectLoginWalletAddress);
     const nftBalances = useSelector(selectAccountNftBalance);
     const dispatch = useDispatch();
@@ -25,6 +32,7 @@ const useWallet = () => {
         [TOKEN_CONFIG[1].label]: 0,
     });
     const [userTokenList, setUserTokenList] = React.useState<Array<Table_Component.Row>>([]);
+    const [userNFTList, setUserNFTList] = React.useState<Array<Table_Component.Row>>([]);
     const [dashboardData, setDashboardData] = React.useState({
         totalNFT: BigInt(0),
         totalNFTValue: BigInt(0),
@@ -35,6 +43,7 @@ const useWallet = () => {
     React.useEffect(() => {
         dispatch(accountActions.getTokenBalanceRequested());
         dispatch(accountActions.getNftBalanceRequested());
+        getAndConvertBalance2TokenTableData();
     }, []);
 
     React.useEffect(() => {
@@ -50,6 +59,7 @@ const useWallet = () => {
             });
 
             setDashboardData({ ...dashboardData, totalNFT, totalNFTValue });
+            getAndConvertNFTBalance2NFTTableData();
         }
     }, [nftBalances]);
 
@@ -87,14 +97,40 @@ const useWallet = () => {
         return tokenTableData;
     };
 
+    const getAndConvertNFTBalance2NFTTableData = async () => {
+        const entries = Object.entries(nftBalances);
+        const NFTTableData: Array<Table_Component.Row> = [];
+
+        entries &&
+            entries.length > 0 &&
+            entries.forEach((item, idx: number) => {
+                const nftItem = NFT_CONFIG.find((item1, index) => item1.value === (item[0] || ''))
+
+                NFTTableData.push({
+                    name: nftItem?.label || '',
+                    symbol: nftItem?.label || '',
+                    current_price: (item[1] as any)?.price?.toString() || '0',
+                    amount: (item[1] as any)?.amount?.toString() || '0',
+                });
+            });
+        setUserNFTList(NFTTableData);
+
+        logger.debug('============ getAndConvertNFTBalance2NFTTableData - RS: ', NFTTableData);
+
+        return NFTTableData;
+    };
+
     return {
         balances,
         walletAddress,
         userTokenList,
+        userNFTList,
         nftBalances,
         dashboardData,
+        NFT_CONFIG,
         getBalances,
         getAndConvertBalance2TokenTableData,
+        getAndConvertNFTBalance2NFTTableData
     };
 };
 

@@ -164,7 +164,7 @@ const Navigation = () => {
             <i id={styles.button_wrapper} className={[styles.icon_1, 'fml fm-bars'].join(' ')}></i>
             <div ref={navigationRef} id={styles.navigation_wrapper}>
                 <div id={styles.logo_block}>
-                    <Anchor href="/admin/dashboard">
+                    <Anchor href="/dashboard">
                         <Image src="/image/zero/image-logo.png" />
                     </Anchor>
                 </div>

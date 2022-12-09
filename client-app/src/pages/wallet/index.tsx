@@ -1,26 +1,23 @@
 import React from 'react';
 import { AdminLayout } from '@app/layouts';
 import { ReactElement } from 'react';
-import ChartInfo from '../../modules/business/wallet/components/chart-container';
-import Loyalty from '../../modules/business/wallet/components/loyalty';
-import SelectBox, { SelectBox_Component } from '../../modules/business/wallet/components/select-box';
+import ChartInfo from '@business/wallet/components/chart-container';
+import Loyalty from '@business/wallet/components/loyalty';
+import SelectBox, { SelectBox_Component } from '@business/wallet/components/select-box';
 import styles from './style.module.scss';
-import Table from '../../modules/business/wallet/components/table';
-import Image from '../../modules/business/wallet/components/image';
+import Table from '@business/wallet/components/table';
+import Image from '@business/wallet/components/image';
 import { useWallet } from '@business/wallet/hooks/use-wallet';
+import CheckBox from '@business/wallet/components/check-box';
 
 const PageWallet = () => {
-    const { getAndConvertBalance2TokenTableData, balances, userTokenList, dashboardData, nftBalances } = useWallet();
-
-    React.useEffect(() => {
-        getAndConvertBalance2TokenTableData();
-    }, []);
+    const { getAndConvertBalance2TokenTableData, balances, userTokenList, userNFTList, dashboardData, nftBalances } = useWallet();
+    const [specificTab, setSpecificTab] = React.useState<'token' | 'nft'>('nft');
 
     return (
-        <div id={styles.dashboard_wrapper} className={['page-container'].join(' ')}>
+        <div id={styles.wallet_wrapper} className={['page-container'].join(' ')}>
             <InformationWrapper dashboardData={dashboardData}/>
-            <ChartWrapper balances={balances} nftBalances={nftBalances}/>
-            <PortfolioTableWrapper userTokenList={userTokenList}/>
+            <PortfolioTableWrapper userTokenList={userTokenList} userNFTList={userNFTList} specificTab={specificTab} setSpecificTab={setSpecificTab}/>
         </div>
     );
 };
@@ -80,157 +77,186 @@ const InformationWrapper = (props: any) => {
                 '',
                 <></>,
             )}
-            <div className={styles.div_2}>
-                {InfoDOM(dashboardData.totalIncome, 'Total income', 'fml fm-arrow-square-down')}
-                {InfoDOM(dashboardData.yesterdayPNL, "Yesterday's PNL", 'fml fm-trend-up')}
-            </div>
-        </div>
-    );
-};
-
-const ChartWrapper = (props: any) => {
-    const { balances, nftBalances } = props;
-    const TOKEN_CONFIG: Array<SelectBox_Component.Value> = [
-        {
-            label: 'USDC',
-            value: process.env.NEXT_PUBLIC_MINT_USDC_ADDRESS || '',
-            icon: '/svg/icon-token-usdc.svg',
-        },
-        {
-            label: 'USDT',
-            value: process.env.NEXT_PUBLIC_MINT_USDT_ADDRESS || '',
-            icon: '/svg/icon-token-usdt.svg',
-        },
-    ];
-    const NFT_CONFIG: Array<SelectBox_Component.Value> = [
-        {
-            label: 'NFT',
-            value: process.env.NEXT_PUBLIC_MINT_NFT_ADDRESS || '',
-            icon: '/svg/icon-metain-nft.svg',
-        },
-    ];
-
-    const [selectToken, setSelectToken] = React.useState(TOKEN_CONFIG[0]);
-    const [selectNFT, setSelectNFT] = React.useState(NFT_CONFIG[0]);
-
-    return (
-        <div id={styles.chart_wrapper}>
             {ChartDOM(
                 {
-                    value: balances?.[selectToken.label] || 0,
-                    data: Array.from({ length: 20 }, () => Math.random()),
+                    value: 0,
+                    data: [], //Array.from({ length: 30 }, () => Math.floor(Math.random() * 20)),
                     change_percentage_24h: 0,
                     isLoading: false,
                 },
-                'Token portfolio',
-                balances?.[selectToken.label]?.toString() || 0,
-                selectToken.label,
-                <SelectBox
-                    className={styles.selectbox_1}
-                    value={[selectToken]}
-                    options={TOKEN_CONFIG}
-                    height="3.2rem"
-                    dropdownWidth="22.5rem"
-                    C_onChange={(item: any) => setSelectToken(item[0])}
-                />,
-            )}
-            {ChartDOM(
-                {
-                    value:
-                        BigInt(nftBalances?.[selectNFT.value]?.amount || 0) *
-                        BigInt(nftBalances?.[selectNFT.value]?.price || 0),
-                    data: [], //Array.from({length: 30}, () => Math.floor(Math.random() * 20)),
-                    change_percentage_24h: 0,
-                    isLoading: false,
-                },
-                'NFT portfolio',
-                nftBalances?.[selectNFT.value]?.amount?.toString() || 0,
-                'NFT',
-                <SelectBox
-                    className={styles.selectbox_1}
-                    value={[selectNFT]}
-                    options={NFT_CONFIG}
-                    height="3.2rem"
-                    dropdownWidth="17.5rem"
-                    C_onChange={(item: any) => setSelectNFT(item[0])}
-                />,
+                'Monthly Profit',
+                '',
+                '',
+                <></>,
             )}
         </div>
     );
 };
 
 const PortfolioTableWrapper = (props: any) => {
-    const { userTokenList } = props;
+    const { userTokenList, userNFTList, specificTab, setSpecificTab } = props;
 
     return (
         <div id={styles.token_wrapper} className="mBlock">
-            <div className={styles.div_1}>
+            {/* <div className={styles.div_1}>
                 <span className={[styles.span_1, 'header'].join(' ')}>Portfolio summary</span>
-            </div>
-            <Table
-                key="User-Token-Table"
-                theme="user_token"
-                columnArray={[
-                    {
-                        value: 'drag',
-                        label: '',
-                    },
-                    {
-                        value: 'name',
-                        label: 'Tokens',
-                        customRender: (row) => {
-                            return (
-                                <>
-                                    <div className={styles.table_div_1}>
-                                        <Image
-                                            src={`/svg/icon-token-${row.symbol?.toLowerCase()}.svg`}
-                                            className={styles.image_1}
-                                        />
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                            }}
-                                        >
-                                            <span className={styles.span_1}>{row.name}</span>
-                                            <span className={styles.span_2}>{row.symbol}</span>
-                                        </div>
-                                    </div>
-                                </>
-                            );
-                        },
-                    },
-                    {
-                        value: 'amount',
-                        label: 'Amount',
-                        customRender: (row) => {
-                            return <>{row.amount}</>;
-                        },
-                    },
-                    {
-                        value: 'current_price',
-                        label: 'Price',
-                        customRender: (row) => {
-                            const { symbol, current_price } = row;
+            </div> */}
 
-                            return <>{`${current_price} US$`}</>;
-                        },
-                    },
-                    // {
-                    //     value: "total_volume",
-                    //     label: t('AdminLayout.Wallet.text_15'),
-                    // },
-                    // {
-                    //     value: "price_change_percentage_24h",
-                    //     label: t('AdminLayout.Wallet.text_16'),
-                    // },
-                    // {
-                    //     value: "chart_data",
-                    //     label: "",
-                    // },
-                ]}
-                tableArray={userTokenList}
-            />
+            <div className={styles.div_1}>
+                    <span className={[styles.span_1, 'header'].join(' ')}>{'Wallet information'}</span>
+                    <CheckBox
+                        theme="slide"
+                        className={styles.checkbox_1}
+                        textArray={['NFT', 'Portfolio']}
+                        value={specificTab === 'token'}
+                        width="38rem"
+                        // @ts-ignore
+                        C_onChange={(value) => {
+                            const nextValue = value ? 'token' : 'nft';
+                            setSpecificTab(nextValue);
+
+                            // if (nextValue == 'token') {
+                            //     dispatchGetBalance({});
+                            // }
+                        }}
+                    />
+                </div>
+                {
+                    {
+                        token: (
+                            <Table
+                                key="User-Token-Table"
+                                theme="user_token"
+                                columnArray={[
+                                    {
+                                        value: 'drag',
+                                        label: '',
+                                    },
+                                    {
+                                        value: 'name',
+                                        label: 'Tokens',
+                                        customRender: (row) => {
+                                            return (
+                                                <>
+                                                    <div className={styles.table_div_1}>
+                                                        <Image
+                                                            src={`/svg/icon-token-${row.symbol?.toLowerCase()}.svg`}
+                                                            className={styles.image_1}
+                                                        />
+                                                        <div
+                                                            style={{
+                                                                display: 'flex',
+                                                                flexDirection: 'column',
+                                                            }}
+                                                        >
+                                                            <span className={styles.span_1}>{row.name}</span>
+                                                            <span className={styles.span_2}>{row.symbol}</span>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            );
+                                        },
+                                    },
+                                    {
+                                        value: 'amount',
+                                        label: 'Amount',
+                                        customRender: (row) => {
+                                            return <>{row.amount}</>;
+                                        },
+                                    },
+                                    {
+                                        value: 'current_price',
+                                        label: 'Price',
+                                        customRender: (row) => {
+                                            const { symbol, current_price } = row;
+
+                                            return <>{`${current_price} US$`}</>;
+                                        },
+                                    },
+                                    // {
+                                    //     value: "total_volume",
+                                    //     label: t('AdminLayout.Wallet.text_15'),
+                                    // },
+                                    // {
+                                    //     value: "price_change_percentage_24h",
+                                    //     label: t('AdminLayout.Wallet.text_16'),
+                                    // },
+                                    // {
+                                    //     value: "chart_data",
+                                    //     label: "",
+                                    // },
+                                ]}
+                                tableArray={userTokenList}
+                            />
+                        ),
+                        nft: (
+                            <Table
+                                key="User-NFT-Table"
+                                theme="user_token"
+                                columnArray={[
+                                    {
+                                        value: 'drag',
+                                        label: '',
+                                    },
+                                    {
+                                        value: 'name',
+                                        label: 'NFT',
+                                        customRender: (row) => {
+                                            return (
+                                                <>
+                                                    <div className={styles.table_div_1}>
+                                                        <Image
+                                                            src={`/svg/icon-metain-nft.svg`}
+                                                            className={styles.image_1}
+                                                        />
+                                                        <div
+                                                            style={{
+                                                                display: 'flex',
+                                                                flexDirection: 'column',
+                                                            }}
+                                                        >
+                                                            <span className={styles.span_1}>{row.name}</span>
+                                                            <span className={styles.span_2}>{row.symbol}</span>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            );
+                                        },
+                                    },
+                                    {
+                                        value: 'amount',
+                                        label: 'Amount',
+                                        customRender: (row) => {
+                                            return <>{row.amount}</>;
+                                        },
+                                    },
+                                    {
+                                        value: 'current_price',
+                                        label: 'Price',
+                                        customRender: (row) => {
+                                            const { symbol, current_price } = row;
+
+                                            return <>{`${current_price} US$`}</>;
+                                        },
+                                    },
+                                    // {
+                                    //     value: "total_volume",
+                                    //     label: t('AdminLayout.Wallet.text_15'),
+                                    // },
+                                    // {
+                                    //     value: "price_change_percentage_24h",
+                                    //     label: t('AdminLayout.Wallet.text_16'),
+                                    // },
+                                    // {
+                                    //     value: "chart_data",
+                                    //     label: "",
+                                    // },
+                                ]}
+                                tableArray={userNFTList}
+                            />
+                        ),
+                    }[specificTab as string]
+                }
         </div>
     );
 };

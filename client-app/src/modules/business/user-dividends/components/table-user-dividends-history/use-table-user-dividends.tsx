@@ -19,7 +19,7 @@ export type UserDividendInDetailByYear = {
     status: string,
 }
 
-const SOL_DECIMAL = Math.pow(10, 6);
+const SOL_DECIMAL = BigInt(Math.pow(10, 6));
 
 const useTableUserDividends = () => {
     const dispatch = useDispatch();
@@ -145,9 +145,9 @@ const useTableUserDividends = () => {
             item.dividenId = tmpUserDividend?.dividenId || '';
             item.id = tmpUserDividend?.id || '';
             item.project = tmpUserDividend?.project || '';
-            item.dividend = (tmpUserDividend?.dividend || 0) / SOL_DECIMAL;
+            item.dividend = Number(BigInt(tmpUserDividend?.dividend || 0) * BigInt(100) / SOL_DECIMAL) / 100;
             item.nft = tmpUserDividend?.nft || 0;
-            item.dividendPerNFT = (tmpUserDividend?.dividendPerNFT || 0) / SOL_DECIMAL;
+            item.dividendPerNFT = Number(BigInt(tmpUserDividend?.dividendPerNFT || 0) * BigInt(100) / SOL_DECIMAL) / 100;
             item.status = tmpUserDividend?.status || 'unknown';
         })
         // console.log('================== convertUserDividenData2TableData: ', {tmpUserDividendData, dividendHistoryArray, minDate, maxDate})

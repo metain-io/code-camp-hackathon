@@ -6,6 +6,7 @@ import { UserDividendStatus } from '@business/user-dividends/redux/slice';
 const FormClaimDividends = () => {
     const { status, userTotalUsdClaimableDividend, userTotalUsdClaimedDividend, handleClaimDividends } =
         useFormClaimDividends();
+    const SOL_DECIMAL = Math.pow(10, 6);
 
     const onButtonClaimDividendsClicked = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -18,12 +19,12 @@ const FormClaimDividends = () => {
                 <div className={styles['form-body']}>
                     <div>
                         <p>Available (Claimable)</p>
-                        <p>{status == UserDividendStatus.Loading ? '- -' : userTotalUsdClaimableDividend} US$</p>
+                        <p>{status == UserDividendStatus.Loading ? '- -' : (userTotalUsdClaimableDividend / SOL_DECIMAL)} US$</p>
                     </div>
 
                     <div>
                         <p>Value (Claimed)</p>
-                        <p>{status == UserDividendStatus.Loading ? '- -' : userTotalUsdClaimedDividend} US$</p>
+                        <p>{status == UserDividendStatus.Loading ? '- -' : (userTotalUsdClaimedDividend / SOL_DECIMAL)} US$</p>
                     </div>
 
                     <div>

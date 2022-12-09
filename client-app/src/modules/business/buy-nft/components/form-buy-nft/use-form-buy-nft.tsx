@@ -1,11 +1,14 @@
 import CryptoWalletService from '@crypto-wallet/services/crypto-wallet-service';
+import logger from '@libs/logger';
 import {
     OpportunityTrustPortfolioDetailStatus,
     useOpportunityTrustPortfolioDetailContext,
 } from '@opportunity-trust-portfolio/components';
 import { useNotify } from '@shared/hooks';
+import { accountActions } from 'modules/account/redux/slice';
 
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { FormBuyNftAction, formBuyNftReducer, FormBuyNftState, FormBuyNftStatus } from './form-buy-nft-reducer';
 
 const selectableTokens = [
@@ -31,6 +34,7 @@ const initialState: FormBuyNftState = {
 
 const useFormBuyNft = () => {
     const [state, dispatch] = React.useReducer(formBuyNftReducer, initialState);
+    const reduxDispatch = useDispatch();
     const {
         status: otpDetailStatus,
         data: otpDetailData,
@@ -54,7 +58,9 @@ const useFormBuyNft = () => {
     React.useEffect(() => {
         dispatch({ type: FormBuyNftAction.InitRequested });
 
-        const init = async () => {};
+        const init = async () => {
+            reduxDispatch(accountActions.getNftBalanceRequested());
+        };
 
         init()
             .then(() => {
@@ -147,6 +153,10 @@ const useFormBuyNft = () => {
                 dispatch({ type: FormBuyNftAction.PurchaseNftSucceeded });
             })
             .catch((error) => {
+                logger.error('=== purchaseNft - ERROR ', error)
+                if (error?.message == 'TokenAccountNotFoundError' || error == 'TokenAccountNotFoundError') {
+                    error = 'Purchase failed. Please try again or contact to administrator for more detail.'
+                }
                 dispatch({ type: FormBuyNftAction.PurchaseNftFailed, payload: { error: error } });
             });
     };

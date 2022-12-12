@@ -52,27 +52,29 @@ axios.interceptors.response.use(
         return await processingRequests[key];
     }
 
-    processingRequests[key] = request();
+    processingRequests[key] = (async () => {
+        let [response, error] = await resolvePromise(request());
 
-    let [response, error] = await resolvePromise(processingRequests[key]!);
+        if (error && (error as any).response?.status == 401) {
+            [response, error] = await resolvePromise(AuthService.refreshUserSession());
 
-    if (error && (error as any).response?.status == 401) {
-        [response, error] = await resolvePromise(AuthService.refreshUserSession());
-
-        if (!error) {
-            [response, error] = await resolvePromise(retryRequest(request, 2));
+            if (!error) {
+                [response, error] = await resolvePromise(retryRequest(request, 2));
+            }
         }
-    }
 
-    processingRequests[key] = undefined;
+        processingRequests[key] = undefined;
 
-    if (response) {
-        return response;
-    }
+        if (response) {
+            return response;
+        }
 
-    if (error) {
-        throw error;
-    }
+        if (error) {
+            throw error;
+        }
+    })();
+
+    return await processingRequests[key];
 };
 
 (axios as any).generateRequestKey = (...args: any) => {

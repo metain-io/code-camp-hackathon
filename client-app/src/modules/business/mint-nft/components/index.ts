@@ -1,1 +1,1 @@
-export * from './form-share-devidend';
+export * from './mint-nft';

@@ -48,6 +48,12 @@ const Navigation = () => {
                         url: 'wallet',
                         className: '',
                     },
+                    {
+                        name: 'Mint NFT',
+                        icon: 'fms fm-usd-circle',
+                        url: 'min-nft',
+                        className: '',
+                    },
                 ],
             },
             {

@@ -3,6 +3,7 @@ import { ChangeEvent, MouseEvent, useState, useEffect } from 'react';
 import { DividendHistoryToggler } from './dividend-history-toggler';
 import styles from './styles.module.scss';
 import { useShareDividend } from './use-share-dividend';
+import { useNotify } from '@shared/hooks';
 import moment from 'moment';
 
 const FormShareDividend = () => {
@@ -11,6 +12,7 @@ const FormShareDividend = () => {
     const [dividendFromDate, setDividendFromDate] = useState('2023-01-01');
     const [dividendToDate, setDividendToDate] = useState('2023-01-01');
     const [dividendAmount, setDividendAmount] = useState('0.1');
+    const { showToast } = useNotify();
 
     const init = async () => {
         const result = await axios.get('https://api.niatem-beta.com/hackathon/get-offset-times');
@@ -40,12 +42,38 @@ const FormShareDividend = () => {
             value: dividendValue,
         });
         console.log(result);
+
+        if (result.hasOwnProperty('error')) {
+            let error = 'Share Dividend Failed';
+            showToast({
+                status: 'error',
+                message: error,
+            });
+        } else {
+            showToast({
+                status: 'success',
+                message: 'Share Dividend successfully',
+            });
+        }
     };
 
     const onButtonResetClicked = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const result = await axios.post('https://api.niatem-beta.com/hackathon/reset-offset-timestamp');
         console.log(result);
+
+        if (result.hasOwnProperty('error')) {
+            let error = 'Reset Demo Failed';
+            showToast({
+                status: 'error',
+                message: error,
+            });
+        } else {
+            showToast({
+                status: 'success',
+                message: 'Reset Demo successfully',
+            });
+        }
     };
 
     const setDemoDate = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -55,6 +83,19 @@ const FormShareDividend = () => {
         });
         console.log(result);
         setCurrentDemoDate(newDemoDate);
+
+        if (result.hasOwnProperty('error')) {
+            let error = 'Set Demo Time Failed';
+            showToast({
+                status: 'error',
+                message: error,
+            });
+        } else {
+            showToast({
+                status: 'success',
+                message: 'Set Demo Time successfully',
+            });
+        }
     };
 
     return (

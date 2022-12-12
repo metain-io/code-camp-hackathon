@@ -20,7 +20,11 @@ const FormClaimDividends = () => {
                     <div>
                         <p>Available (Claimable)</p>
                         <p>
-                            {status == UserDividendStatus.Loading ? '- -' : userTotalUsdClaimableDividend / SOL_DECIMAL}{' '}
+                            {status == UserDividendStatus.Loading
+                                ? '- -'
+                                : status == UserDividendStatus.LoadingFailed
+                                ? 'N/A'
+                                : userTotalUsdClaimableDividend / SOL_DECIMAL}{' '}
                             US$
                         </p>
                     </div>
@@ -28,7 +32,11 @@ const FormClaimDividends = () => {
                     <div>
                         <p>Value (Claimed)</p>
                         <p>
-                            {status == UserDividendStatus.Loading ? '- -' : userTotalUsdClaimedDividend / SOL_DECIMAL}{' '}
+                            {status == UserDividendStatus.Loading
+                                ? '- -'
+                                : status == UserDividendStatus.LoadingFailed
+                                ? 'N/A'
+                                : userTotalUsdClaimedDividend / SOL_DECIMAL}{' '}
                             US$
                         </p>
                     </div>
@@ -39,6 +47,7 @@ const FormClaimDividends = () => {
                             onClick={onButtonClaimDividendsClicked}
                             disabled={
                                 status == UserDividendStatus.Loading ||
+                                status == UserDividendStatus.LoadingFailed ||
                                 status == UserDividendStatus.ClaimingDividend ||
                                 userTotalUsdClaimableDividend == 0
                             }

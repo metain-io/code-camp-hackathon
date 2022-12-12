@@ -179,14 +179,21 @@
 }
 
 /* Responsive *************************************************************************************************************************************************/
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 900px) {
 	#information_wrapper {
 		flex-wrap: wrap;
 		height: auto;
+		margin-bottom: 1.6rem;
+		flex-direction: column;
+
+		.loyalty {
+			margin-bottom: 1.6rem;
+		}
 
 		.div {
 			&_1 {
 				flex: 0 0 calc(100% - 19.4rem);
+				margin-bottom: 1.6rem;
 			}
 
 			&_2 {
@@ -213,7 +220,7 @@
 }
 
 @media screen and (max-width: 992px) {
-	#information_wrapper,
+	// #information_wrapper,
 	#chart_wrapper {
 		margin-bottom: 1.6rem;
 	}
@@ -242,43 +249,43 @@ screen and (max-width: 620px) {
         margin: 1.6rem 0;
     }
 
-	#information_wrapper {
-		.span {
-			&_1 {
-				@include fontSize(1.4rem);
-			}
+	// #information_wrapper {
+	// 	.span {
+	// 		&_1 {
+	// 			@include fontSize(1.4rem);
+	// 		}
 
-			&_2 {
-				@include fontSize(1.6rem);
-			}
-		}
+	// 		&_2 {
+	// 			@include fontSize(1.6rem);
+	// 		}
+	// 	}
 
-		.loyalty {
-			flex: 0 0 100%;
-			margin-bottom: 1.6rem;
-		}
+	// 	.loyalty {
+	// 		flex: 0 0 100%;
+	// 		margin-bottom: 1.6rem;
+	// 	}
 
-		.div {
-			&_1 {
-				flex: 0 0 100%;
-			}
+	// 	.div {
+	// 		&_1 {
+	// 			flex: 0 0 100%;
+	// 		}
 
-			&_2 {
-				flex-wrap: wrap;
-				margin-top: 1.6rem;
-			}
+	// 		&_2 {
+	// 			flex-wrap: wrap;
+	// 			margin-top: 1.6rem;
+	// 		}
 
-			&_3 {
-				flex: 0 0 calc(50% - 0.8rem);
-				padding: 1rem 1.6rem;
-				height: 8.6rem;
+	// 		&_3 {
+	// 			flex: 0 0 calc(50% - 0.8rem);
+	// 			padding: 1rem 1.6rem;
+	// 			height: 8.6rem;
 
-				&:not(:last-of-type) {
-					margin-bottom: 1.6rem;
-				}
-			}
-		}
-	}
+	// 			&:not(:last-of-type) {
+	// 				margin-bottom: 1.6rem;
+	// 			}
+	// 		}
+	// 	}
+	// }
 }
 
 @media screen and (max-width: 850px) {
@@ -322,6 +329,10 @@ screen and (max-width: 620px) {
 			}
 		}
 	}
+	#wallet_wrapper {
+		padding: 0 1.6rem;
+	}
+	
 }
 
 @media screen and (min-width: 1400px) and (max-width: 1500px) {

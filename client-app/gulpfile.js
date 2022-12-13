@@ -10,7 +10,7 @@ function renameHTML() {
   const filePromises = [];
   filePromises.push(
     new Promise((resolve, reject) => {
-      const updateDir = ["", "post/"];
+      const updateDir = [""];
 
       for (let i = 0; i < updateDir.length; i++) {
         const files = fs.readdirSync(`${distributionDir}${updateDir[i]}`);
@@ -22,7 +22,6 @@ function renameHTML() {
             const newFileName = path.parse(file).name;
 
             const moveCommand = `aws s3 mv s3://${S3_BUCKET_NAME}/${updateDir[i]}${file} s3://${S3_BUCKET_NAME}/${updateDir[i]}${newFileName} --metadata-directive REPLACE --cache-control no-store,must-revalidate --content-type text/html`;
-            console.debug(`DEBUG--------------moveCommand: ${moveCommand}`);
             exec(`${moveCommand}`, (error, stdout, stderr) => {
               console.log(stdout);
               console.log(stderr);
@@ -36,8 +35,6 @@ function renameHTML() {
   );
   return Promise.all(filePromises);
 }
-
-exports.renameHTML = renameHTML;
 
 const sync = `aws s3 sync --delete ${distributionDir} s3://${S3_BUCKET_NAME}`;
 const copy = `aws s3 cp ${distributionDir}\index.html s3://${S3_BUCKET_NAME}/index.html --metadata-directive REPLACE --cache-control no-store,must-revalidate --content-type text/html`;
@@ -67,4 +64,4 @@ gulp.task("invalidateCache", function (cb) {
   });
 });
 
-gulp.task("deploy", gulp.series(["sync", "copy", "invalidateCache"]));
+gulp.task("deploy", gulp.series(["sync", "copy", renameHTML, "invalidateCache"]));

@@ -329,7 +329,7 @@ const waitTransactionFinalized = async (connection: any, signature: any, timeout
 };
 
 const wait = async (miliseconds: number) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         setTimeout(() => {
             resolve(null);
         }, miliseconds);

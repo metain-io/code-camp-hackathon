@@ -8,6 +8,7 @@ import * as anchor from '@project-serum/anchor';
 import { getOrCreateAssociatedTokenAccount, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { clusterApiUrl, Connection, Keypair, PublicKey } from '@solana/web3.js';
 import { IDL } from '../data/program-idls/offering-idl';
+import { resolve } from 'path/posix';
 
 export default class PhantomWallet extends CryptoWallet {
     _provider: any;
@@ -103,22 +104,22 @@ export default class PhantomWallet extends CryptoWallet {
     }
 
     static async waitForWalletInjection(resolve: any, count: number) {
-        logger.info('============ waitForWalletInjection: ', {count, phantom: (window as any)?.phantom})
+        logger.info('============ waitForWalletInjection: ', { count, phantom: (window as any)?.phantom });
         if (resolve) {
             if (count > 50) {
                 resolve();
                 return;
             }
-    
+
             if (!(window as any)?.phantom) {
                 setTimeout(() => this.waitForWalletInjection(resolve, count + 1), 100);
             } else {
                 resolve();
             }
-    
+
             return;
         }
-    
+
         return new Promise((promiseResolve) => {
             if (!(window as any)?.phantom) {
                 setTimeout(() => this.waitForWalletInjection(promiseResolve, 1), 100);
@@ -130,7 +131,7 @@ export default class PhantomWallet extends CryptoWallet {
 
     async getNftBalance(): Promise<any> {
         let tmpBalances: { [nftAddress: string]: number | bigint } = {};
-        console.log('=============== getNftBalance - associatedNftAccount - INIT ')
+        console.log('=============== getNftBalance - associatedNftAccount - INIT ');
         try {
             const connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');
             // const payer = web3.Keypair.generate();
@@ -138,9 +139,14 @@ export default class PhantomWallet extends CryptoWallet {
             const nftPublicKey = new web3.PublicKey(process.env.NEXT_PUBLIC_MINT_NFT_ADDRESS || '');
             const walletPublicKey = new web3.PublicKey(this.walletAccount || '');
 
-            const associatedNftAccount = await SPL.getOrCreateAssociatedTokenAccount(connection, payer, nftPublicKey, walletPublicKey);
+            const associatedNftAccount = await SPL.getOrCreateAssociatedTokenAccount(
+                connection,
+                payer,
+                nftPublicKey,
+                walletPublicKey,
+            );
 
-            tmpBalances = {[nftPublicKey.toBase58()]: associatedNftAccount.amount};
+            tmpBalances = { [nftPublicKey.toBase58()]: associatedNftAccount.amount };
             logger.debug('=== PhantomWallet - getNftBalance - RS: : ', {
                 tmpBalances,
                 associatedNftAccount,
@@ -149,21 +155,24 @@ export default class PhantomWallet extends CryptoWallet {
             });
         } catch (error: any) {
             logger.debug('=== PhantomWallet - getNftBalance - ERROR: ', error);
-            throw(Error('Some thing went wrong when get NFT balance'));
+            throw Error('Some thing went wrong when get NFT balance');
         }
         return tmpBalances;
     }
 
-    async getBalances(): Promise<{ [symbol: string]: number | bigint; }> {
+    async getBalances(): Promise<{ [symbol: string]: number | bigint }> {
         const tmpBalances: { [name: string]: number | bigint } = {};
         try {
             const connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');
-            const tokenAccounts = await connection.getTokenAccountsByOwner(new web3.PublicKey(this._walletAccount || ''), {
-                programId: SPL.TOKEN_PROGRAM_ID,
-            });
+            const tokenAccounts = await connection.getTokenAccountsByOwner(
+                new web3.PublicKey(this._walletAccount || ''),
+                {
+                    programId: SPL.TOKEN_PROGRAM_ID,
+                },
+            );
             const solAmount = await connection.getBalance(new web3.PublicKey(this._walletAccount || ''));
 
-            tmpBalances['SOL'] = Number(BigInt(solAmount) * BigInt(100) / BigInt(web3.LAMPORTS_PER_SOL)) / 100;
+            tmpBalances['SOL'] = Number((BigInt(solAmount) * BigInt(100)) / BigInt(web3.LAMPORTS_PER_SOL)) / 100;
             tokenAccounts?.value?.forEach((tokenAccount) => {
                 const accountData = SPL.AccountLayout.decode(tokenAccount.account.data);
 
@@ -171,13 +180,14 @@ export default class PhantomWallet extends CryptoWallet {
                     return item.value == accountData.mint.toBase58();
                 });
                 if (relatedToken) {
-                    tmpBalances[relatedToken.label] = Number(accountData.amount * BigInt(100) / relatedToken.decimalNo) / 100;
+                    tmpBalances[relatedToken.label] =
+                        Number((accountData.amount * BigInt(100)) / relatedToken.decimalNo) / 100;
                 }
             });
             logger.debug('=== PhantomWallet - getBalances - BALANCE: ', tmpBalances);
         } catch (error: any) {
             logger.debug('=== PhantomWallet - getBalances - ERROR: ', error);
-            throw(Error('Some thing went wrong when get Token balance'));
+            throw Error('Some thing went wrong when get Token balance');
         }
         return tmpBalances;
     }
@@ -313,5 +323,15 @@ const waitTransactionFinalized = async (connection: any, signature: any, timeout
         if (Date.now() - startTime > timeoutLimit) {
             throw new Error('Timeout');
         }
+
+        await wait(2000);
     } while (signatureStatus.value?.confirmationStatus != 'finalized');
+};
+
+const wait = async (miliseconds: number) => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(null);
+        }, miliseconds);
+    });
 };

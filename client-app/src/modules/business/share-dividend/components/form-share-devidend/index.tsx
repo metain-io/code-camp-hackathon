@@ -34,16 +34,25 @@ const FormShareDividend = () => {
 
     const onButtonShareDividendClicked = async (e: MouseEvent<HTMLButtonElement>) => {
         const dividendValue = parseFloat(dividendAmount);
-
         e.preventDefault();
-        const result = await axios.post('https://api.niatem-beta.com/hackathon/share-dividend', {
-            from: moment(dividendFromDate, 'YYYY-MM-DD').valueOf(),
-            to: moment(dividendToDate, 'YYYY-MM-DD').valueOf(),
-            value: dividendValue,
-        });
-        console.log(result);
+        var isError = false;
+        try {
+            const result = await axios.post('https://api.niatem-beta.com/hackathon/share-dividend', {
+                from: moment(dividendFromDate, 'YYYY-MM-DD').valueOf(),
+                to: moment(dividendToDate, 'YYYY-MM-DD').valueOf(),
+                value: dividendValue,
+            });
+            console.log(result);
 
-        if (result.hasOwnProperty('error')) {
+            if (result.hasOwnProperty('error')) {
+                isError = true;
+            }
+        } catch (error) {
+            console.log('error: ', error);
+            isError = true;
+        }
+
+        if (isError === true) {
             let error = 'Share Dividend Failed';
             showToast({
                 status: 'error',
@@ -59,10 +68,20 @@ const FormShareDividend = () => {
 
     const onButtonResetClicked = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        const result = await axios.post('https://api.niatem-beta.com/hackathon/reset-offset-timestamp');
-        console.log(result);
+        var isError = false;
+        try {
+            const result = await axios.post('https://api.niatem-beta.com/hackathon/reset-offset-timestamp');
+            console.log(result);
 
-        if (result.hasOwnProperty('error')) {
+            if (result.hasOwnProperty('error')) {
+                isError = true;
+            }
+        } catch (error) {
+            console.log('error: ', error);
+            isError = true;
+        }
+
+        if (isError === true) {
             let error = 'Reset Demo Failed';
             showToast({
                 status: 'error',
@@ -78,13 +97,22 @@ const FormShareDividend = () => {
 
     const setDemoDate = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        const result = await axios.post('https://api.niatem-beta.com/hackathon/set-offset-timestamp', {
-            timestamp: moment(newDemoDate, 'YYYY-MM-DD').valueOf(),
-        });
-        console.log(result);
-        setCurrentDemoDate(newDemoDate);
+        var isError = false;
+        try {
+            const result = await axios.post('https://api.niatem-beta.com/hackathon/set-offset-timestamp', {
+                timestamp: moment(newDemoDate, 'YYYY-MM-DD').valueOf(),
+            });
+            console.log(result);
 
-        if (result.hasOwnProperty('error')) {
+            if (result.hasOwnProperty('error')) {
+                isError = true;
+            }
+        } catch (error) {
+            console.log('error: ', error);
+            isError = true;
+        }
+
+        if (isError === true) {
             let error = 'Set Demo Time Failed';
             showToast({
                 status: 'error',

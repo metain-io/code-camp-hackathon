@@ -1,4 +1,3 @@
-import React from 'react';
 import { AdminLayout } from '@app/layouts';
 import { FormBuyNft } from '@business/buy-nft/components';
 import { FormBuyNftProvider } from '@business/buy-nft/components/form-buy-nft/form-buy-nft-provider';
@@ -11,20 +10,26 @@ import {
     OtpDetailHighlightProperties,
     OtpDetailMap,
     OtpDetailPartners,
-    OtpDetailRoadmap,
     OtpDetailSummary,
     useOpportunityTrustPortfolioDetailContext,
 } from '@opportunity-trust-portfolio/components';
-import { ReactElement } from 'react';
+import Link from 'next/link';
+import React, { ReactElement } from 'react';
 import styles from './styles.module.scss';
-import WalletService from '@crypto-wallet/services/crypto-wallet-service';
 
 const PageOpportunityTrustPortfolio = () => {
     return (
         <div id={styles.row} className="row">
             <OpportunityTrustPortfolioDetailProvider>
-                <Breadcrumb />
                 <div id={styles.column_1}>
+                    <div className={styles['button-back']}>
+                        <Link href={'/portfolios'}>
+                            <i className="fms fm-arrow-left" /> Back To Portfolio
+                        </Link>
+                    </div>
+
+                    <Breadcrumb />
+
                     <div id={styles.block_1} className="mBackground-style-1">
                         <OtpInfoHeading />
                         <div className={styles['gap']} />
@@ -55,10 +60,10 @@ const PageOpportunityTrustPortfolio = () => {
                             <OtpDetailHighlightProperties />
                         </section>
 
-                        <section>
+                        {/* <section>
                             <span className={styles['section-title']}>Roadmap</span>
                             <OtpDetailRoadmap />
-                        </section>
+                        </section> */}
 
                         <section>
                             <span className={styles['section-title']}>Map</span>
@@ -92,7 +97,11 @@ const Breadcrumb = () => {
     const hideContent = status != OpportunityTrustPortfolioDetailStatus.LoadSucceeded;
 
     return (
-        <div className="mBreadcrumb-style-4 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div
+            className={['mBreadcrumb-style-4 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12', styles['title']].join(
+                ' ',
+            )}
+        >
             <div className="div_1">
                 <span className="span_1">
                     {hideContent ? '- -' : data?.showcaseInfo.id}: {hideContent ? '- -' : data?.showcaseInfo.name}

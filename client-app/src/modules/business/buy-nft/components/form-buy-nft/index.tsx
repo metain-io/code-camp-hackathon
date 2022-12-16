@@ -35,9 +35,9 @@ const Header = () => {
                             {`${data?.showcaseInfo.id}: ${data?.showcaseInfo.name}`}
                         </Anchor>
                     </div>
-                    <div>
+                    {/* <div>
                         <BuyNftHistoryToggler />
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className={styles.div_2}>

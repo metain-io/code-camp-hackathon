@@ -31,6 +31,7 @@ const TableUserDividendsStatistics = () => {
                     <thead>
                         <tr>
                             <th data-name="date">YEAR</th>
+                            <th data-name="project">PROJECT</th>
                             <th data-name="nft-owned">NFT OWNED</th>
                             <th data-name="claimed-dividend">CLAIMED DIVIDEND</th>
                             <th data-name="claimable-dividend">CLAIMABLE DIVIDEND</th>
@@ -41,7 +42,7 @@ const TableUserDividendsStatistics = () => {
                             Object.keys(currentUserDividendBranchData)
                                 .filter((key) => !isNaN(+key))
                                 .map((key) => {
-                                    const { nft, claimableDividend, claimedDividend } =
+                                    const { nft, projects, claimableDividend, claimedDividend } =
                                         currentUserDividendBranchData[key];
                                     return (
                                         <tr key={key}>
@@ -53,12 +54,15 @@ const TableUserDividendsStatistics = () => {
                                             >
                                                 <Link href="">{[...branchPath, key].join(' - ')}</Link>
                                             </td>
+                                            <td data-name="project">
+                                                {[...projects].join(', ')}
+                                            </td>
                                             <td data-name="nft-owned">{nft}</td>
                                             <td data-name="claimed-dividend">
-                                                {claimedDividend && formatNumber(claimedDividend)} US$
+                                                {claimedDividend && claimedDividend.toString()} US$
                                             </td>
                                             <td data-name="claimable-dividend">
-                                                {claimableDividend && formatNumber(claimableDividend)} US$
+                                                {claimableDividend && claimableDividend.format()} US$
                                             </td>
                                         </tr>
                                     );

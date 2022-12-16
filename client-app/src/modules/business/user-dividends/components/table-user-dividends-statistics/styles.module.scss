@@ -56,7 +56,7 @@
             padding: 4px 14px;
 
             text-align: center;
-            @include fontSize(1.6rem);
+            @include fontSize(1.2rem);
             font-weight: 500;
             line-height: $heightPerRow;
             white-space: nowrap;
@@ -67,6 +67,10 @@
 
         th[data-name='date'] {
             width: 10rem;
+        }
+
+        th[data-name='project'] {
+            width: 30rem;
         }
 
         th[data-name='nft-owned'] {
@@ -82,9 +86,15 @@
             padding: 8px;
             white-space: nowrap;
             line-height: $heightPerRow;
+            @include fontSize(1.4rem);
         }
 
         td[data-name='date'] {
+            width: 10rem;
+            text-align: center;
+        }
+
+        td[data-name='project'] {
             width: 10rem;
             text-align: center;
         }

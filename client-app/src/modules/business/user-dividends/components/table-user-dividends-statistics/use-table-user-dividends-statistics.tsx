@@ -6,6 +6,10 @@ import {
 import moment from 'moment';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import WrappedBn from '@libs/wrapped-bn';
+import BN from 'bn.js';
+
+const DECIMALS = 6;
 
 const useTableUserDividendsStatistics = () => {
     const dispatch = useDispatch();
@@ -25,11 +29,12 @@ const useTableUserDividendsStatistics = () => {
         const treeData: any = {};
 
         userDividensData.forEach((item: any) => {
-            const { dateFrom, dateTo, nft, dividend, status } = item;
+            let { dateFrom, dateTo, nft, dividend, project, status } = item;
 
             const from = moment(dateFrom);
             const to = moment(dateTo);
             const dayDiff = to.startOf('day').diff(from.startOf('day'), 'days', false);
+            const bnDividend = WrappedBn.createFromBn(new BN(dividend), DECIMALS);
             // console.log({ from: from.format('YYYY - MM - DD'), to: to.format('YYYY - MM - DD'), dayDiff });
 
             let prevYear = undefined;
@@ -44,41 +49,62 @@ const useTableUserDividendsStatistics = () => {
                 // console.log(year, month, date, { nft, dividend, status });
 
                 if (!treeData[year]) {
-                    treeData[year] = { nft: 0, claimedDividend: 0, claimableDividend: 0 };
+                    treeData[year] = { nft: 0, projects: new Set(), claimedDividend: WrappedBn.createFromNumber(0), claimableDividend: WrappedBn.createFromNumber(0) };
                 }
+
                 if (!treeData[year][month]) {
-                    treeData[year][month] = { nft: 0, claimedDividend: 0, claimableDividend: 0 };
+                    treeData[year][month] = {
+                        nft: 0,
+                        projects: new Set(),
+                        claimedDividend: WrappedBn.createFromNumber(0),
+                        claimableDividend: WrappedBn.createFromNumber(0),
+                    };
                 }
+
                 if (!treeData[year][month][date]) {
-                    treeData[year][month][date] = { nft: 0, claimedDividend: 0, claimableDividend: 0 };
+                    treeData[year][month][date] = {
+                        nft: 0,
+                        projects: new Set(),
+                        claimedDividend: WrappedBn.createFromNumber(0),
+                        claimableDividend: WrappedBn.createFromNumber(0),
+                    };
                 }
 
                 const shouldUpdateGraphOfYear = prevYear != year;
                 treeData[year].nft += shouldUpdateGraphOfYear ? nft : 0;
-                treeData[year].claimedDividend += shouldUpdateGraphOfYear && status == 'claimed' ? dividend : 0;
-                treeData[year].claimableDividend += shouldUpdateGraphOfYear && status == 'available' ? dividend : 0;
+                shouldUpdateGraphOfYear && treeData[year].projects.add(project);
+                treeData[year].claimedDividend.add(
+                    shouldUpdateGraphOfYear && status == 'claimed' ? bnDividend : WrappedBn.ZERO,
+                );
+                treeData[year].claimableDividend.add(
+                    shouldUpdateGraphOfYear && status == 'available' ? bnDividend : WrappedBn.ZERO,
+                );
 
                 const shouldUpdateGraphOfMonth = prevYear != year && prevMonth != month;
                 treeData[year][month].nft += shouldUpdateGraphOfMonth ? nft : 0;
-                treeData[year][month].claimedDividend += shouldUpdateGraphOfMonth && status == 'claimed' ? dividend : 0;
-                treeData[year][month].claimableDividend +=
-                    shouldUpdateGraphOfMonth && status == 'available' ? dividend : 0;
+                shouldUpdateGraphOfMonth && treeData[year][month].projects.add(project);
+                treeData[year][month].claimedDividend.add(
+                    shouldUpdateGraphOfMonth && status == 'claimed' ? bnDividend : WrappedBn.ZERO,
+                );
+                treeData[year][month].claimableDividend.add(
+                    shouldUpdateGraphOfMonth && status == 'available' ? bnDividend : WrappedBn.ZERO,
+                );
 
                 treeData[year][month][date].nft += nft;
-                treeData[year][month][date].claimedDividend += status == 'claimed' ? dividend : 0;
-                treeData[year][month][date].claimableDividend += status == 'available' ? dividend : 0;
+                treeData[year][month][date].projects.add(project);
+                treeData[year][month][date].claimedDividend.add(status == 'claimed' ? bnDividend : WrappedBn.ZERO);
+                treeData[year][month][date].claimableDividend.add(status == 'available' ? bnDividend : WrappedBn.ZERO);
 
                 prevYear = year;
                 prevMonth = month;
             }
         });
 
-        console.log(treeData);
+        // console.log(treeData);
         return treeData;
     }, [userDividensData]);
 
     const currentUserDividendBranchData = React.useMemo(() => {
-        console.log('aaaa', branchPath);
         let branch = userDividendTreeData;
 
         for (let i = 0; i < branchPath.length; ++i) {

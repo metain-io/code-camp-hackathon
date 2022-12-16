@@ -53,8 +53,8 @@ const MintNFT = () => {
             <div className={styles.div_1}>
                 <span className={styles.span_2}>External link</span>
                 <span className={styles.span_1}>
-                    OpenSea will include a link to this URL on this item's detail page, so that users can click to learn
-                    more about it. You are welcome to link to your own webpage with more details.
+                    OpenSea will include a link to this URL on this item&apos;s detail page, so that users can click to
+                    learn more about it. You are welcome to link to your own webpage with more details.
                 </span>
                 <input
                     type="text"
@@ -67,9 +67,9 @@ const MintNFT = () => {
             <div className={styles.div_1}>
                 <span className={styles.span_2}>Description</span>
                 <span className={styles.span_1}>
-                    The description will be included on the item's detail page underneath its image. Markdown syntax is
-                    The description will be included on the item's detail page underneath its image. Markdown syntax is
-                    supported.
+                    The description will be included on the item&apos;s detail page underneath its image. Markdown
+                    syntax is The description will be included on the item&apos;s detail page underneath its image.
+                    Markdown syntax is supported.
                 </span>
                 <input
                     type="text"
@@ -135,8 +135,8 @@ const MintNFT = () => {
             <div className={styles.div_1}>
                 <span className={styles.span_2}>Freeze metadata</span>
                 <span className={styles.span_1}>
-                    Freezing your metadata will allow you to permanently lock and store all of this item's content in
-                    decentralized file storage.
+                    Freezing your metadata will allow you to permanently lock and store all of this item&apos;s content
+                    in decentralized file storage.
                 </span>
                 <span className={styles.span_2}>To freeze your metadata, you must create your item first.</span>
             </div>

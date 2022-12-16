@@ -9,9 +9,9 @@ const PROTECTED_ROUTES = [
     '/dashboard',
     '/faucet-token',
     '/wallet',
-    '/share-dividends',
-    '/portfolios',
-    '/portfolios/vot-1',
+    '/share-dividend',
+    '/portfolio',
+    '/portfolio/vot-1',
 ];
 
 const AUTH_ROUTES = ['/login'];

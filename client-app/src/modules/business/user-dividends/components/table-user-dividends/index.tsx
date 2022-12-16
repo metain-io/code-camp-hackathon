@@ -1,11 +1,12 @@
 import { UserDividendStatus } from '@business/user-dividends/redux/slice';
+import WrappedBn from '@libs/wrapped-bn';
 import moment from 'moment';
 import styles from './styles.module.scss';
 import { useTableUserDividends } from './use-table-user-dividends';
 
 const TableUserDividends = () => {
     const { status, userDividensData } = useTableUserDividends();
-    const SOL_DECIMAL = Math.pow(10, 6);
+    const SOL_DECIMAL = WrappedBn.createFromNumber(Math.pow(10, 6));
 
     return (
         <div className={styles['table-wrapper']}>
@@ -30,7 +31,7 @@ const TableUserDividends = () => {
                                 <td data-name="from">{dateFrom && moment(dateFrom).format('DD - MM - YYYY')}</td>
                                 <td data-name="to">{dateTo && moment(dateTo).format('DD - MM - YYYY')}</td>
                                 <td data-name="amount-nft">{nft}</td>
-                                <td data-name="amount-dividend">{dividend / SOL_DECIMAL} US$</td>
+                                <td data-name="amount-dividend">{WrappedBn.div(WrappedBn.createFromNumber(dividend || 0), SOL_DECIMAL).format(2, '', '.')} US$</td>
                                 <td data-name="status" data-value={status}>
                                     {status}
                                 </td>

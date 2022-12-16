@@ -37,8 +37,8 @@ const YearUserDividendTable = (props: any) => {
                                     </td>
                                     <td data-name="project">{item.project}</td>
                                     <td data-name="amount-nft">{`${item.nftMin} ~ ${item.nftMax}`}</td>
-                                    <td data-name="amount-nft">{`${item.dividendPerNFTMin} ~ ${item.dividendPerNFTMax}`}</td>
-                                    <td data-name="amount-dividend">{item.dividend} US$</td>
+                                    <td data-name="amount-nft">{`${item.dividendPerNFTMin.format(2, '', '.')} ~ ${item.dividendPerNFTMax.format(2, '', '.')}`}</td>
+                                    <td data-name="amount-dividend">{item.dividend.format(2, '', '.')} US$</td>
                                     {/* <td data-name="status" data-value={status}>
                                         {status}
                                     </td> */}
@@ -100,8 +100,8 @@ const MonthUserDividendTable = (props: any) => {
                                     </td>
                                     <td data-name="project">{item.project}</td>
                                     <td data-name="amount-nft">{`${item.nftMin} ~ ${item.nftMax}`}</td>
-                                    <td data-name="amount-nft">{`${item.dividendPerNFTMin} ~ ${item.dividendPerNFTMax}`}</td>
-                                    <td data-name="amount-dividend">{item.dividend} US$</td>
+                                    <td data-name="amount-nft">{`${item.dividendPerNFTMin.format(2, '', '.')} ~ ${item.dividendPerNFTMax.format(2, '', '.')}`}</td>
+                                    <td data-name="amount-dividend">{item.dividend.format(2, '', '.')} US$</td>
                                     {/* <td data-name="status" data-value={status}>
                                         {status}
                                     </td> */}
@@ -159,7 +159,7 @@ const DayUserDividendTable = (props: any) => {
                                         <td data-name="project">{project}</td>
                                         {/* <td data-name="to">{dateTo && moment(dateTo).format('DD - MM - YYYY')}</td> */}
                                         <td data-name="amount-nft">{nft}</td>
-                                        <td data-name="amount-dividend">{dividend} US$</td>
+                                        <td data-name="amount-dividend">{dividend?.format(2, '', '.') || '0'} US$</td>
                                         <td data-name="status" data-value={status}>
                                             {status}
                                         </td>

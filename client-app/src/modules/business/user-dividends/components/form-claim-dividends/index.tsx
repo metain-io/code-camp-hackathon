@@ -2,11 +2,12 @@ import { MouseEvent } from 'react';
 import { useFormClaimDividends } from './use-form-claim-dividends';
 import styles from './styles.module.scss';
 import { UserDividendStatus } from '@business/user-dividends/redux/slice';
+import WrappedBn from '@libs/wrapped-bn';
 
 const FormClaimDividends = () => {
     const { status, userTotalUsdClaimableDividend, userTotalUsdClaimedDividend, handleClaimDividends } =
         useFormClaimDividends();
-    const SOL_DECIMAL = Math.pow(10, 6);
+    const SOL_DECIMAL = WrappedBn.createFromNumber(Math.pow(10, 6));
 
     const onButtonClaimDividendsClicked = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -24,7 +25,7 @@ const FormClaimDividends = () => {
                                 ? '- -'
                                 : status == UserDividendStatus.LoadingFailed
                                 ? 'N/A'
-                                : userTotalUsdClaimableDividend / SOL_DECIMAL}{' '}
+                                : WrappedBn.div(WrappedBn.createFromNumber(userTotalUsdClaimableDividend || 0), SOL_DECIMAL)?.format(2, '', '.')}{' '}
                             US$
                         </p>
                     </div>
@@ -36,7 +37,7 @@ const FormClaimDividends = () => {
                                 ? '- -'
                                 : status == UserDividendStatus.LoadingFailed
                                 ? 'N/A'
-                                : userTotalUsdClaimedDividend / SOL_DECIMAL}{' '}
+                                : WrappedBn.div(WrappedBn.createFromNumber(userTotalUsdClaimedDividend || 0), SOL_DECIMAL)?.format(2, '', '.')}{' '}
                             US$
                         </p>
                     </div>

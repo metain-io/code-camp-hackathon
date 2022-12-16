@@ -11,7 +11,7 @@ const argv = yargs(process.argv.slice(2))
   })
   .parseSync();
 
-const env = argv.env || "devenet";
+const env = argv.env || "devnet";
 
 function createConnection() {
   switch (env) {

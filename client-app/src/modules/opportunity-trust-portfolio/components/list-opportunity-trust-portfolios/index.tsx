@@ -31,16 +31,24 @@ const ListOpportunityTrustPorfolios = () => {
                                 <span className={styles.span_3}>Gross Rent</span>
                                 <span className={styles.span_3}>Rent Per Token</span>
                                 <span className={styles.span_4}>
-                                    {(otp.grossRentPerYear && formatNumber(otp.grossRentPerYear)) || '- -'} US$/year
+                                    {(!otpDisabled &&
+                                        otp.grossRentPerYear &&
+                                        `${formatNumber(otp.grossRentPerYear)} US$/year`) ||
+                                        'Coming Soon'}
                                 </span>
                                 <span className={styles.span_4}>
-                                    {(otp.rentPerTokenPerYear && formatNumber(otp.rentPerTokenPerYear)) || '- -'}{' '}
-                                    US$/year
+                                    {(!otpDisabled &&
+                                        otp.rentPerTokenPerYear &&
+                                        `${formatNumber(otp.rentPerTokenPerYear)} US$/year`) ||
+                                        'Coming Soon'}
                                 </span>
                             </div>
                             <div className={styles.div_3}>
                                 <span className={styles.span_5}>Token Price</span>
-                                <span className={styles.span_6}>{otp.pricePerToken || '- -'} US$</span>
+                                <span className={styles.span_6}>
+                                    {(!otpDisabled && otp.pricePerToken && `${formatNumber(otp.pricePerToken)} US$`) ||
+                                        'Coming Soon'}
+                                </span>
                                 <button
                                     className={[styles.button_1, 'mButton mButton-cn1-bp6'].join(' ')}
                                     disabled={otpDisabled}

@@ -31,9 +31,9 @@ const TableUserDividendsStatistics = () => {
                         <tr>
                             <th data-name="date">YEAR</th>
                             <th data-name="project">PROJECT</th>
-                            <th data-name="nft-owned">NFT OWNED</th>
-                            <th data-name="claimed-dividend">CLAIMED DIVIDEND</th>
-                            <th data-name="claimable-dividend">CLAIMABLE DIVIDEND</th>
+                            <th data-name="nft-owned">AMOUNT NFT (in range)</th>
+                            <th data-name="claimed-dividend">DIVIDEND PER NFT (in range)</th>
+                            <th data-name="claimable-dividend">AMOUNT DIVIDEND</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,8 +41,9 @@ const TableUserDividendsStatistics = () => {
                             Object.keys(currentUserDividendBranchData)
                                 .filter((key) => !isNaN(+key))
                                 .map((key) => {
-                                    const { nft, projects, claimableDividend, claimedDividend } =
+                                    const { projects, amountNftMin, amountNftMax, amountDividend, dividendPerNftMin, dividendPerNftMax } =
                                         currentUserDividendBranchData[key];
+
                                     return (
                                         <tr key={key}>
                                             <td
@@ -56,12 +57,12 @@ const TableUserDividendsStatistics = () => {
                                             <td data-name="project">
                                                 {[...projects].join(', ')}
                                             </td>
-                                            <td data-name="nft-owned">{nft}</td>
+                                            <td data-name="nft-owned">{amountNftMin == amountNftMax ? amountNftMin : `${amountNftMin} - ${amountNftMax}`}</td>
                                             <td data-name="claimed-dividend">
-                                                {claimedDividend && claimedDividend.toString()} US$
+                                                {dividendPerNftMin.eq(dividendPerNftMax) ? dividendPerNftMin.format() : `${dividendPerNftMin.format()} - ${dividendPerNftMax.format()}`} US$
                                             </td>
                                             <td data-name="claimable-dividend">
-                                                {claimableDividend && claimableDividend.format()} US$
+                                                {amountDividend && amountDividend.format()} US$
                                             </td>
                                         </tr>
                                     );

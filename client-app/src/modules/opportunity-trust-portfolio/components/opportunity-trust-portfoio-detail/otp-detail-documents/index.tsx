@@ -18,8 +18,9 @@ const OtpDetailDocuments = () => {
                       return (
                           <Anchor
                               key={`Document-${name}`}
-                              href={disable ? '' : href}
+                              href={disable ? '#' : href}
                               className={styles['item']}
+                              disabled={disable}
                               isOpenNewTab={href != '#' && href != ''}
                           >
                               <i className={[styles['item_icon'], 'fms fm-file-plus'].join(' ')}></i>

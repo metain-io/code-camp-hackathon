@@ -37,12 +37,20 @@ const TableUserDividendsStatistics = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {status != UserDividendStatus.Loading && currentUserDividendBranchData ? (
+                        {status != UserDividendStatus.Loading &&
+                        currentUserDividendBranchData &&
+                        Object.keys(currentUserDividendBranchData).length > 0 ? (
                             Object.keys(currentUserDividendBranchData)
                                 .filter((key) => !isNaN(+key))
                                 .map((key) => {
-                                    const { projects, amountNftMin, amountNftMax, amountDividend, dividendPerNftMin, dividendPerNftMax } =
-                                        currentUserDividendBranchData[key];
+                                    const {
+                                        projects,
+                                        amountNftMin,
+                                        amountNftMax,
+                                        amountDividend,
+                                        dividendPerNftMin,
+                                        dividendPerNftMax,
+                                    } = currentUserDividendBranchData[key];
 
                                     return (
                                         <tr key={key}>
@@ -54,12 +62,17 @@ const TableUserDividendsStatistics = () => {
                                             >
                                                 <Link href="">{[...branchPath, key].join(' - ')}</Link>
                                             </td>
-                                            <td data-name="project">
-                                                {[...projects].join(', ')}
+                                            <td data-name="project">{[...projects].join(', ')}</td>
+                                            <td data-name="nft-owned">
+                                                {amountNftMin == amountNftMax
+                                                    ? amountNftMin
+                                                    : `${amountNftMin} - ${amountNftMax}`}
                                             </td>
-                                            <td data-name="nft-owned">{amountNftMin == amountNftMax ? amountNftMin : `${amountNftMin} - ${amountNftMax}`}</td>
                                             <td data-name="claimed-dividend">
-                                                {dividendPerNftMin.eq(dividendPerNftMax) ? dividendPerNftMin.format() : `${dividendPerNftMin.format()} - ${dividendPerNftMax.format()}`} US$
+                                                {dividendPerNftMin.eq(dividendPerNftMax)
+                                                    ? dividendPerNftMin.format()
+                                                    : `${dividendPerNftMin.format()} - ${dividendPerNftMax.format()}`}{' '}
+                                                US$
                                             </td>
                                             <td data-name="claimable-dividend">
                                                 {amountDividend && amountDividend.format()} US$
@@ -69,11 +82,11 @@ const TableUserDividendsStatistics = () => {
                                 })
                         ) : status == UserDividendStatus.Loading ? (
                             <tr data-type="empty-row">
-                                <td colSpan={4}>Loading...</td>
+                                <td colSpan={5}>Loading...</td>
                             </tr>
                         ) : (
                             <tr data-type="empty-row">
-                                <td colSpan={4}>No transaction yet</td>
+                                <td colSpan={5}>No transaction yet</td>
                             </tr>
                         )}
                     </tbody>

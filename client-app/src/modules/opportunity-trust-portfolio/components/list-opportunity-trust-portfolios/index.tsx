@@ -20,8 +20,15 @@ const ListOpportunityTrustPorfolios = () => {
                         <div key={otp.id} className={[styles.item_1, otpDisabled ? styles.disabled : ''].join(' ')}>
                             <div className={styles.div_1}>
                                 <Image src={otp.imageUrls[0]} className={styles.image_1} alt="" />
-                                <span className={[styles.span_1, 'mTag'].join(' ')} data-status="income">
-                                    Expected Income: {otp.expectedIncomePercent || '- -'}%
+                                <span
+                                    className={[styles.span_1, 'mTag'].join(' ')}
+                                    data-status={otpDisabled ? '' : 'income'}
+                                >
+                                    Expected Income:{' '}
+                                    {(!otpDisabled &&
+                                        otp.expectedIncomePercent &&
+                                        `${formatNumber(otp.expectedIncomePercent)}%`) ||
+                                        'Coming Soon'}
                                 </span>
                             </div>
                             <div className={styles.div_2}>

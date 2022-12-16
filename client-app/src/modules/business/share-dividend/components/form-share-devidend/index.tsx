@@ -3,6 +3,7 @@ import { ChangeEvent, MouseEvent, useState, useEffect } from 'react';
 import { DividendHistoryToggler } from './dividend-history-toggler';
 import styles from './styles.module.scss';
 import { useShareDividend } from './use-share-dividend';
+import { useNotify } from '@shared/hooks';
 import moment from 'moment';
 
 const FormShareDividend = () => {
@@ -11,6 +12,7 @@ const FormShareDividend = () => {
     const [dividendFromDate, setDividendFromDate] = useState('2023-01-01');
     const [dividendToDate, setDividendToDate] = useState('2023-01-01');
     const [dividendAmount, setDividendAmount] = useState('0.1');
+    const { showToast } = useNotify();
 
     const init = async () => {
         const result = await axios.get('https://api.niatem-beta.com/hackathon/get-offset-times');
@@ -32,29 +34,96 @@ const FormShareDividend = () => {
 
     const onButtonShareDividendClicked = async (e: MouseEvent<HTMLButtonElement>) => {
         const dividendValue = parseFloat(dividendAmount);
-
         e.preventDefault();
-        const result = await axios.post('https://api.niatem-beta.com/hackathon/share-dividend', {
-            from: moment(dividendFromDate, 'YYYY-MM-DD').valueOf(),
-            to: moment(dividendToDate, 'YYYY-MM-DD').valueOf(),
-            value: dividendValue,
-        });
-        console.log(result);
+        var isError = false;
+        try {
+            const result = await axios.post('https://api.niatem-beta.com/hackathon/share-dividend', {
+                from: moment(dividendFromDate, 'YYYY-MM-DD').valueOf(),
+                to: moment(dividendToDate, 'YYYY-MM-DD').valueOf(),
+                value: dividendValue,
+            });
+            console.log(result);
+
+            if (result.hasOwnProperty('error')) {
+                isError = true;
+            }
+        } catch (error) {
+            console.log('error: ', error);
+            isError = true;
+        }
+
+        if (isError === true) {
+            let error = 'Share Dividend Failed';
+            showToast({
+                status: 'error',
+                message: error,
+            });
+        } else {
+            showToast({
+                status: 'success',
+                message: 'Share Dividend successfully',
+            });
+        }
     };
 
     const onButtonResetClicked = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        const result = await axios.post('https://api.niatem-beta.com/hackathon/reset-offset-timestamp');
-        console.log(result);
+        var isError = false;
+        try {
+            const result = await axios.post('https://api.niatem-beta.com/hackathon/reset-offset-timestamp');
+            console.log(result);
+
+            if (result.hasOwnProperty('error')) {
+                isError = true;
+            }
+        } catch (error) {
+            console.log('error: ', error);
+            isError = true;
+        }
+
+        if (isError === true) {
+            let error = 'Reset Demo Failed';
+            showToast({
+                status: 'error',
+                message: error,
+            });
+        } else {
+            showToast({
+                status: 'success',
+                message: 'Reset Demo successfully',
+            });
+        }
     };
 
     const setDemoDate = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        const result = await axios.post('https://api.niatem-beta.com/hackathon/set-offset-timestamp', {
-            timestamp: moment(newDemoDate, 'YYYY-MM-DD').valueOf(),
-        });
-        console.log(result);
-        setCurrentDemoDate(newDemoDate);
+        var isError = false;
+        try {
+            const result = await axios.post('https://api.niatem-beta.com/hackathon/set-offset-timestamp', {
+                timestamp: moment(newDemoDate, 'YYYY-MM-DD').valueOf(),
+            });
+            console.log(result);
+
+            if (result.hasOwnProperty('error')) {
+                isError = true;
+            }
+        } catch (error) {
+            console.log('error: ', error);
+            isError = true;
+        }
+
+        if (isError === true) {
+            let error = 'Set Demo Time Failed';
+            showToast({
+                status: 'error',
+                message: error,
+            });
+        } else {
+            showToast({
+                status: 'success',
+                message: 'Set Demo Time successfully',
+            });
+        }
     };
 
     return (

@@ -2,11 +2,12 @@ import { MouseEvent } from 'react';
 import { useFormClaimDividends } from './use-form-claim-dividends';
 import styles from './styles.module.scss';
 import { UserDividendStatus } from '@business/user-dividends/redux/slice';
+import WrappedBn from '@libs/wrapped-bn';
 
 const FormClaimDividends = () => {
     const { status, userTotalUsdClaimableDividend, userTotalUsdClaimedDividend, handleClaimDividends } =
         useFormClaimDividends();
-    const SOL_DECIMAL = Math.pow(10, 6);
+    const SOL_DECIMAL = WrappedBn.createFromNumber(Math.pow(10, 6));
 
     const onButtonClaimDividendsClicked = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -20,7 +21,11 @@ const FormClaimDividends = () => {
                     <div>
                         <p>Available (Claimable)</p>
                         <p>
-                            {status == UserDividendStatus.Loading ? '- -' : userTotalUsdClaimableDividend / SOL_DECIMAL}{' '}
+                            {status == UserDividendStatus.Loading
+                                ? '- -'
+                                : status == UserDividendStatus.LoadingFailed
+                                ? 'N/A'
+                                : WrappedBn.div(WrappedBn.createFromNumber(userTotalUsdClaimableDividend || 0), SOL_DECIMAL)?.format(2, '', '.')}{' '}
                             US$
                         </p>
                     </div>
@@ -28,7 +33,11 @@ const FormClaimDividends = () => {
                     <div>
                         <p>Value (Claimed)</p>
                         <p>
-                            {status == UserDividendStatus.Loading ? '- -' : userTotalUsdClaimedDividend / SOL_DECIMAL}{' '}
+                            {status == UserDividendStatus.Loading
+                                ? '- -'
+                                : status == UserDividendStatus.LoadingFailed
+                                ? 'N/A'
+                                : WrappedBn.div(WrappedBn.createFromNumber(userTotalUsdClaimedDividend || 0), SOL_DECIMAL)?.format(2, '', '.')}{' '}
                             US$
                         </p>
                     </div>
@@ -39,6 +48,7 @@ const FormClaimDividends = () => {
                             onClick={onButtonClaimDividendsClicked}
                             disabled={
                                 status == UserDividendStatus.Loading ||
+                                status == UserDividendStatus.LoadingFailed ||
                                 status == UserDividendStatus.ClaimingDividend ||
                                 userTotalUsdClaimableDividend == 0
                             }

@@ -31,9 +31,9 @@ const Navigation = () => {
                         className: '',
                     },
                     {
-                        name: 'VOT1',
+                        name: 'Portfolio',
                         icon: 'fms fm-building',
-                        url: 'vot-1',
+                        url: 'portfolio',
                         className: '',
                     },
                     {
@@ -48,6 +48,12 @@ const Navigation = () => {
                         url: 'wallet',
                         className: '',
                     },
+                    // {
+                    //     name: 'Mint NFT',
+                    //     icon: 'fms fm-usd-circle',
+                    //     url: 'min-nft',
+                    //     className: '',
+                    // },
                 ],
             },
             {

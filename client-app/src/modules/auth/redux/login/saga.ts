@@ -6,7 +6,7 @@ import AuthService from '@auth/services/auth';
 import { eventChannel } from 'redux-saga';
 import logger from '@libs/logger';
 import CryptoWallet, { CryptoWalletEvent } from '@crypto-wallet/crypto-wallet';
-import PhantomWallet, { waitForPhantomInjection } from '@crypto-wallet/wallet-adapters/phantom-wallet-adapter';
+import PhantomWallet from '@crypto-wallet/wallet-adapters/phantom-wallet-adapter';
 import WalletService from '@crypto-wallet/services/crypto-wallet-service';
 import bs58 from 'bs58';
 
@@ -80,7 +80,7 @@ function* init(): any {
     const username = loadedUser.getUsername();
 
     yield new Promise((resolve, reject) => {
-        waitForPhantomInjection(resolve, 0)
+        PhantomWallet.waitForWalletInjection(resolve, 0);
     })
 
     WalletService.currentWallet = new PhantomWallet();

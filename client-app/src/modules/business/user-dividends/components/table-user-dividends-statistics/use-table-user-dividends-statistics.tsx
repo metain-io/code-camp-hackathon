@@ -49,7 +49,12 @@ const useTableUserDividendsStatistics = () => {
                 // console.log(year, month, date, { nft, dividend, status });
 
                 if (!treeData[year]) {
-                    treeData[year] = { nft: 0, projects: new Set(), claimedDividend: WrappedBn.createFromNumber(0), claimableDividend: WrappedBn.createFromNumber(0) };
+                    treeData[year] = {
+                        nft: 0,
+                        projects: new Set(),
+                        claimedDividend: WrappedBn.createFromNumber(0),
+                        claimableDividend: WrappedBn.createFromNumber(0),
+                    };
                 }
 
                 if (!treeData[year][month]) {

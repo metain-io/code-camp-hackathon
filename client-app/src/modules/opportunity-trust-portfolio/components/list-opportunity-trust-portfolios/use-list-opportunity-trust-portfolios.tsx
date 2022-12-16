@@ -15,7 +15,7 @@ const useListOpportunityTrustPortfolios = () => {
             return;
         }
 
-        router.replace(`/portfolios/${otp.slug}`);
+        router.replace(`/portfolio/${otp.slug}`);
     };
 
     return { otps, handleItemClicked };

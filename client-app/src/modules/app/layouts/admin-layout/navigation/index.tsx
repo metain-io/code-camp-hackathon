@@ -31,9 +31,9 @@ const Navigation = () => {
                         className: '',
                     },
                     {
-                        name: 'Portfolios',
+                        name: 'Portfolio',
                         icon: 'fms fm-building',
-                        url: 'portfolios',
+                        url: 'portfolio',
                         className: '',
                     },
                     {

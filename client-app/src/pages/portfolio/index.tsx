@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 const PagePortfolios = () => {
     return (
         <div className={styles['container']}>
-            <h1 className={styles['title']}>Portfolios</h1>
+            <h1 className={styles['title']}>Portfolio</h1>
 
             <div id={styles.content_wrapper} className="mBlock">
                 <ListOpportunityTrustPorfolios />

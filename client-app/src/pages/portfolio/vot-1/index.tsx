@@ -23,7 +23,7 @@ const PageOpportunityTrustPortfolio = () => {
             <OpportunityTrustPortfolioDetailProvider>
                 <div id={styles.column_1}>
                     <div className={styles['button-back']}>
-                        <Link href={'/portfolios'}>
+                        <Link href={'/portfolio'}>
                             <i className="fms fm-arrow-left" /> Back To Portfolio
                         </Link>
                     </div>

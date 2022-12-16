@@ -35,7 +35,7 @@ const useTableUserDividendsStatistics = () => {
             const to = moment(dateTo);
             const dayDiff = to.startOf('day').diff(from.startOf('day'), 'days', false);
             const bnDividend = WrappedBn.createFromBn(new BN(dividend), DECIMALS);
-            const bnDividendPerNft = WrappedBn.createFromBn(new BN(dividendPerNFT), DECIMALS)
+            const bnDividendPerNft = WrappedBn.createFromBn(new BN(dividendPerNFT), DECIMALS);
             // console.log({ from: from.format('YYYY - MM - DD'), to: to.format('YYYY - MM - DD'), dayDiff });
 
             let prevYear = undefined;
@@ -62,40 +62,52 @@ const useTableUserDividendsStatistics = () => {
                     treeData[year][month][date] = new NodeData();
                 }
 
-                const nodeYear = treeData[year]
+                const nodeYear = treeData[year];
                 const shouldUpdateGraphOfYear = prevYear != year;
                 shouldUpdateGraphOfYear && nodeYear.projects.add(project);
                 nodeYear.amountNft += shouldUpdateGraphOfYear ? nft : 0;
                 nodeYear.amountNftMin = nodeYear.amountNftMin ? Math.min(nft, nodeYear.amountNftMin) : nft;
                 nodeYear.amountNftMax = nodeYear.amountNftMax ? Math.max(nft, nodeYear.amountNftMax) : nft;
-                nodeYear.amountDividend.add(
-                    shouldUpdateGraphOfYear ? bnDividend : WrappedBn.ZERO,
-                );
-                nodeYear.dividendPerNftMin = nodeYear.dividendPerNftMin && bnDividendPerNft.gte(nodeYear.dividendPerNftMin) ? nodeYear.dividendPerNftMin : bnDividendPerNft
-                nodeYear.dividendPerNftMax = nodeYear.dividendPerNftMax && bnDividendPerNft.lte(nodeYear.dividendPerNftMax) ? nodeYear.dividendPerNftMax : bnDividendPerNft
+                nodeYear.amountDividend.add(shouldUpdateGraphOfYear ? bnDividend : WrappedBn.ZERO);
+                nodeYear.dividendPerNftMin =
+                    nodeYear.dividendPerNftMin && bnDividendPerNft.gte(nodeYear.dividendPerNftMin)
+                        ? nodeYear.dividendPerNftMin
+                        : bnDividendPerNft;
+                nodeYear.dividendPerNftMax =
+                    nodeYear.dividendPerNftMax && bnDividendPerNft.lte(nodeYear.dividendPerNftMax)
+                        ? nodeYear.dividendPerNftMax
+                        : bnDividendPerNft;
 
-                const nodeMonth = treeData[year][month]
+                const nodeMonth = treeData[year][month];
                 const shouldUpdateGraphOfMonth = prevYear != year && prevMonth != month;
                 shouldUpdateGraphOfMonth && nodeMonth.projects.add(project);
-                nodeMonth.amountNft += shouldUpdateGraphOfYear ? nft : 0;
+                nodeMonth.amountNft += shouldUpdateGraphOfMonth ? nft : 0;
                 nodeMonth.amountNftMin = nodeMonth.amountNftMin ? Math.min(nft, nodeMonth.amountNftMin) : nft;
                 nodeMonth.amountNftMax = nodeMonth.amountNftMax ? Math.max(nft, nodeMonth.amountNftMax) : nft;
-                nodeMonth.amountDividend.add(
-                    shouldUpdateGraphOfYear ? bnDividend : WrappedBn.ZERO,
-                );
-                nodeMonth.dividendPerNftMin = nodeMonth.dividendPerNftMin &&  bnDividendPerNft.gte(nodeMonth.dividendPerNftMin) ? nodeMonth.dividendPerNftMin : bnDividendPerNft
-                nodeMonth.dividendPerNftMax = nodeMonth.dividendPerNftMax &&  bnDividendPerNft.lte(nodeMonth.dividendPerNftMax) ? nodeMonth.dividendPerNftMax : bnDividendPerNft
+                nodeMonth.amountDividend.add(shouldUpdateGraphOfMonth ? bnDividend : WrappedBn.ZERO);
+                nodeMonth.dividendPerNftMin =
+                    nodeMonth.dividendPerNftMin && bnDividendPerNft.gte(nodeMonth.dividendPerNftMin)
+                        ? nodeMonth.dividendPerNftMin
+                        : bnDividendPerNft;
+                nodeMonth.dividendPerNftMax =
+                    nodeMonth.dividendPerNftMax && bnDividendPerNft.lte(nodeMonth.dividendPerNftMax)
+                        ? nodeMonth.dividendPerNftMax
+                        : bnDividendPerNft;
 
-                const nodeDate = treeData[year][month][date]
+                const nodeDate = treeData[year][month][date];
                 nodeDate.projects.add(project);
-                nodeDate.amountNft += shouldUpdateGraphOfYear ? nft : 0;
+                nodeDate.amountNft += nft;
                 nodeDate.amountNftMin = nodeDate.amountNftMin ? Math.min(nft, nodeDate.amountNftMin) : nft;
                 nodeDate.amountNftMax = nodeDate.amountNftMax ? Math.max(nft, nodeDate.amountNftMax) : nft;
-                nodeDate.amountDividend.add(
-                    shouldUpdateGraphOfYear ? bnDividend : WrappedBn.ZERO,
-                );
-                nodeDate.dividendPerNftMin = nodeDate.dividendPerNftMin && bnDividendPerNft.gte(nodeDate.dividendPerNftMin) ? nodeDate.dividendPerNftMin : bnDividendPerNft
-                nodeDate.dividendPerNftMax = nodeDate.dividendPerNftMax && bnDividendPerNft.lte(nodeDate.dividendPerNftMax) ? nodeDate.dividendPerNftMax : bnDividendPerNft
+                nodeDate.amountDividend.add(bnDividend);
+                nodeDate.dividendPerNftMin =
+                    nodeDate.dividendPerNftMin && bnDividendPerNft.gte(nodeDate.dividendPerNftMin)
+                        ? nodeDate.dividendPerNftMin
+                        : bnDividendPerNft;
+                nodeDate.dividendPerNftMax =
+                    nodeDate.dividendPerNftMax && bnDividendPerNft.lte(nodeDate.dividendPerNftMax)
+                        ? nodeDate.dividendPerNftMax
+                        : bnDividendPerNft;
 
                 prevYear = year;
                 prevMonth = month;
@@ -140,16 +152,16 @@ const useTableUserDividendsStatistics = () => {
 };
 
 class NodeData {
-    projects: Set<string>
+    projects: Set<string>;
 
-    amountNft: number
-    amountNftMin?: number
-    amountNftMax?: number
-    
-    amountDividend: WrappedBn
-    
-    dividendPerNftMin?: WrappedBn
-    dividendPerNftMax?: WrappedBn
+    amountNft: number;
+    amountNftMin?: number;
+    amountNftMax?: number;
+
+    amountDividend: WrappedBn;
+
+    dividendPerNftMin?: WrappedBn;
+    dividendPerNftMax?: WrappedBn;
 
     constructor() {
         this.projects = new Set<string>();
@@ -158,7 +170,7 @@ class NodeData {
         this.amountNftMin = undefined;
         this.amountNftMax = undefined;
 
-        this.amountDividend = WrappedBn.createFromNumber(0)
+        this.amountDividend = WrappedBn.createFromNumber(0);
 
         this.dividendPerNftMin = undefined;
         this.dividendPerNftMax = undefined;

@@ -8,7 +8,6 @@ import { useTableUserDividendsStatistics } from './use-table-user-dividends-stat
 const TableUserDividendsStatistics = () => {
     const { status, currentUserDividendBranchData, branchPath, popBranchPath, pushBranchPath } =
         useTableUserDividendsStatistics();
-    console.log({ branchPath, currentUserDividendBranchData });
 
     const onBackClicked = () => {
         popBranchPath();

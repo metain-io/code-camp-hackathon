@@ -1,10 +1,14 @@
 @import '@app/styles/_variable.scss';
 @import '@app/styles/_mixin.scss';
 
+$gap: 2.4rem;
+
 #content_wrapper {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+
+    margin-left: -$gap;
+    margin-top: -$gap;
 
     .span {
         &_1 {
@@ -70,7 +74,7 @@
                 border-radius: 0.8rem;
 
                 object-fit: cover;
-                object-position: 50% 0%;
+                object-position: 0% 0%;
             }
         }
     }
@@ -102,7 +106,12 @@
 
     .item {
         &_1 {
-            width: calc(50% - 1.2rem);
+            // width: calc(50% - 1.2rem);
+            width: calc(100% / 3 - $gap);
+
+            margin-left: $gap;
+            margin-top: $gap;
+
             border: 1px solid $colorBackground1;
             border-radius: 0.8rem;
 
@@ -141,16 +150,44 @@
     }
 }
 
-@media screen and (min-width: 700px) and (max-width: 1100px), screen and (max-width: 600px) {
+@media screen and (max-width: 900px), screen and (max-width: 1000px) {
+    $gap: 1.6rem;
+
     #content_wrapper {
+        margin-left: -$gap;
+        margin-top: -$gap;
+
         .item {
             &_1 {
-                width: 100%;
+                width: calc(100% / 2 - $gap);
 
-                &:not(:last-of-type) {
-                    margin-bottom: 2.4rem;
-                }
+                margin-top: $gap;
+                margin-left: $gap;
             }
         }
     }
 }
+
+@media screen and (max-width: 600px) {
+    #content_wrapper {
+        .item {
+            &_1 {
+                width: calc(100%);
+            }
+        }
+    }
+}
+
+// @media screen and (min-width: 700px) and (max-width: 1100px), screen and (max-width: 600px) {
+//     #content_wrapper {
+//         .item {
+//             &_1 {
+//                 width: 100%;
+
+//                 &:not(:last-of-type) {
+//                     margin-bottom: 2.4rem;
+//                 }
+//             }
+//         }
+//     }
+// }
